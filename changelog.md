@@ -7,6 +7,11 @@ Following the [Datalad YODA principles](https://f1000research.com/posters/7-1965
 ## Gitea
 - Added Gitea as a docker image repository for testing purposes
 
-## Added packages
+## #Dockerfile
+
+### Added packages
 - [Zsh](https://www.zsh.org/)
 - [yadm](https://github.com/TheLocehiliosan/yadm) - yet another dotfile manager
+
+### Labels
+Used the Docker / OCI label standards to save labels in the docker image

@@ -19,18 +19,32 @@ Pranav Kumar Mishra to add the following features:
 Build the first image
 
 ```sh
-
-docker build -t gitea.mishracloud.com:Rush/datascience:latest .
-
+# cd docker
+docker build -t datascience:latest .
 ```
 
-After testing, create the additional tags and push
+Create alternate tags
+```
+docker tag datascience:latest gitea.mishracloud.com/rush/datascience:latest
+```
+
+
+Push to Gitea
+```
+docker push gitea.mishracloud.com/rush/datascience:latest
+```
+After testing, create the additional tags
 
 
 ```sh
-docker build -t pranavmishra90/datascience:latest pranavmishra90/datascience:<INCREMENT TAG NUMBER HERE>
+docker tag datascience:latest pranavmishra90/datascience:latest
+docker tag datascience:latest pranavmishra90/datascience:<INCREMENT TAG NUMBER HERE>
 ```
 
+Push to DockerHub
+```
+docker push --all-tags datascience
+```
 
 ## Initial setup
 

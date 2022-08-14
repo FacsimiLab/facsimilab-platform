@@ -7,7 +7,7 @@
 # Dockerfile for jupyter/scipi-notebook modified by:
 # Pranav Kumar Mishra to add the following features:
 
-# Python version 3.8 (not 3.10 which is the current version and had breaking changes)
+# Python version 3.9 (not 3.10 which is the current version and had breaking changes)
 # Datalad - version controlling large datasets
 # Nbdime - easy to visualized diffs for jupyter notebooks
 # Pre-Commit - checks on code before commiting changes
@@ -26,7 +26,19 @@
 FROM ubuntu:22.04
 RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
-LABEL maintainer="Pranav Kumar Mishra <62562712+pranavmishra90@users.noreply.github.com>"
+#########################
+ARG IMAGE_VERSION="0.0.6"
+#########################
+
+LABEL org.opencontainers.image.title="Pranav Mishra's Datascience Image"
+LABEL version=${IMAGE_VERSION}}
+LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
+LABEL org.opencontainers.image.authors='Pranav Kumar Mishra (Rush University)'
+LABEL description="An datascience image which creates a jupyter notebook environmentversion controlled by Datalad."
+LABEL org.opencontainers.image.source="https://gitea.mishracloud.com/Rush/docker-datascience/src/branch/develop/docker/Dockerfile"
+LABEL org.opencontainers.image.licenses="MIT WITH BSD-3-Clause-Modification"
+
+
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
