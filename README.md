@@ -12,6 +12,7 @@ Pranav Kumar Mishra to add the following features:
 - [yadm](https://github.com/TheLocehiliosan/yadm) - yet another dotfile manager
 - [GnuPG](https://gnupg.org/) - PGP encryption
 - [Rclone](https://github.com/rclone/rclone)
+- [Exa](https://the.exa.website/) - a newer form of ls
 - Unzip
 
 ## Building the image
@@ -38,7 +39,7 @@ After testing, create the additional tags
 
 ```sh
 docker tag datascience:latest pranavmishra90/datascience:latest
-docker tag datascience:latest pranavmishra90/datascience:<INCREMENT TAG NUMBER HERE>
+docker tag datascience:latest pranavmishra90/datascience:v0.0.<increment number here>
 ```
 
 Push to DockerHub
@@ -52,4 +53,3 @@ Run the following commands
 
 ```
 pre-commit install
-```

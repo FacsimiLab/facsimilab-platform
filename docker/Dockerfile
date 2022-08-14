@@ -13,6 +13,7 @@
 # Pre-Commit - checks on code before commiting changes
 # Git-Annex - needed for datalad
 # Zsh - newer shell
+# Exa - a newer form of ls
 # GnuPG - PGP encryption
 # Rclone
 # Yadm - yet another dotfile manager
@@ -101,26 +102,6 @@ RUN apt-get update --yes && \
     texlive-plain-generic && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
-#############################################################################
-
-# Packages which have been added by Pranav
-
-# ---------------------------------------------------------------------------
-RUN apt-get update --yes && \
-    apt-get install --yes --no-install-recommends \
-    #Datalad version control (includes have git, git-annex, p7zip)
-    datalad \
-    # Additional dependences
-    gnupg \
-    unzip \
-    yadm \
-    zsh && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Rclone
-RUN wget https://rclone.org/install.sh | bash
-##############################################################################
 
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
@@ -288,6 +269,26 @@ ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions "/home/${NB_USER}"
 
+#############################################################################
+
+# Packages which have been added by Pranav
+
+# ---------------------------------------------------------------------------
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends \
+    #Datalad version control (includes have git, git-annex, p7zip)
+    datalad \
+    # Additional dependences
+    exa \
+    gnupg \
+    unzip \
+    yadm \
+    zsh && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Rclone
+RUN wget https://rclone.org/install.sh | bash
+##############################################################################
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
