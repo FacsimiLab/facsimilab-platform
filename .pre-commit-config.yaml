@@ -1,0 +1,18 @@
+repos:
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: v4.3.0
+    hooks:
+      # Lint files
+      - id: check-yaml
+      - id: check-xml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      # - id: check-executables-have-shebangs
+      # Prevent adding private keys in files
+      - id: detect-private-key
+      # Detect problemmatic refereneced files
+      - id: check-symlinks
+      # Use LFS for large files
+      - id: check-added-large-files
+        args: ["--maxkb=5000"]

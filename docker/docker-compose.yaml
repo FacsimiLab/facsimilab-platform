@@ -1,0 +1,39 @@
+####################################
+#         Initial Setup            #
+####################################
+
+# This docker-compose file is being built from pranavmishra90/data-min
+# It is being generated from a base image from jupyter/scipy-notebook
+
+####################################
+#         Docker-Compose           #
+####################################
+version: "3"
+
+####################################
+#            Networks              #
+####################################
+networks:
+  # traefik_external:
+  #   external:
+  #     name: traefik_external
+  default:
+    driver: bridge
+
+####################################
+#            Services              #
+####################################
+
+services:
+  datalad-notebook:
+    image: pranavmishra90/datascience:latest
+    container_name: datascience
+    ports:
+      - 8888:8888
+    volumes:
+      - ../../:/home/jovyan/work
+      - .jupyter:/home/jovyan/.jupyter
+      - ~/.bash_aliases:/home/jovyan/.bash_aliases:ro
+    command: "start-notebook.sh \
+      --NotebookApp.token='myjupyter' --NotebookApp.password='' \
+      --ContentsManager.allow_hidden=True "
