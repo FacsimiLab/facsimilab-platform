@@ -21,12 +21,12 @@ Build the first image
 
 ```sh
 # cd docker
-docker build -t datascience:latest .
+docker build -t datascience:nightly .
 ```
 
 Create alternate tags
 ```
-docker tag datascience:latest gitea.mishracloud.com/rush/datascience:latest
+docker tag datascience:nightly gitea.mishracloud.com/rush/datascience:latest
 ```
 
 
@@ -47,7 +47,7 @@ Push to DockerHub
 docker push --all-tags datascience
 ```
 
-## Initial setup
+## Development
 
 Run the following commands
 
