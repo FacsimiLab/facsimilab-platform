@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "Docker-Datascience"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "jupyter.jupyterServerType": "local"
+  }
+}

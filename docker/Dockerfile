@@ -280,7 +280,7 @@ RUN apt-get update --yes && \
     datalad \
     # Additional dependences
     exa \
-    gnupg \
+    gnupg2 \
     unzip \
     yadm \
     zsh && \
@@ -288,9 +288,13 @@ RUN apt-get update --yes && \
 
 # Rclone
 RUN wget https://rclone.org/install.sh | bash
+
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt
 ##############################################################################
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
 
-WORKDIR "${HOME}"
+WORKDIR "${HOME}/lab"
