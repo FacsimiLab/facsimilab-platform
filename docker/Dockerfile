@@ -280,7 +280,7 @@ RUN apt-get update --yes && \
     datalad \
     # Additional dependences
     exa \
-    gnupg2 \
+    gnupg \
     unzip \
     yadm \
     zsh && \
@@ -292,6 +292,9 @@ RUN wget https://rclone.org/install.sh | bash
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
+
+RUN mkdir "/home/${NB_USER}/.gnupg" && \
+    fix-permissions "/home/${NB_USER}"
 ##############################################################################
 
 # Switch back to jovyan to avoid accidental container runs as root
