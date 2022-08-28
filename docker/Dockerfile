@@ -292,6 +292,12 @@ RUN wget https://rclone.org/install.sh | bash
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
+<<<<<<< HEAD
+=======
+
+RUN mkdir "/home/${NB_USER}/.gnupg" && \
+    fix-permissions "/home/${NB_USER}"
+>>>>>>> develop
 ##############################################################################
 
 # Switch back to jovyan to avoid accidental container runs as root
