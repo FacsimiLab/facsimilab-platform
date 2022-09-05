@@ -32,7 +32,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - .:/home/jovyan/work
+      - .:/home/jovyan/lab
       - .jupyter:/home/jovyan/.jupyter
     command: "start-notebook.sh \
       --NotebookApp.token='myjupyter' --NotebookApp.password='' \

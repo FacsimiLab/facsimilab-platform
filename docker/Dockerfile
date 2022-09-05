@@ -16,8 +16,10 @@
 # Exa - a newer form of ls
 # GnuPG - PGP encryption
 # Rclone
+# git-annex-remote-rclone
 # Yadm - yet another dotfile manager
 # Unzip
+# Jupyterthemes
 
 
 
@@ -129,7 +131,7 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
 # and make sure these dirs are writable by the `users` group.
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
-    sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
+    # sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
     useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
     mkdir -p "${CONDA_DIR}" && \
     chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
@@ -232,6 +234,7 @@ RUN mamba install --quiet --yes \
     'h5py' \
     'ipympl'\
     'ipywidgets' \
+    'jupyterthemes' \
     'matplotlib-base' \
     'nbdime' \
     'nodejs' \
@@ -289,6 +292,13 @@ RUN apt-get update --yes && \
 # Rclone
 RUN wget https://rclone.org/install.sh | bash
 
+ENV PATH $PATH:/usr/bin/rclone
+
+# Git-Annex Rclone Remote
+COPY git-annex-remote-rclone /usr/local/bin/
+
+COPY rclone.conf /home/jovyan/.config/rclone.conf
+
 COPY requirements.txt .
 
 RUN pip install -r requirements.txt
@@ -296,8 +306,11 @@ RUN pip install -r requirements.txt
 RUN mkdir "/home/${NB_USER}/.gnupg" && \
     fix-permissions "/home/${NB_USER}"
 ##############################################################################
-
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
+
+RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
+# RUN yadm commit /home/jovyan
+# RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 
 WORKDIR "${HOME}/lab"

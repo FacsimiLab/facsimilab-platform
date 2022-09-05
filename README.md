@@ -12,8 +12,10 @@ Pranav Kumar Mishra to add the following features:
 - [yadm](https://github.com/TheLocehiliosan/yadm) - yet another dotfile manager
 - [GnuPG](https://gnupg.org/) - PGP encryption
 - [Rclone](https://github.com/rclone/rclone)
+- [git-annex-remote-rclone](https://github.com/DanielDent/git-annex-remote-rclone)
 - [Exa](https://the.exa.website/) - a newer form of ls
 - Unzip
+- [jupyterthemes]https://github.com/dunovank/jupyter-themes) - theme for jupyter notebooks
 
 ## Building the image
 
@@ -53,3 +55,29 @@ Run the following commands
 
 ```
 pre-commit install
+```
+
+Testing the container: mounting in current directory
+```
+datalad-here=$'docker run --name datalad -p 8888:8888 --user root -e GRANT_SUDO=yes \\\n\t-v "${PWD}":/home/jovyan/lab -v ~/bfi-datalad/git-annex:/home/jovyan/git-annex datascience:nightly'
+```
+
+
+```
+cat /home/jovyan/.config/rclone/rclone.conf
+
+[git-annex]
+type = alias
+remote = /home/jovyan/git-annex
+```
+
+```
+git annex initremote rushdrive-annex type=external externaltype=rclone target=rushdrive-annex prefix=bone-fat-insulin-project chunk=50MiB rclone_layout=lower encryption=none
+
+initremote rushdrive-annex ok
+(recording state in git...)
+```
+
+```
+datalad siblings configure -s gitea --publish-depends rushdrive-annex
+```
