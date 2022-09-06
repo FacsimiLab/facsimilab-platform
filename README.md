@@ -19,11 +19,11 @@ Pranav Kumar Mishra to add the following features:
 
 ## Building the image
 
-Build the first image
+Build the first image. The `CACHEBUST` is looking for the line `ARG CACHEBUST=1`, which breaks the stored image layers. This has been inserted prior to the major modifications I have made, deviating from jupyter's image.
 
 ```sh
 # cd docker
-docker build -t datascience:nightly .
+docker build -t datascience:nightly -t gitea.mishracloud.com/rush/datascience:nightly --build-arg CACHEBUST=$(date +%s) .
 ```
 
 Create alternate tags

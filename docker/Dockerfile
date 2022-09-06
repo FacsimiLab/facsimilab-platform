@@ -277,10 +277,17 @@ RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
 # Packages which have been added by Pranav
 
 # ---------------------------------------------------------------------------
+ARG CACHEBUST=1
+
+# Install Datalad from Conda (forge)
+RUN conda install -c conda-forge --quiet --yes \
+    'datalad' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
-    #Datalad version control (includes have git, git-annex, p7zip)
-    datalad \
     # Additional dependences
     exa \
     gnupg2 \
@@ -297,7 +304,7 @@ ENV PATH $PATH:/usr/bin/rclone
 # Git-Annex Rclone Remote
 COPY git-annex-remote-rclone /usr/local/bin/
 
-COPY rclone.conf /home/jovyan/.config/rclone.conf
+COPY rclone.conf /home/jovyan/.config/rclone/rclone.conf
 
 COPY requirements.txt .
 
