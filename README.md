@@ -15,7 +15,7 @@ Pranav Kumar Mishra to add the following features:
 - [git-annex-remote-rclone](https://github.com/DanielDent/git-annex-remote-rclone)
 - [Exa](https://the.exa.website/) - a newer form of ls
 - Unzip
-- [jupyterthemes]https://github.com/dunovank/jupyter-themes) - theme for jupyter notebooks
+- [jupyterthemes](https://github.com/dunovank/jupyter-themes) - theme for jupyter notebooks
 
 ## Building the image
 
@@ -28,20 +28,20 @@ docker build -t datascience:nightly -t gitea.mishracloud.com/rush/datascience:ni
 
 Create alternate tags
 ```
-docker tag datascience:nightly gitea.mishracloud.com/rush/datascience:latest
+docker tag datascience:nightly gitea.mishracloud.com/rush/datascience:nightly
 ```
 
 
 Push to Gitea
 ```
-docker push gitea.mishracloud.com/rush/datascience:latest
+docker push gitea.mishracloud.com/rush/datascience:nightly
 ```
 After testing, create the additional tags
 
 
 ```sh
-docker tag datascience:latest pranavmishra90/datascience:latest
-docker tag datascience:latest pranavmishra90/datascience:v0.0.<increment number here>
+docker tag datascience:nightly pranavmishra90/datascience:nightly
+docker tag datascience:nightly pranavmishra90/datascience:v0.0.<increment number here>
 ```
 
 Push to DockerHub
