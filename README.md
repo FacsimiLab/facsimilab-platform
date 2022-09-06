@@ -3,7 +3,7 @@
 Dockerfile for `jupyter/scipi-notebook` modified by:
 Pranav Kumar Mishra to add the following features:
 
-- Python version 3.8 (not 3.10 which is the current version on `jupyter/scipi-notebook` and had breaking changes)
+- Python version 3.9 (not 3.10 which is the current version on `jupyter/scipi-notebook` and had breaking changes)
 - [Datalad](https://github.com/datalad/datalad) - version controlling large datasets
 - [Git-Annex](https://git-annex.branchable.com/) - included with Datalad
 - [Nbdime](https://github.com/jupyter/nbdime) - easy to visualized diffs for jupyter notebooks
