@@ -297,7 +297,9 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Rclone
-RUN wget https://rclone.org/install.sh | bash
+COPY install-rclone.sh /home/jovyan
+
+RUN bash /home/jovyan/install-rclone.sh
 
 ENV PATH $PATH:/usr/bin/rclone
 
