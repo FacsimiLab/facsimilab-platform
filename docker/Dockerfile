@@ -277,7 +277,7 @@ RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
 # Packages which have been added by Pranav
 
 # ---------------------------------------------------------------------------
-ARG CACHEBUST=1
+# ARG CACHEBUST=1
 
 # Install Datalad from Conda (forge)
 RUN conda install -c conda-forge --quiet --yes \
@@ -320,11 +320,17 @@ RUN pip install -r requirements.txt
 
 RUN mkdir "/home/${NB_USER}/.gnupg" && \
     fix-permissions "/home/${NB_USER}"
+
+
+# ----------------------------------------------------------------------------
+ARG CACHEBUST=1
 ##############################################################################
 # Switch back to jovyan to avoid accidental container runs as root
+
+
 USER ${NB_UID}
 
-# RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
+RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 # RUN yadm commit /home/jovyan
 # RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 
