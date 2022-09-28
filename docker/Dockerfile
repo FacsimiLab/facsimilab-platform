@@ -286,6 +286,12 @@ RUN conda install -c conda-forge --quiet --yes \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
+RUN conda install -c bioconda --quiet --yes \
+    primer3-py && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # Additional dependences
@@ -318,7 +324,7 @@ RUN mkdir "/home/${NB_USER}/.gnupg" && \
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
 
-RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
+# RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 # RUN yadm commit /home/jovyan
 # RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 

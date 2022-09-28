@@ -1,3 +1,20 @@
+# v0.0.8
+Add:
+
+- Primer3 (`mamba add -c bioconda primer3-py`)
+
+# v0.0.7
+Add:
+
+- Rclone
+- CACHEBUST for caching only specific docker image layers, then force updating the packages which I have added to the base
+- Jupyterthemes
+
+Fix:
+
+- Changed `datalad` source to conda image (was having difficulties getting the latest `apt` based image)
+- Repository directory is mapped inside the docker container as `/home/jovyan/lab`
+
 # v0.0.6
 ## YODA
 Following the [Datalad YODA principles](https://f1000research.com/posters/7-1965):
