@@ -277,11 +277,17 @@ RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
 # Packages which have been added by Pranav
 
 # ---------------------------------------------------------------------------
-ARG CACHEBUST=1
+# ARG CACHEBUST=1
 
 # Install Datalad from Conda (forge)
 RUN conda install -c conda-forge --quiet --yes \
     'datalad' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+RUN conda install -c bioconda --quiet --yes \
+    primer3-py && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
@@ -297,7 +303,9 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Rclone
-RUN wget https://rclone.org/install.sh | bash
+COPY install-rclone.sh /home/jovyan
+
+RUN bash /home/jovyan/install-rclone.sh
 
 ENV PATH $PATH:/usr/bin/rclone
 
@@ -312,8 +320,14 @@ RUN pip install -r requirements.txt
 
 RUN mkdir "/home/${NB_USER}/.gnupg" && \
     fix-permissions "/home/${NB_USER}"
+
+
+# ----------------------------------------------------------------------------
+ARG CACHEBUST=1
 ##############################################################################
 # Switch back to jovyan to avoid accidental container runs as root
+
+
 USER ${NB_UID}
 
 RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles

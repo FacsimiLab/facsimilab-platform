@@ -16,6 +16,7 @@ Pranav Kumar Mishra to add the following features:
 - [Exa](https://the.exa.website/) - a newer form of ls
 - Unzip
 - [jupyterthemes](https://github.com/dunovank/jupyter-themes) - theme for jupyter notebooks
+- [Primer3](https://github.com/primer3-org) - create RT-qPCR primers
 
 ## Building the image
 
@@ -23,7 +24,7 @@ Build the first image. The `CACHEBUST` is looking for the line `ARG CACHEBUST=1`
 
 ```sh
 # cd docker
-docker build -t datascience:nightly -t gitea.mishracloud.com/rush/datascience:nightly --build-arg CACHEBUST=$(date +%s) .
+docker build -t datascience:nightly -t gitea.mishracloud.com/rush/datascience:nightly -t pranavmishra90/datascience:nightly --build-arg CACHEBUST=$(date +%s) .
 ```
 
 Create alternate tags
