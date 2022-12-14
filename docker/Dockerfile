@@ -321,6 +321,7 @@ RUN pip install -r requirements.txt
 RUN mkdir "/home/${NB_USER}/.gnupg" && \
     fix-permissions "/home/${NB_USER}"
 
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # ----------------------------------------------------------------------------
 ARG CACHEBUST=1
