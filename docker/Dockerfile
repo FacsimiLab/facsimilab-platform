@@ -302,6 +302,15 @@ RUN apt-get update --yes && \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# VSCode
+ARG code_server_proxy_wheel="jupyter_codeserver_proxy-1.0b3-py3-none-any.whl"
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    rm -rf "${HOME}/.cache"
+
+ENV CODE_WORKINGDIR="/home/jovyan/work"
+# code-server proxy copy package ----
+COPY ./${code_server_proxy_wheel} /home/jovyan/
+
 # Rclone
 COPY install-rclone.sh /home/jovyan
 
@@ -321,8 +330,16 @@ RUN pip install -r requirements.txt
 RUN mkdir "/home/${NB_USER}/.gnupg" && \
     fix-permissions "/home/${NB_USER}"
 
-RUN curl -fsSL https://code-server.dev/install.sh | sh
-
+RUN conda install --quiet --yes \
+    'jupyter-server-proxy' && \
+    jupyter labextension install @jupyterlab/server-proxy && \
+    pip install --quiet --no-cache-dir "${HOME}/${code_server_proxy_wheel}" && \
+    rm "${HOME}/${code_server_proxy_wheel}" && \
+    jupyter lab clean -y && \
+    npm cache clean --force && \
+    conda clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
 # ----------------------------------------------------------------------------
 ARG CACHEBUST=1
 ##############################################################################
@@ -331,8 +348,6 @@ ARG CACHEBUST=1
 
 USER ${NB_UID}
 
-RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
-# RUN yadm commit /home/jovyan
-# RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
+RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles && yadm checkout /home/jovyan && yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 
 WORKDIR "${HOME}/lab"
