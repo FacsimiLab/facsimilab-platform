@@ -20,6 +20,7 @@
 # Yadm - yet another dotfile manager
 # Unzip
 # Jupyterthemes
+# Coder/code-server
 
 
 
@@ -30,17 +31,16 @@ FROM ubuntu:22.04
 RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 #########################
-ARG IMAGE_VERSION="0.0.6"
+ARG IMAGE_VERSION="0.0.8"
 #########################
 
 LABEL org.opencontainers.image.title="Pranav Mishra's Datascience Image"
 LABEL version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra (Rush University)'
-LABEL description="An datascience image which creates a jupyter notebook environmentversion controlled by Datalad."
+LABEL description="A docker image which creates a jupyter notebook environment, version controlled by Datalad, for datascience projects."
 LABEL org.opencontainers.image.source="https://gitea.mishracloud.com/Rush/docker-datascience/src/branch/develop/docker/Dockerfile"
 LABEL org.opencontainers.image.licenses="MIT WITH BSD-3-Clause-Modification"
-
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -347,7 +347,5 @@ ARG CACHEBUST=1
 
 
 USER ${NB_UID}
-
-RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles && yadm checkout /home/jovyan && yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 
 WORKDIR "${HOME}/lab"
