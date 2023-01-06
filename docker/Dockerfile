@@ -354,4 +354,8 @@ RUN echo "${NB_USER} ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/${NB_USER}\
 
 USER ${NB_UID}
 
+<<<<<<< HEAD
 WORKDIR "${HOME}/lab"
+=======
+WORKDIR "${HOME}/lab"
+>>>>>>> 541a112 (removed yadm and .jupyter directory)

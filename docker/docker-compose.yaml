@@ -8,7 +8,7 @@
 ####################################
 #         Docker-Compose           #
 ####################################
-version: "3"
+version: "2"
 
 ####################################
 #            Networks              #
@@ -26,15 +26,19 @@ networks:
 
 services:
   datalad-notebook:
-    image: pranavmishra90/datascience:latest # <------- Use if you would like to have the latest stable version
-    # image: datascience:nightly <------Use if you would like to have all of the latest packages installed
+    # image: pranavmishra90/datascience:latest # <------- Use if you would like to have the latest stable version
+    image: gitea.mishracloud.com/rush/datascience:nightly #<------Use if you would like to have all of the latest packages installed
     container_name: datascience
     ports:
-      - 8888:8888
+      - 98888:8888
     volumes:
       - .:/home/jovyan/lab
-      - .jupyter:/home/jovyan/.jupyter
+   
     command: >
+<<<<<<< HEAD
       start-notebook.sh \
+=======
+      bash -c "start-notebook.sh \
+>>>>>>> 541a112 (removed yadm and .jupyter directory)
       --NotebookApp.token='myjupyter' --NotebookApp.password='' \
       --ContentsManager.allow_hidden=True"
