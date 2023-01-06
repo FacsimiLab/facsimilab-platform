@@ -31,7 +31,7 @@ FROM ubuntu:22.04
 RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 #########################
-ARG IMAGE_VERSION="0.0.8"
+ARG IMAGE_VERSION="0.0.9"
 #########################
 
 LABEL org.opencontainers.image.title="Pranav Mishra's Datascience Image"
@@ -42,9 +42,6 @@ LABEL description="A docker image which creates a jupyter notebook environment, 
 LABEL org.opencontainers.image.source="https://gitea.mishracloud.com/Rush/docker-datascience/src/branch/develop/docker/Dockerfile"
 LABEL org.opencontainers.image.licenses="MIT WITH BSD-3-Clause-Modification"
 
-ARG NB_USER="jovyan"
-ARG NB_UID="1000"
-ARG NB_GID="100"
 
 # Fix: https://github.com/hadolint/hadolint/wiki/DL4006
 # Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
@@ -55,6 +52,11 @@ USER root
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
+
+# Copy a script that we will use to correct permissions after running certain commands
+COPY ./fix-permissions /usr/local/bin/fix-permissions
+RUN chmod a+rx /usr/local/bin/fix-permissions
+
 RUN apt-get update --yes && \
     # - apt-get upgrade is run to patch known vulnerabilities in apt-get packages as
     #   the ubuntu base image is rebuilt too seldom sometimes (less than once a month)
@@ -104,6 +106,12 @@ RUN apt-get update --yes && \
     texlive-plain-generic && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+ARG CACHEBUST=1
+
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
+
 
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
@@ -117,9 +125,7 @@ ENV CONDA_DIR=/opt/conda \
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}"
 
-# Copy a script that we will use to correct permissions after running certain commands
-COPY fix-permissions /usr/local/bin/fix-permissions
-RUN chmod a+rx /usr/local/bin/fix-permissions
+RUN mkdir -p "${CONDA_DIR}" "${HOME}"
 
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
 # hadolint ignore=SC2016
@@ -127,17 +133,18 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
-# Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
+# Create NB_USER with name coder user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
-    sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
-    # sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
-    useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
-    mkdir -p "${CONDA_DIR}" && \
-    chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
-    chmod g+w /etc/passwd && \
-    fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}"
+RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su
+RUN sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers
+RUN # sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers
+RUN useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}"
+RUN mkdir -p "${CONDA_DIR}" "${HOME}"
+RUN chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}"
+RUN chmod g+w /etc/passwd
+RUN fix-permissions "${HOME}"
+RUN fix-permissions "${CONDA_DIR}"
+
 
 USER ${NB_UID}
 
@@ -307,21 +314,21 @@ ARG code_server_proxy_wheel="jupyter_codeserver_proxy-1.0b3-py3-none-any.whl"
 RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     rm -rf "${HOME}/.cache"
 
-ENV CODE_WORKINGDIR="/home/jovyan/work"
+ENV CODE_WORKINGDIR="/home/coder/work"
 # code-server proxy copy package ----
-COPY ./${code_server_proxy_wheel} /home/jovyan/
+COPY ./${code_server_proxy_wheel} /home/coder/
 
 # Rclone
-COPY install-rclone.sh /home/jovyan
+COPY install-rclone.sh /home/coder
 
-RUN bash /home/jovyan/install-rclone.sh
+RUN bash /home/coder/install-rclone.sh
 
 ENV PATH $PATH:/usr/bin/rclone
 
 # Git-Annex Rclone Remote
 COPY git-annex-remote-rclone /usr/local/bin/
 
-COPY rclone.conf /home/jovyan/.config/rclone/rclone.conf
+COPY rclone.conf /home/coder/.config/rclone/rclone.conf
 
 COPY requirements.txt .
 
@@ -339,11 +346,12 @@ RUN conda install --quiet --yes \
     npm cache clean --force && \
     conda clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
+    gpg-agent --daemon && \
     fix-permissions "/home/${NB_USER}"
 # ----------------------------------------------------------------------------
 ARG CACHEBUST=1
 ##############################################################################
-# Switch back to jovyan to avoid accidental container runs as root
+# Switch back to coder to avoid accidental container runs as root
 
 
 USER ${NB_UID}
