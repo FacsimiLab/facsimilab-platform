@@ -1,5 +1,8 @@
 # v0.0.10
-Add support for coder/coder
+
+- Add support for coder/coder
+- Removed yadm from docker-compose
+- Improved readme
 
 # v0.0.9
 Add:

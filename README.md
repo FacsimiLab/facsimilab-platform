@@ -14,7 +14,7 @@ Pranav Kumar Mishra to add the following features:
 - [Rclone](https://github.com/rclone/rclone)
 - [git-annex-remote-rclone](https://github.com/DanielDent/git-annex-remote-rclone)
 - [Exa](https://the.exa.website/) - a newer form of ls
-- Unzip
+- [Unzip](https://pkgs.org/download/unzip)
 - [jupyterthemes](https://github.com/dunovank/jupyter-themes) - theme for jupyter notebooks
 - [Primer3](https://github.com/primer3-org) - create RT-qPCR primers
 

@@ -35,7 +35,6 @@ services:
       - .:/home/jovyan/lab
       - .jupyter:/home/jovyan/.jupyter
     command: >
-      bash -c "yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles &&
       start-notebook.sh \
       --NotebookApp.token='myjupyter' --NotebookApp.password='' \
       --ContentsManager.allow_hidden=True"
