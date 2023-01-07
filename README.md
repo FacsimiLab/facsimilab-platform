@@ -28,17 +28,18 @@ docker build -t datascience:nightly -t gitea.mishracloud.com/rush/datascience:ni
 ```
 
 Create alternate tags
+
 ```
 docker tag datascience:nightly gitea.mishracloud.com/rush/datascience:nightly
 ```
 
-
 Push to Gitea
+
 ```
 docker push gitea.mishracloud.com/rush/datascience:nightly
 ```
-After testing, create the additional tags
 
+After testing, create the additional tags
 
 ```sh
 docker tag datascience:nightly pranavmishra90/datascience:nightly
@@ -46,6 +47,7 @@ docker tag datascience:nightly pranavmishra90/datascience:v0.0.<increment number
 ```
 
 Push to DockerHub
+
 ```
 docker push --all-tags datascience
 ```
@@ -59,10 +61,10 @@ pre-commit install
 ```
 
 Testing the container: mounting in current directory
+
 ```
 datalad-here=$'docker run --name datalad -p 8888:8888 --user root -e GRANT_SUDO=yes \\\n\t-v "${PWD}":/home/jovyan/lab -v ~/bfi-datalad/git-annex:/home/jovyan/git-annex datascience:nightly'
 ```
-
 
 ```
 cat /home/jovyan/.config/rclone/rclone.conf
