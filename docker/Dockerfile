@@ -20,6 +20,8 @@
 # Yadm - yet another dotfile manager
 # Unzip
 # Jupyterthemes
+# Coder/code-server
+
 
 
 
@@ -30,19 +32,19 @@ FROM ubuntu:22.04
 RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 #########################
-ARG IMAGE_VERSION="0.0.6"
+ARG IMAGE_VERSION="0.0.10"
 #########################
 
 LABEL org.opencontainers.image.title="Pranav Mishra's Datascience Image"
 LABEL version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra (Rush University)'
-LABEL description="An datascience image which creates a jupyter notebook environmentversion controlled by Datalad."
+LABEL description="A docker image which creates a jupyter notebook environment, version controlled by Datalad, for datascience projects."
 LABEL org.opencontainers.image.source="https://gitea.mishracloud.com/Rush/docker-datascience/src/branch/develop/docker/Dockerfile"
 LABEL org.opencontainers.image.licenses="MIT WITH BSD-3-Clause-Modification"
 
 
-ARG NB_USER="jovyan"
+ARG NB_USER="coder"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
@@ -104,7 +106,6 @@ RUN apt-get update --yes && \
     texlive-plain-generic && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
@@ -127,7 +128,7 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
-# Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
+# Create NB_USER with name ${NB_USER} user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
@@ -277,7 +278,6 @@ RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
 # Packages which have been added by Pranav
 
 # ---------------------------------------------------------------------------
-# ARG CACHEBUST=1
 
 # Install Datalad from Conda (forge)
 RUN conda install -c conda-forge --quiet --yes \
@@ -295,43 +295,63 @@ RUN conda install -c bioconda --quiet --yes \
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # Additional dependences
+    openssh-server \
     exa \
     gnupg2 \
+    systemd \
+    systemd-sysv \
     unzip \
     yadm \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Rclone
-COPY install-rclone.sh /home/jovyan
-
-RUN bash /home/jovyan/install-rclone.sh
-
-ENV PATH $PATH:/usr/bin/rclone
-
-# Git-Annex Rclone Remote
-COPY git-annex-remote-rclone /usr/local/bin/
-
-COPY rclone.conf /home/jovyan/.config/rclone/rclone.conf
-
-COPY requirements.txt .
-
-RUN pip install -r requirements.txt
+## GPG passthrough for coder/coder
 
 RUN mkdir "/home/${NB_USER}/.gnupg" && \
     fix-permissions "/home/${NB_USER}"
 
 
+# https://coder.com/docs/coder/latest/guides/customization/gpg-forwarding
+RUN echo  "StreamLocalBindUnlink yes" >> /etc/ssh/sshd_config && \
+    systemctl --global mask gpg-agent.service \
+    gpg-agent.socket gpg-agent-ssh.socket \
+    gpg-agent-extra.socket gpg-agent-browser.socket && \
+    systemctl enable ssh
+
+# VSCode from within Jupyter
+ARG code_server_proxy_wheel="jupyter_codeserver_proxy-1.0b3-py3-none-any.whl"
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    rm -rf "${HOME}/.cache"
+
+ENV CODE_WORKINGDIR="/home/${NB_USER}/work"
+# code-server proxy copy package ----
+COPY ./${code_server_proxy_wheel} /home/${NB_USER}/
+
+
+# Rclone
+COPY install-rclone.sh /home/${NB_USER}
+RUN bash /home/${NB_USER}/install-rclone.sh
+ENV PATH $PATH:/usr/bin/rclone
+
+# Git-Annex Rclone Remote
+COPY git-annex-remote-rclone /usr/local/bin/
+COPY rclone.conf /home/${NB_USER}/.config/rclone/rclone.conf
+COPY requirements.txt .
+
+# Pip outside of the conda (mamba) environment
+RUN pip install -r requirements.txt
+
+RUN adduser ${NB_USER} sudo
+
+RUN echo "${NB_USER} ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/${NB_USER}\
+	&& chmod 0440 /etc/sudoers.d/${NB_USER}
+
 # ----------------------------------------------------------------------------
-ARG CACHEBUST=1
+# ARG CACHEBUST=1
 ##############################################################################
-# Switch back to jovyan to avoid accidental container runs as root
+# Switch back to ${NB_USER} to avoid accidental container runs as root
 
 
 USER ${NB_UID}
-
-RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
-# RUN yadm commit /home/jovyan
-# RUN yadm clone -f https://gitea.mishracloud.com/Dr.PranavMishra/dotfiles
 
 WORKDIR "${HOME}/lab"
