@@ -30,7 +30,7 @@ services:
     image: gitea.mishracloud.com/rush/datascience:nightly #<------Use if you would like to have all of the latest packages installed
     container_name: datascience
     ports:
-      - 98888:8888
+      - 9988:8888
     volumes:
       - .:/home/jovyan/lab
    
