@@ -39,12 +39,39 @@ variable "dotfiles_uri" {
   EOF
   default     = ""
 }
-
 resource "coder_agent" "main" {
   arch           = data.coder_provisioner.me.arch
   os             = "linux"
-  startup_script = var.dotfiles_uri != "" ? "coder dotfiles -y ${var.dotfiles_uri}" : null
+  startup_script = <<EOT
+    #!/bin/bash
+    # install and start code-server
+    
+
+    curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.8.3 | tee code-server-install.log
+    code-server --auth none --port 13337 | tee code-server-install.log &
+
+    # Download dotfiles
+    coder dotfiles -y ${var.dotfiles_uri}
+  EOT
 }
+
+resource "coder_app" "code-server" {
+  agent_id     = coder_agent.main.id
+  slug         = "code-server"
+  display_name = "code-server"
+  url          = "http://localhost:13337/?folder=/home/coder/work"
+  icon         = "/icon/code.svg"
+  subdomain    = false
+  share        = "owner"
+
+  healthcheck {
+    url       = "http://localhost:13337/healthz"
+    interval  = 3
+    threshold = 10
+  }
+
+}
+
 
 resource "docker_volume" "home_volume" {
   name = "coder-${data.coder_workspace.me.id}-datascience"

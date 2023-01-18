@@ -6,11 +6,7 @@
     }
   ],
   "settings": {
-<<<<<<< HEAD
-    "editor.formatOnSave": true,
-=======
     "editor.formatOnSave": false,
->>>>>>> 88091a8 (changed ports)
     "editor.formatOnPaste": true,
     "jupyter.jupyterServerType": "local"
   }
