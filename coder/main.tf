@@ -45,8 +45,13 @@ resource "coder_agent" "main" {
   startup_script = <<EOT
     #!/bin/bash
     # install and start code-server
+    
+
     curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.8.3 | tee code-server-install.log
     code-server --auth none --port 13337 | tee code-server-install.log &
+
+    # Download dotfiles
+    coder dotfiles -y ${var.dotfiles_uri}
   EOT
 }
 
@@ -54,7 +59,7 @@ resource "coder_app" "code-server" {
   agent_id     = coder_agent.main.id
   slug         = "code-server"
   display_name = "code-server"
-  url          = "http://localhost:13337/?folder=/home/coder"
+  url          = "http://localhost:13337/?folder=/home/coder/work"
   icon         = "/icon/code.svg"
   subdomain    = false
   share        = "owner"
