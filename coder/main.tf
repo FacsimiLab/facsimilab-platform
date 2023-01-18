@@ -39,37 +39,28 @@ variable "dotfiles_uri" {
   EOF
   default     = ""
 }
+
 resource "coder_agent" "main" {
   arch           = data.coder_provisioner.me.arch
   os             = "linux"
-  startup_script = <<EOT
-    #!/bin/bash
-    # install and start code-server
-    
-
-    curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.8.3 | tee code-server-install.log
-    code-server --auth none --port 13337 | tee code-server-install.log &
-
-    # Download dotfiles
-    coder dotfiles -y ${var.dotfiles_uri}
-  EOT
+  startup_script = "code-server --auth none"
 }
 
+## This block allows for VSCode to be started inside of the docker container and accessible by the web front end
 resource "coder_app" "code-server" {
   agent_id     = coder_agent.main.id
   slug         = "code-server"
   display_name = "code-server"
-  url          = "http://localhost:13337/?folder=/home/coder/work"
+  url          = "http://localhost:8080/?folder=/home/coder/work"
   icon         = "/icon/code.svg"
   subdomain    = false
   share        = "owner"
 
   healthcheck {
-    url       = "http://localhost:13337/healthz"
+    url       = "http://localhost:8080/healthz"
     interval  = 3
     threshold = 10
   }
-
 }
 
 

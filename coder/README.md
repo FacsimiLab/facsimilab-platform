@@ -24,4 +24,4 @@ The terraform template is located in the `/coder` directory. Changes can be made
 
 1. Make sure that you are in the template directory by `cd coder`
 2. Create a template with `coder templates create <template name> --ttl 4h`
-3. Push the changes to the server with `coder templates push`
+3. Push the changes to the server with `coder templates push <template name>`
