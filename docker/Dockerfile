@@ -354,4 +354,4 @@ RUN echo "${NB_USER} ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/${NB_USER}\
 
 USER ${NB_UID}
 
-WORKDIR "${HOME}/lab"
+WORKDIR "${HOME}/work"
