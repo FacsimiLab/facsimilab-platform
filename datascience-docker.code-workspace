@@ -1,8 +1,10 @@
 {
   "folders": [
     {
-      "path": ".",
-      "name": "Docker-Datascience"
+      "path": "."
+    },
+    {
+      "path": "../SinguLab-templates"
     }
   ],
   "settings": {
