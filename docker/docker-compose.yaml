@@ -8,7 +8,7 @@
 ####################################
 #         Docker-Compose           #
 ####################################
-version: "2"
+version: "3"
 
 ####################################
 #            Networks              #
@@ -25,16 +25,28 @@ networks:
 ####################################
 
 services:
-  datalad-notebook:
-    image: pranavmishra90/datascience:latest # <------- Use if you would like to have the latest stable version
-    # image: gitea.mishracloud.com/rush/datascience:nightly #<------Use if you would like to have all of the latest packages installed
-    container_name: datascience
+  singulab:
+    image: pranavmishra90/singulab:latest
+    container_name: SinguLab
     ports:
-      - 9988:8888
+      - 8888:8888
     volumes:
-      - ../:/home/coder/work
-   
+      - .:/home/jovyan/lab
+      - .jupyter:/home/jovyan/.jupyter
     command: >
-      bash -c "start-notebook.sh \
+      start-notebook.sh \
       --NotebookApp.token='myjupyter' --NotebookApp.password='' \
       --ContentsManager.allow_hidden=True"
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.singulab-rtr.entrypoints=https"
+      - "traefik.http.routers.singulab-rtr.rule=Host(`singulab.$DOMAINNAME`)"
+      - "traefik.http.routers.singulab-rtr.tls=true"
+      ## Middlewares
+      # - "traefik.http.routers.singulab-rtr.middlewares=chain-no-auth@file" # No Authentication
+      # - "traefik.http.routers.singulab-rtr.middlewares=chain-basic-auth@file" # Basic Authentication
+      - "traefik.http.routers.singulab-rtr.middlewares=chain-authelia@file" # Authelia authentication
+      ## HTTP Services
+      - "traefik.http.routers.singulab-rtr.service=singulab-svc"
+      - "traefik.http.services.singulab-svc.loadbalancer.server.port=8888"
