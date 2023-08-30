@@ -32,15 +32,15 @@ FROM ubuntu:22.04
 RUN echo exit 101 > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
 
 #########################
-ARG IMAGE_VERSION="0.0.10"
+ARG IMAGE_VERSION="0.0.20"
 #########################
 
-LABEL org.opencontainers.image.title="Pranav Mishra's Datascience Image"
+LABEL org.opencontainers.image.title="SinguLab"
 LABEL version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra (Rush University)'
-LABEL description="A docker image which creates a jupyter notebook environment, version controlled by Datalad, for datascience projects."
-LABEL org.opencontainers.image.source="https://gitea.mishracloud.com/Rush/docker-datascience/src/branch/develop/docker/Dockerfile"
+LABEL description="A docker image which creates a jupyter notebook environment, version controlled by Datalad, for bioinformatics and datascience projects."
+LABEL org.opencontainers.image.source="https://github.com/pranavmishra90/SinguLab"
 LABEL org.opencontainers.image.licenses="MIT WITH BSD-3-Clause-Modification"
 
 
@@ -48,8 +48,6 @@ ARG NB_USER="coder"
 ARG NB_UID="1000"
 ARG NB_GID="100"
 
-# Fix: https://github.com/hadolint/hadolint/wiki/DL4006
-# Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
@@ -57,10 +55,10 @@ USER root
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update --yes && \
-    # - apt-get upgrade is run to patch known vulnerabilities in apt-get packages as
-    #   the ubuntu base image is rebuilt too seldom sometimes (less than once a month)
-    apt-get install --yes --no-install-recommends \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get --no-install-recommends install -y \
     # - bzip2 is necessary to extract the micromamba executable.
     bzip2 \
     curl \
@@ -85,8 +83,10 @@ RUN apt-get update --yes && \
     locale-gen
 
 # Install all OS dependencies for fully functional notebook server
-RUN apt-get update --yes && \
-    apt-get install --yes --no-install-recommends \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get --no-install-recommends install -y \
     # Common useful utilities
     git \
     nano \
@@ -143,7 +143,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
 USER ${NB_UID}
 
 # Pin python version here, or set it to "default"
-ARG PYTHON_VERSION=3.9
+ARG PYTHON_VERSION=3.10
 
 # Setup work directory for backward-compatibility
 RUN mkdir "/home/${NB_USER}/work" && \
@@ -280,20 +280,22 @@ RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
 # ---------------------------------------------------------------------------
 
 # Install Datalad from Conda (forge)
-RUN conda install -c conda-forge --quiet --yes \
+RUN mamba install -c conda-forge --quiet --yes \
     'datalad' && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-RUN conda install -c bioconda --quiet --yes \
+RUN mamba install -c bioconda --quiet --yes \
     primer3-py && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-RUN apt-get update --yes && \
-    apt-get install --yes --no-install-recommends \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get --no-install-recommends install -y \
     # Additional dependences
     openssh-server \
     exa \
@@ -347,11 +349,11 @@ RUN echo "${NB_USER} ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/${NB_USER}\
     && chmod 0440 /etc/sudoers.d/${NB_USER}
 
 # ----------------------------------------------------------------------------
-# ARG CACHEBUST=1
+ARG CACHEBUST=1
 ##############################################################################
 # Switch back to ${NB_USER} to avoid accidental container runs as root
 
 
 USER ${NB_UID}
 
-WORKDIR "${HOME}/work"
+WORKDIR "${HOME}/lab"

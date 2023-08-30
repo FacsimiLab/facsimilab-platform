@@ -4,4 +4,4 @@ README.md
 changelog.md
 /.git/*
 .git
-datascience-docker.code-workspace
+*.code-workspace

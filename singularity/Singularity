@@ -1,8 +1,0 @@
-Bootstrap: docker
-
-From: pranavmishra90/datascience
-
-% files
-
-../ /home/coder/
-

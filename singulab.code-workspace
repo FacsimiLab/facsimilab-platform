@@ -3,12 +3,9 @@
     {
       "path": "."
     },
-    {
-      "path": "../SinguLab-templates"
-    }
   ],
   "settings": {
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
     "jupyter.jupyterServerType": "local"
   }
