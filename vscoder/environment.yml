@@ -1,0 +1,93 @@
+name: scRNAseq
+channels:
+  - conda-forge
+  - bioconda
+  - nvidia
+dependencies:
+  # Python and interactive python
+  - python=3.10
+  - IPython=8.14
+  - ipykernel=6.23
+  - ipywidgets=8.0
+  - jupyter=1.0.0
+  - jupyter-cache=0.6
+  - nbformat=5.9
+  - nbclient>0.5
+  - six=1.16
+
+  # General
+  - tqdm=4.65
+  - black=23.3
+  - black-jupyter=23.3
+  - click>8.1
+
+  # Web
+  - requests=2.31
+  - urllib3
+
+  # Version control
+  - datalad=0.19
+
+  # Data structures
+  - pandas=2.0
+  - numpy>1.23
+  - scipy=1
+  - h5py>3
+  - arrow=1.2
+  - fastparquet=2023.4
+  - python-igraph=0.10
+
+  # Visualization
+  - matplotlib=3.7
+  - seaborn=0.12
+  - plotly=5.15
+  - tabulate=0.9
+  - pygraphviz=1.11
+
+  # Machine Learning
+  - pytorch=2.0
+  - lightning=2.0.1
+  - leidenalg=0.9
+  - louvain=0.8
+  - hnswlib=0.7
+
+  # # GPU
+  # - jaxlib=*=*cuda*
+  # - jax=0.4.11
+  # - flax=0.6
+  # - cuda-nvcc
+
+  # Next-generation -omics
+  - scanpy=1.9
+  - scvi=0.6
+  - scvi-tools=1.0
+  - scikit-learn
+  - scikit-image=0.20
+  - scikit-misc=0.1
+  - scvelo=0.2
+  - pydeseq2>0.3
+  - gseapy=1.0
+  - celltypist
+
+  # Primer design
+  - primer3-py
+
+  # Automation
+  - nbconvert=7.6
+  - papermill=2.3
+
+  # Documentation
+  - pandoc=3.1
+
+  # C  / C++
+  - cython=0.29.36
+
+  # R
+  - rpy2=3.5
+
+  # pip
+  - pip
+  - pip:
+      - velocyto
+      - pybind11
+      - pyvis
