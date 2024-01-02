@@ -221,57 +221,46 @@ HEALTHCHECK  --interval=15s --timeout=3s --start-period=5s --retries=3 \
     CMD wget -O- --no-verbose --tries=1 --no-check-certificate \
     http${GEN_CERT:+s}://localhost:8888${JUPYTERHUB_SERVICE_PREFIX:-/}api || exit 1
 
-# Install Python 3 packages
-RUN mamba install --quiet --yes \
-    'altair' \
-    'beautifulsoup4' \
-    'bokeh' \
-    'bottleneck' \
-    'cloudpickle' \
-    'conda-forge::blas=*=openblas' \
-    'cython' \
-    'dask' \
-    'dill' \
-    'h5py' \
-    'ipympl'\
-    'ipywidgets' \
-    'jupyterthemes' \
-    'matplotlib-base' \
-    'nbdime' \
-    'nodejs' \
-    'numba' \
-    'numexpr' \
-    'pandas' \
-    'patsy' \
-    'pre-commit' \
-    'protobuf' \
-    'pytables' \
-    'scikit-image' \
-    'scikit-learn' \
-    'scipy' \
-    'seaborn' \
-    'sqlalchemy' \
-    'statsmodels' \
-    'sympy' \
-    'widgetsnbextension'\
-    'xlrd' && \
-    mamba clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
-
-# Install facets which does not have a pip or conda package at the moment
-WORKDIR /tmp
-RUN git clone https://github.com/PAIR-code/facets.git && \
-    jupyter nbextension install facets/facets-dist/ --sys-prefix && \
-    rm -rf /tmp/facets && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+# # Install Python 3 packages
+# RUN mamba install --quiet --yes \
+#     'altair' \
+#     'beautifulsoup4' \
+#     'bokeh' \
+#     'bottleneck' \
+#     'cloudpickle' \
+#     'conda-forge::blas=*=openblas' \
+#     'cython' \
+#     'dask' \
+#     'dill' \
+#     'h5py' \
+#     'ipympl'\
+#     'ipywidgets' \
+#     'jupyterthemes' \
+#     'matplotlib-base' \
+#     'nbdime' \
+#     'nodejs' \
+#     'numba' \
+#     'numexpr' \
+#     'pandas' \
+#     'patsy' \
+#     'pre-commit' \
+#     'protobuf' \
+#     'pytables' \
+#     'scikit-image' \
+#     'scikit-learn' \
+#     'scipy' \
+#     'seaborn' \
+#     'sqlalchemy' \
+#     'statsmodels' \
+#     'sympy' \
+#     'widgetsnbextension'\
+#     'xlrd' && \
+#     mamba clean --all -f -y && \
+#     fix-permissions "${CONDA_DIR}" && \
+#     fix-permissions "/home/${NB_USER}"
 
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME="/home/${NB_USER}/.cache/"
-
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions "/home/${NB_USER}"
 
 #############################################################################
 
@@ -279,18 +268,13 @@ RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
 
 # ---------------------------------------------------------------------------
 
-# Install Datalad from Conda (forge)
-RUN mamba install -c conda-forge --quiet --yes \
-    'datalad' && \
-    mamba clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+RUN wget -qO /tmp/cuda-keyring_1.1-1_all.deb "https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/cuda-keyring_1.1-1_all.deb" && dpkg -i /tmp/cuda-keyring_1.1-1_all.deb
 
-RUN mamba install -c bioconda --quiet --yes \
-    primer3-py && \
-    mamba clean --all -f -y && \
-    fix-permissions "${CONDA_DIR}" && \
-    fix-permissions "/home/${NB_USER}"
+RUN apt-get update && \
+    apt-get --no-install-recommends install -y \
+    build-essential \
+    software-properties-common
+
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -306,6 +290,38 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     yadm \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+# RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+#     --mount=type=cache,target=/var/lib/apt,sharing=locked \
+#     apt-get update && \
+#     apt-get --no-install-recommends install -y \
+#     linux-headers-$(uname -r) && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+
+# RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+#     --mount=type=cache,target=/var/lib/apt,sharing=locked \
+#     apt-get update && \
+#     apt-get --allow-releaseinfo-change update && \
+#     apt-get --no-install-recommends install -y \
+#     install cuda && \
+#     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+# Install python packages using mamba
+COPY ./environment.yml /home/${NB_USER}/environment.yml
+RUN cat /home/${NB_USER}/environment.yml && \
+    mamba env create -f /home/${NB_USER}/environment.yml && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+# Clone scRNAseq into another environment called "quarto" for document rendering
+RUN mamba create --name quarto --clone scRNAseq && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
 
 ## GPG passthrough for coder/coder
 
@@ -339,9 +355,6 @@ ENV PATH $PATH:/usr/bin/rclone
 COPY git-annex-remote-rclone /usr/local/bin/
 COPY rclone.conf /home/${NB_USER}/.config/rclone/rclone.conf
 COPY requirements.txt .
-
-# Pip outside of the conda (mamba) environment
-RUN pip install -r requirements.txt
 
 RUN adduser ${NB_USER} sudo
 

@@ -26,27 +26,26 @@ networks:
 
 services:
   singulab:
-    image: pranavmishra90/singulab:latest
+    image: pranavmishra90/singulab:bleeding-edge
     container_name: SinguLab
     ports:
       - 8888:8888
     volumes:
       - .:/home/jovyan/lab
       - .jupyter:/home/jovyan/.jupyter
-    command: >
-      start-notebook.sh \
+    command: start-notebook.sh \
       --NotebookApp.token='myjupyter' --NotebookApp.password='' \
-      --ContentsManager.allow_hidden=True"
-    labels:
-      - "traefik.enable=true"
-      ## HTTP Routers
-      - "traefik.http.routers.singulab-rtr.entrypoints=https"
-      - "traefik.http.routers.singulab-rtr.rule=Host(`singulab.$DOMAINNAME`)"
-      - "traefik.http.routers.singulab-rtr.tls=true"
-      ## Middlewares
-      # - "traefik.http.routers.singulab-rtr.middlewares=chain-no-auth@file" # No Authentication
-      # - "traefik.http.routers.singulab-rtr.middlewares=chain-basic-auth@file" # Basic Authentication
-      - "traefik.http.routers.singulab-rtr.middlewares=chain-authelia@file" # Authelia authentication
-      ## HTTP Services
-      - "traefik.http.routers.singulab-rtr.service=singulab-svc"
-      - "traefik.http.services.singulab-svc.loadbalancer.server.port=8888"
+      --ContentsManager.allow_hidden='True'
+    # labels:
+    #   - "traefik.enable=true"
+    #   ## HTTP Routers
+    #   - "traefik.http.routers.singulab-rtr.entrypoints=https"
+    #   - "traefik.http.routers.singulab-rtr.rule=Host(`singulab.$DOMAINNAME`)"
+    #   - "traefik.http.routers.singulab-rtr.tls=true"
+    #   ## Middlewares
+    #   # - "traefik.http.routers.singulab-rtr.middlewares=chain-no-auth@file" # No Authentication
+    #   # - "traefik.http.routers.singulab-rtr.middlewares=chain-basic-auth@file" # Basic Authentication
+    #   - "traefik.http.routers.singulab-rtr.middlewares=chain-authelia@file" # Authelia authentication
+    #   ## HTTP Services
+    #   - "traefik.http.routers.singulab-rtr.service=singulab-svc"
+    #   - "traefik.http.services.singulab-svc.loadbalancer.server.port=8888"
