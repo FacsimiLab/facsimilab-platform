@@ -101,7 +101,7 @@ ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-a
 RUN micromamba shell init --shell bash --root-prefix=~/micromamba
 
 # Install python packages using mamba
-COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
+COPY --chown=coder:coder ./scRNAseq.yml /home/coder/environment.yml
 RUN --mount=type=cache,target=/opt/conda/pkgs \
 	micromamba install -f /home/coder/environment.yml
 
@@ -115,4 +115,4 @@ COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
 RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
 
 
-CMD ["/bin/bash", "-c", "conda activate singulab && python /home/coder/gpu-test.py"]
+CMD ["/bin/bash", "-c", "micromamba activate singulab && python /home/coder/gpu-test.py"]

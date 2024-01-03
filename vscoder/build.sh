@@ -13,6 +13,8 @@ echo "Building the following container:"
 echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
 
 # Build the docer container
+export DOCKER_BUILDKIT=1 # use docker buildx caching
+
 docker build --build-arg CACHE_BUST=$(date +%s) -t $CONTAINER_NAME .
 
 # Add additional tags
@@ -35,4 +37,4 @@ echo ""
 echo "Singulab Docker images:"
 echo ""
 
-docker image ls | grep singulab
+# docker image ls | grep singulab
