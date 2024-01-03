@@ -30,6 +30,15 @@ ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
 
+RUN apt-get update -y \
+  && apt-get install -y sudo tzdata git ninja-build \
+#   && useradd -ms /bin/bash -d /home/$MAMBA_USER $MAMBA_USER --uid $MAMBA_USER_ID --gid $MAMBA_USER_GID \
+  && usermod -aG sudo $MAMBA_USER \
+  && echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
+  && rm -rf /var/lib/apt/lists/* \
+  && apt-get clean
+
+
 # Copy the relevant micromamba directories
 COPY --from=micromamba "$MAMBA_EXE" "$MAMBA_EXE"
 COPY --from=micromamba /usr/local/bin/_activate_current_env.sh /usr/local/bin/_activate_current_env.sh
@@ -41,12 +50,6 @@ COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/loca
 RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
 	/usr/local/bin/_dockerfile_setup_root_prefix.sh
 
-RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-	--mount=type=cache,target=/var/lib/apt,sharing=locked \
-	apt-get update && \
-	apt-get --no-install-recommends install -y \
-	build-essential \
-	software-properties-common
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -58,7 +61,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	curl \
 	exa \
 	fonts-liberation \
-	git \
 	gnupg2 \
 	inkscape \
 	less \
@@ -67,7 +69,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	openssh-client \
 	openssh-server \
 	pandoc \
-	sudo \
 	systemd \
 	systemd-sysv \
 	tini \
@@ -75,6 +76,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	yadm \
 	zsh && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get --no-install-recommends install -y \
+    linux-headers-$(uname -r) && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Quarto for documenting research output
 COPY ./quarto-1.3.450-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
@@ -97,23 +105,14 @@ COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
 RUN --mount=type=cache,target=/opt/conda/pkgs \
 	micromamba install -f /home/coder/environment.yml
 
-# Install Rclone with a Git-Annex Backend
-# Rclone
-COPY install-rclone.sh /home/${NB_USER}
-RUN bash /home/${NB_USER}/install-rclone.sh
-ENV PATH $PATH:/usr/bin/rclone
-
-# Git-Annex Rclone Remote
-COPY git-annex-remote-rclone /usr/local/bin/
-COPY rclone.conf /home/${NB_USER}/.config/rclone/rclone.conf
-
 ### Stop caching the docker build
 ARG CACHEBUST=1
 
 
 # Activate micromamba in the bash prompt by adding it to .bashrc
 COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
-RUN cat /home/coder/activate_mamba.sh >> /home/coder/.bashrc
+COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
+RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
 
 
-CMD ["/bin/bash"]
+CMD ["/bin/bash", "-c", "conda activate singulab && python /home/coder/gpu-test.py"]

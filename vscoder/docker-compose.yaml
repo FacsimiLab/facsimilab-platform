@@ -1,11 +1,4 @@
 ####################################
-#         Initial Setup            #
-####################################
-
-# This docker-compose file is being built from pranavmishra90/data-min
-# It is being generated from a base image from jupyter/scipy-notebook
-
-####################################
 #         Docker-Compose           #
 ####################################
 version: "3"
@@ -26,7 +19,7 @@ networks:
 
 services:
   singulab:
-    image: pranavmishra90/singulab-vscoder:nightly
+    image: pranavmishra90/singulab-vscoder:cpu-jan3
     container_name: SinguLab-VSCoder
     ports:
       - 8888:8888
