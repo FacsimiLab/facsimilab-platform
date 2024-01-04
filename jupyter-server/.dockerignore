@@ -1,7 +1,0 @@
-.env
-docker-compose.yaml
-README.md
-changelog.md
-/.git/*
-.git
-*.code-workspace

@@ -107,6 +107,9 @@ SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 COPY --from=code-server /usr/bin/code-server /usr/bin/code-server
 COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} ./* ./home/coder/
 
+### Stop caching the docker build
+ARG CACHEBUST=1
+
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
 #############################################
@@ -124,7 +127,5 @@ RUN --mount=type=cache,target=${HOST_CONDA},sharing=locked \
 COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
 RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
 
-### Stop caching the docker build
-ARG CACHEBUST=1
 
 CMD ["/bin/bash"]
