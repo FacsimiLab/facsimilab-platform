@@ -1,4 +1,4 @@
-name: base
+name: singulab
 channels:
   - conda-forge
   - bioconda
@@ -63,7 +63,6 @@ dependencies:
 
   # Next-generation -omics
   - scanpy=1.9
-  - scvi=0.6
   - scvi-tools=1.0
   - scikit-learn
   - scikit-image=0.22

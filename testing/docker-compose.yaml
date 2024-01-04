@@ -1,0 +1,39 @@
+####################################
+#         Docker-Compose           #
+####################################
+version: "3"
+
+####################################
+#            Networks              #
+####################################
+networks:
+  default:
+    driver: bridge
+
+####################################
+#            Services              #
+####################################
+
+services:
+  singulab:
+
+    image: docker.io/pranavmishra90/singulab-vscoder:cuda-testing
+
+    container_name: SinguLab-VSCoder
+
+    ports:
+      # SinguLab will be accessible by the browser to the first port listed below
+      - 8088:8080
+
+    volumes:
+      # Here we "mount" directories from the host computer into the SinguLab container
+
+      # SSH configuration (read only)
+      - ~/.ssh:/home/coder/.ssh:ro
+      
+      # coder/code-server configuration files
+      - .config:/home/coder/.config
+
+      # The current directory (./testing) is mounted into ~/work 
+      - ./:/home/coder/work
+      

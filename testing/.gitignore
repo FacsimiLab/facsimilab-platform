@@ -1,0 +1,9 @@
+/.*/
+!/.config/
+
+# Ignore data files
+/data
+/heart_model
+
+*.h5ad
+*.pt
