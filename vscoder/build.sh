@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Adjust this according to the container name desired
-CONTAINER_NAME="singulab-vscoder:cpu-jan3"
+CONTAINER_NAME="singulab-vscoder-cpu:latest"
 
 
 ##################################################################
