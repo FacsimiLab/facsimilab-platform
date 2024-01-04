@@ -37,4 +37,4 @@ echo ""
 echo "Singulab Docker images:"
 echo ""
 
-# docker image ls | grep singulab
+docker image ls | grep singulab
