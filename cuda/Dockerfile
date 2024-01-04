@@ -22,6 +22,9 @@ LABEL org.opencontainers.image.licenses="MIT"
 
 USER root
 
+# Python conda caching directory on host
+ARG HOST_CONDA="/home/pranav/mambaforge/pkgs"
+
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=100
@@ -56,7 +59,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	curl \
 	exa \
 	fonts-liberation \
-	git \
 	gnupg2 \
 	inkscape \
 	less \
@@ -65,7 +67,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	openssh-client \
 	openssh-server \
 	pandoc \
-	sudo \
 	systemd \
 	systemd-sysv \
 	tini \
@@ -74,6 +75,12 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	yadm \
 	zsh && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
+
+#############################################
+# Install Quarto
+#############################################
+COPY ./quarto-1.3.450-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
+RUN apt install -f /home/${MAMBA_USER}/quarto.deb
 
 #############################################
 # Copy micromamba python
@@ -92,17 +99,15 @@ RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
 USER $MAMBA_USER
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
-# CMD ["/bin/bash"]
 
 #############################################
 # Copy code-server
 #############################################
 
 COPY --from=code-server /usr/bin/code-server /usr/bin/code-server
-COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} ./coder-entrypoint.sh /usr/local/bin/coder_entrypoint.sh
-COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} ./local_coder_entrypoint.sh /usr/bin/coder_entrypoint.sh
+COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} ./* ./home/coder/
 
-ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/local/bin/coder_entrypoint.sh", "/usr/bin/coder_entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
 #############################################
 # Build the singulab python env
@@ -112,13 +117,8 @@ WORKDIR /home/${MAMBA_USER}/work/
 COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} ./environment.yml .
 COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} ./scRNAseq.yml .
 
-RUN micromamba create -f environment.yml && \
-  micromamba clean --all --yes
-
-# RUN micromamba install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia && micromamba install jax jaxlib -c conda-forge
-
-COPY --chown=${MAMBA_USER_ID}:${MAMBA_USER_GID} . .
-
+RUN --mount=type=cache,target=${HOST_CONDA},sharing=locked \
+	micromamba create -f /home/coder/environment.yml
 
 # Activate micromamba in the bash prompt by adding it to .bashrc
 COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh

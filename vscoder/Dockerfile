@@ -20,9 +20,8 @@ LABEL org.opencontainers.image.licenses="MIT"
 
 USER root
 
-# if your image defaults to a non-root user, then you may want to make the
-# next 3 ARG commands match the values in your image. You can get the values
-# by running: docker run --rm -it my/image id -a
+ARG HOST_CONDA="/home/pranav/mambaforge/pkgs"
+
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
@@ -73,6 +72,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	systemd-sysv \
 	tini \
 	unzip \
+	wget \
 	yadm \
 	zsh && \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -100,10 +100,10 @@ ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-a
 
 RUN micromamba shell init --shell bash --root-prefix=~/micromamba
 
-# Install python packages using mamba
-COPY --chown=coder:coder ./scRNAseq.yml /home/coder/environment.yml
-RUN --mount=type=cache,target=/opt/conda/pkgs \
-	micromamba install -f /home/coder/environment.yml
+# Install python packages using mamba into a new environment
+COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
+RUN --mount=type=cache,target=${HOST_CONDA} \
+	micromamba create -f /home/coder/environment.yml
 
 ### Stop caching the docker build
 ARG CACHEBUST=1
@@ -114,5 +114,13 @@ COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
 COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
 RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
 
+# Add necessary VSCode extensions
+RUN code-server --install-extension ms-python.black-formatter \
+							eamodio.gitlens \
+							ms-toolsai.jupyter \
+							esbenp.prettier-vscode \
+							ms-python.python \
+							quarto.quarto
 
-CMD ["/bin/bash", "-c", "micromamba activate singulab && python /home/coder/gpu-test.py"]
+
+CMD ["/bin/bash", "micromamba activate singulab && python /home/coder/gpu-test.py"]

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Adjust this according to the container name desired
-CONTAINER_NAME="singulab-vscoder:cuda-testing"
+CONTAINER_NAME="singulab-vscoder:cuda-stage"
 
 
 ##################################################################
