@@ -1,3 +1,5 @@
+# syntax = docker/dockerfile:1.2
+
 # Use the micromamba image as a source for the python environment manager
 FROM mambaorg/micromamba:1.5.0 as micromamba
 
@@ -29,15 +31,6 @@ ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
 
-RUN apt-get update -y \
-	&& apt-get install -y sudo tzdata git ninja-build \
-	#&& useradd -ms -l /bin/bash -d /home/$MAMBA_USER $MAMBA_USER --uid $MAMBA_USER_ID --gid $MAMBA_USER_GID \
-	&& usermod -aG sudo $MAMBA_USER \
-	&& echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
-	&& rm -rf /var/lib/apt/lists/* \
-	&& apt-get clean
-
-
 # Copy the relevant micromamba directories
 COPY --from=micromamba "$MAMBA_EXE" "$MAMBA_EXE"
 COPY --from=micromamba /usr/local/bin/_activate_current_env.sh /usr/local/bin/_activate_current_env.sh
@@ -45,10 +38,6 @@ COPY --from=micromamba /usr/local/bin/_dockerfile_shell.sh /usr/local/bin/_docke
 COPY --from=micromamba /usr/local/bin/_entrypoint.sh /usr/local/bin/_entrypoint.sh
 COPY --from=micromamba /usr/local/bin/_dockerfile_initialize_user_accounts.sh /usr/local/bin/_dockerfile_initialize_user_accounts.sh
 COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/local/bin/_dockerfile_setup_root_prefix.sh
-
-RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
-	/usr/local/bin/_dockerfile_setup_root_prefix.sh
-
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	--mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -70,6 +59,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	pandoc \
 	systemd \
 	systemd-sysv \
+	sudo \
 	tini \
 	unzip \
 	wget \
@@ -88,42 +78,49 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY ./quarto-1.4.550-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
 RUN apt install -f /home/${MAMBA_USER}/quarto.deb
 
+RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
+	/usr/local/bin/_dockerfile_setup_root_prefix.sh \
+	&& usermod -aG sudo $MAMBA_USER \
+	&& echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& apt-get clean
+
 # Switch to the non-root user
 USER $MAMBA_USER
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
-# Optional: if you want to customize the ENTRYPOINT and have a conda
-# environment activated, then do this:
-# ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
-ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
+# # Optional: if you want to customize the ENTRYPOINT and have a conda
+# # environment activated, then do this:
+# # ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
+# ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
-RUN micromamba shell init --shell bash --root-prefix=~/micromamba
+# RUN micromamba shell init --shell bash --root-prefix=~/micromamba
 
-# Install python packages using mamba into a new environment
-COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
-RUN --mount=type=cache,target=${HOST_CONDA} \
-	micromamba create -f /home/coder/environment.yml
+# # Install python packages using mamba into a new environment
+# COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
+# RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
+# 	micromamba create -f /home/coder/environment.yml
 
-# Add the conda environment to path
-ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
+# # Add the conda environment to path
+# ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
 
-### Stop caching the docker build
-ARG CACHEBUST=1
-
-
-# Activate micromamba in the bash prompt by adding it to .bashrc
-COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
-COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
-RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
-
-# Add necessary VSCode extensions
-RUN code-server --install-extension ms-python.black-formatter \
-	eamodio.gitlens \
-	ms-toolsai.jupyter \
-	esbenp.prettier-vscode \
-	ms-python.python \
-	quarto.quarto
+# ### Stop caching the docker build
+# ARG CACHEBUST=1
 
 
-CMD ["/bin/bash", "micromamba activate facsimilab && python /home/coder/gpu-test.py"]
+# # Activate micromamba in the bash prompt by adding it to .bashrc
+# COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
+# COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
+# RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
+
+# # Add necessary VSCode extensions
+# RUN code-server --install-extension ms-python.black-formatter \
+# 	eamodio.gitlens \
+# 	ms-toolsai.jupyter \
+# 	esbenp.prettier-vscode \
+# 	ms-python.python \
+# 	quarto.quarto
+
+
+CMD ["/bin/bash"]

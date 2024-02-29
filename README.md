@@ -37,9 +37,9 @@ mamba env create -f facsimilab.yml
 
 ## SinguLab is now FacsimiLab
 
-We have renamed the FacsimiLab project to *FacsimiLab*!
+We have renamed the FacsimiLab project to _FacsimiLab_!
 
-Our new name is a portmonteau of [**facsimile**](https://www.merriam-webster.com/dictionary/facsimile) and **laboratory**. Not only is it "more unique", it is also more reflective of the project's objective: to create a reproducible research environment with identical packages and platforms.  Using environment files and [OCI](https://opencontainers.org/) compatible build instructions, FacsimiLab will be the path forward for replacing "it works on my computer" with "I've looked at your data and reproduced your results".
+Our new name is a portmonteau of [**facsimile**](https://www.merriam-webster.com/dictionary/facsimile) and **laboratory**. Not only is it "more unique", it is also more reflective of the project's objective: to create a reproducible research environment with identical packages and platforms. Using environment files and [OCI](https://opencontainers.org/) compatible build instructions, FacsimiLab will be the path forward for replacing "it works on my computer" with "I've looked at your data and reproduced your results".
 
 We hope you follow our project's ongoing development at [github.com/FascimiLab](https://github.com/FacsimiLab) and [pranavmishra90/FacsimiLab-platform](https://github.com/pranavmishra90/FacsimiLab-platform).
 
@@ -49,7 +49,6 @@ The GitHub repository at [pranavmishra90/FacsimiLab](https://github.com/pranavmi
 
 [MIT License](./LICENSE)
 
-Copyright (c) 2022 Pranav Kumar Mishra
+Copyright (c) 2022-2024 Pranav Kumar Mishra
 
-
-
+Licenses and references of open-source projects that contribute significantly to FacsimiLab are listed in [Licenses](./licenses/licenses-overview.md)

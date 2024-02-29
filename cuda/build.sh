@@ -34,7 +34,7 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "Singulab Docker images:"
+echo "FacsimiLab Docker images:"
 echo ""
 
 docker image ls | grep facsimilab

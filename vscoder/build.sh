@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Adjust this according to the container name desired
-CONTAINER_NAME="facsimilab-vscoder-cpu:latest"
+CONTAINER_NAME="facsimilab-vscoder-cpu:v0.1.0-test"
 
 
 ##################################################################
@@ -12,7 +12,10 @@ start_time=$(date +%s)
 echo "Building the following container:"
 echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
 
-# Build the docer container
+# Download quarto
+wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.550/quarto-1.4.550-linux-amd64.deb
+
+# Build the docler container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 
 docker build --build-arg CACHE_BUST=$(date +%s) -t $CONTAINER_NAME .
@@ -34,7 +37,7 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "Singulab Docker images:"
+echo "FacsimiLab Docker images:"
 echo ""
 
 docker image ls | grep facsimilab
