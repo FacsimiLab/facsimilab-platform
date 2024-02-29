@@ -90,37 +90,37 @@ USER $MAMBA_USER
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
-# # Optional: if you want to customize the ENTRYPOINT and have a conda
-# # environment activated, then do this:
-# # ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
-# ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
+# Optional: if you want to customize the ENTRYPOINT and have a conda
+# environment activated, then do this:
+# ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
+ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
-# RUN micromamba shell init --shell bash --root-prefix=~/micromamba
+RUN micromamba shell init --shell bash --root-prefix=~/micromamba
 
-# # Install python packages using mamba into a new environment
-# COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
-# RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-# 	micromamba create -f /home/coder/environment.yml
+# Install python packages using mamba into a new environment
+COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
+RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
+	micromamba create -f /home/coder/environment.yml
 
-# # Add the conda environment to path
-# ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
+# Add the conda environment to path
+ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
 
-# ### Stop caching the docker build
-# ARG CACHEBUST=1
+### Stop caching the docker build
+ARG CACHEBUST=1
 
 
-# # Activate micromamba in the bash prompt by adding it to .bashrc
-# COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
-# COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
-# RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
+# Activate micromamba in the bash prompt by adding it to .bashrc
+COPY --chown=coder:coder ./activate_mamba.sh /home/coder/activate_mamba.sh
+COPY --chown=coder:coder ./gpu-test.py /home/coder/gpu-test.py
+RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
 
-# # Add necessary VSCode extensions
-# RUN code-server --install-extension ms-python.black-formatter \
-# 	eamodio.gitlens \
-# 	ms-toolsai.jupyter \
-# 	esbenp.prettier-vscode \
-# 	ms-python.python \
-# 	quarto.quarto
+# Add necessary VSCode extensions
+RUN code-server --install-extension ms-python.black-formatter \
+	eamodio.gitlens \
+	ms-toolsai.jupyter \
+	esbenp.prettier-vscode \
+	ms-python.python \
+	quarto.quarto
 
 
 CMD ["/bin/bash"]

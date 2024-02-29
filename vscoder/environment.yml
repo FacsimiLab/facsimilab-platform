@@ -63,7 +63,7 @@ dependencies:
 
   # Next-generation -omics
   - scanpy=1.9
-  - scvi-tools=1.0
+  - scvi-tools=1.1
   - scikit-learn=1.*
   - scikit-image=0.22
   - scikit-misc=0.1
