@@ -2,7 +2,7 @@
 FROM mambaorg/micromamba:1.5.0 as micromamba
 
 # Add micromamba into this base image
-FROM codercom/code-server:4.21.2-39
+FROM codercom/code-server:4.21.2-debian
 
 
 #########################
@@ -10,8 +10,8 @@ ARG IMAGE_VERSION="0.1.0"
 #########################
 
 LABEL org.opencontainers.image.title="FacsimiLab-VSCoder"
-LABEL version=${IMAGE_VERSION}}
-LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
+LABEL version=${IMAGE_VERSION}
+LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
 LABEL description="A docker image for bioinformatics and datascience projects, leveraging Python, Datalad, VSCode (code-server), Quarto, and more."
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
@@ -30,12 +30,12 @@ ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
 
 RUN apt-get update -y \
-  && apt-get install -y sudo tzdata git ninja-build \
-#   && useradd -ms /bin/bash -d /home/$MAMBA_USER $MAMBA_USER --uid $MAMBA_USER_ID --gid $MAMBA_USER_GID \
-  && usermod -aG sudo $MAMBA_USER \
-  && echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
-  && rm -rf /var/lib/apt/lists/* \
-  && apt-get clean
+	&& apt-get install -y sudo tzdata git ninja-build \
+	#&& useradd -ms -l /bin/bash -d /home/$MAMBA_USER $MAMBA_USER --uid $MAMBA_USER_ID --gid $MAMBA_USER_GID \
+	&& usermod -aG sudo $MAMBA_USER \
+	&& echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& apt-get clean
 
 
 # Copy the relevant micromamba directories
@@ -78,14 +78,14 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \
-    apt-get --no-install-recommends install -y \
-    linux-headers-$(uname -r) && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+	--mount=type=cache,target=/var/lib/apt,sharing=locked \
+	apt-get update && \
+	apt-get --no-install-recommends install -y \
+	linux-headers-$(uname -r) && \
+	apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Quarto for documenting research output
-COPY ./quarto-1.3.450-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
+COPY ./quarto-1.4.550-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
 RUN apt install -f /home/${MAMBA_USER}/quarto.deb
 
 # Switch to the non-root user
@@ -105,6 +105,9 @@ COPY --chown=coder:coder ./environment.yml /home/coder/environment.yml
 RUN --mount=type=cache,target=${HOST_CONDA} \
 	micromamba create -f /home/coder/environment.yml
 
+# Add the conda environment to path
+ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
+
 ### Stop caching the docker build
 ARG CACHEBUST=1
 
@@ -116,11 +119,11 @@ RUN echo "source /home/coder/activate_mamba.sh" >> /home/coder/.bashrc
 
 # Add necessary VSCode extensions
 RUN code-server --install-extension ms-python.black-formatter \
-							eamodio.gitlens \
-							ms-toolsai.jupyter \
-							esbenp.prettier-vscode \
-							ms-python.python \
-							quarto.quarto
+	eamodio.gitlens \
+	ms-toolsai.jupyter \
+	esbenp.prettier-vscode \
+	ms-python.python \
+	quarto.quarto
 
 
 CMD ["/bin/bash", "micromamba activate facsimilab && python /home/coder/gpu-test.py"]

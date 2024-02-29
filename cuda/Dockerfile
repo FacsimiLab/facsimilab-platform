@@ -79,7 +79,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 #############################################
 # Install Quarto
 #############################################
-COPY ./quarto-1.3.450-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
+COPY ./quarto-1.4.550-linux-amd64.deb /home/${MAMBA_USER}/quarto.deb
 RUN apt install -f /home/${MAMBA_USER}/quarto.deb
 
 #############################################
@@ -94,7 +94,7 @@ COPY --from=micromamba /usr/local/bin/_dockerfile_initialize_user_accounts.sh /u
 COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/local/bin/_dockerfile_setup_root_prefix.sh
 
 RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
-  /usr/local/bin/_dockerfile_setup_root_prefix.sh
+	/usr/local/bin/_dockerfile_setup_root_prefix.sh
 
 USER $MAMBA_USER
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
