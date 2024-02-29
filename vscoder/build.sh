@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Adjust this according to the container name desired
-CONTAINER_NAME="singulab-vscoder-cpu:latest"
+CONTAINER_NAME="facsimilab-vscoder-cpu:latest"
 
 
 ##################################################################
@@ -37,4 +37,4 @@ echo ""
 echo "Singulab Docker images:"
 echo ""
 
-docker image ls | grep singulab
+docker image ls | grep facsimilab

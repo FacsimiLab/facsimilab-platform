@@ -5,15 +5,15 @@ FROM codercom/code-server as code-server
 FROM nvidia/cuda:12.3.1-base-ubuntu22.04
 
 ############################
-ARG IMAGE_VERSION="0.0.31"
+ARG IMAGE_VERSION="0.1.0"
 ############################
 
-LABEL org.opencontainers.image.title="SinguLab-CUDA"
+LABEL org.opencontainers.image.title="FacsimiLab-CUDA"
 LABEL version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
 LABEL description="An NVIDIA CUDA enabled docker image for bioinformatics and datascience projects, leveraging Python, Datalad, VSCode (code-server), Quarto, and more."
-LABEL org.opencontainers.image.source="https://github.com/pranavmishra90/SinguLab"
+LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
 
 #############################################
@@ -31,7 +31,7 @@ ARG MAMBA_USER_GID=100
 ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/home/coder/micromamba"
 ENV MAMBA_EXE="/bin/micromamba"
-ENV ENV_NAME=singulab
+ENV ENV_NAME=facsimilab
 
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
@@ -113,7 +113,7 @@ ARG CACHEBUST=1
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
 #############################################
-# Build the singulab python env
+# Build the facsimilab python env
 #############################################
 
 WORKDIR /home/${MAMBA_USER}/work/

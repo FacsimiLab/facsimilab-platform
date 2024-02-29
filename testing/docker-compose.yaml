@@ -15,9 +15,9 @@ networks:
 ####################################
 
 services:
-  singulab:
+  facsimilab:
 
-    image: docker.io/pranavmishra90/singulab-vscoder:cuda-testing
+    image: docker.io/pranavmishra90/facsimilab-vscoder:cuda-testing
 
     container_name: SinguLab-VSCoder
 

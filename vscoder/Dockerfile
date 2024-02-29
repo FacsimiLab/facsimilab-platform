@@ -6,15 +6,15 @@ FROM codercom/code-server:latest
 
 
 #########################
-ARG IMAGE_VERSION="0.0.30"
+ARG IMAGE_VERSION="0.1.0"
 #########################
 
-LABEL org.opencontainers.image.title="SinguLab-VSCoder"
+LABEL org.opencontainers.image.title="FacsimiLab-VSCoder"
 LABEL version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
 LABEL description="A docker image for bioinformatics and datascience projects, leveraging Python, Datalad, VSCode (code-server), Quarto, and more."
-LABEL org.opencontainers.image.source="https://github.com/pranavmishra90/SinguLab"
+LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
 
 
@@ -123,4 +123,4 @@ RUN code-server --install-extension ms-python.black-formatter \
 							quarto.quarto
 
 
-CMD ["/bin/bash", "micromamba activate singulab && python /home/coder/gpu-test.py"]
+CMD ["/bin/bash", "micromamba activate facsimilab && python /home/coder/gpu-test.py"]

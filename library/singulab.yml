@@ -1,4 +1,4 @@
-name: singulab
+name: facsimilab
 channels:
   - nvidia
   - bioconda
