@@ -2,7 +2,7 @@
 FROM mambaorg/micromamba:1.5.0 as micromamba
 
 # Add micromamba into this base image
-FROM codercom/code-server:latest
+FROM codercom/code-server:4.21.2-39
 
 
 #########################

@@ -1,6 +1,6 @@
 FROM mambaorg/micromamba:1.5.0 as micromamba
 
-FROM codercom/code-server as code-server
+FROM codercom/code-server:4.21.2-39 as code-server
 
 FROM nvidia/cuda:12.3.1-base-ubuntu22.04
 
