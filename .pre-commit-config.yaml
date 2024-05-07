@@ -9,5 +9,5 @@ repos:
         args: ["--fix=lf"]
       # Prevent adding private keys in files
       - id: detect-private-key
-      # Detect problemmatic refereneced files
+      # Detect problematic referenced files
       - id: check-symlinks
