@@ -1,0 +1,15 @@
+{
+  "image": "pranavmishra90/facsimilab-full:v0.2.0c",
+  "runArgs": ["--gpus", "all"],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "quarto.quarto",
+        "ms-azuretools.vscode-docker",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "forwardPorts": [3000]
+}

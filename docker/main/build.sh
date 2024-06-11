@@ -1,7 +1,9 @@
 #!/bin/bash
 
+if [ -z ${facsimilab_version_num+x} ]; then facsimilab_version_num="dev"; else echo "facsimilab_version_num is set to '$facsimilab_version_num'"; fi
+
 # Adjust this according to the container name desired
-CONTAINER_NAME="facsimilab-main:v0.2.0"
+CONTAINER_NAME="facsimilab-main":$facsimilab_version_num
 
 ##################################################################
 
@@ -17,7 +19,7 @@ wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/qua
 # Build the docer container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 
-docker build -t $CONTAINER_NAME .
+docker build --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME

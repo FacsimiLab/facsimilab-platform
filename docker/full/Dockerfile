@@ -1,11 +1,10 @@
-FROM pranavmishra90/facsimilab-main:v0.2.0
+############################
+ARG IMAGE_VERSION="v0.2.0"
+############################
+
+FROM pranavmishra90/facsimilab-main:${IMAGE_VERSION}
 
 USER root
-
-############################
-ARG IMAGE_VERSION="0.2.0"
-############################
-
 
 LABEL org.opencontainers.image.title="FacsimiLab-full"
 LABEL version=${IMAGE_VERSION}
@@ -35,3 +34,6 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment
 
 RUN --mount=type=cache,target=/home/pranav/.docker/mamba micromamba create -y -f /tmp/facsimilab-environment.yml \
 	&& micromamba clean --all --yes
+
+# Add the GPU (CUDA 12.1) supported pytorch
+RUN --mount=type=cache,target=/home/pranav/.docker/pip /opt/conda/envs/facsimilab/bin/pip install -U torch==2.3.1 torchaudio torchvision --index-url https://download.pytorch.org/whl/cu121 && micromamba clean --all --yes

@@ -1,11 +1,10 @@
-FROM pranavmishra90/facsimilab-base:v0.2.0
+############################
+ARG IMAGE_VERSION="v0.2.0"
+############################
+
+FROM pranavmishra90/facsimilab-base:${IMAGE_VERSION}
 
 USER root
-
-############################
-ARG IMAGE_VERSION="0.2.0"
-############################
-
 
 LABEL org.opencontainers.image.title="FacsimiLab-main"
 LABEL version=${IMAGE_VERSION}

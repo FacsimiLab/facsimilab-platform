@@ -50,28 +50,29 @@ dependencies:
   - tabulate=0.9
   - pygraphviz=1.11
 
+  # Automation
+  - nbconvert=7.6
+  - papermill=2.3
+
+  # Documentation
+  - markdown=3
+  - pandoc=3.1
+
   # Machine Learning
   - lightning=2.0.1
   - leidenalg=0.9
   - louvain=0.8
   - hnswlib=0.7
-
-  # # GPU
-  # - jaxlib=*=12cuda*
-  # - jax=0.4.11
-  # - flax=0.6
-  # - cuda-nvcc
-  # - pytorch
-  # - torchvision
-  # - torchaudio
-  # - pytorch-cuda=12.1
+  - scikit-learn=1.*
+  - scikit-image=0.22
+  - scikit-misc=0.1
+  - sklearn-pandas
+  - imbalanced-learn
+  - dtreeviz
 
   # Next-generation -omics
   - scanpy=1.9
   - scvi-tools=1.0
-  - scikit-learn=1.*
-  - scikit-image=0.22
-  - scikit-misc=0.1
   # - scvelo=0.3
   # - bioconda::pydeseq2=0.4
   # - bioconda::gseapy=1.1
@@ -79,14 +80,6 @@ dependencies:
 
   # # Primer design
   # - primer3-py
-
-  # Automation
-  - nbconvert=7.6
-  - papermill=2.3
-
-  # Documentation
-  - pandoc=3.1
-  - mdutils=1.6
 
   # # C  / C++
   # - cython=0.29.36
@@ -96,7 +89,8 @@ dependencies:
 
   # pip
   - pip
-  # - pip:
+  - pip:
+      - PyCap
   #     - velocyto
   #     - pybind11
   #     - pyvis

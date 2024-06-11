@@ -4,10 +4,8 @@ FROM mambaorg/micromamba:1.5 as micromamba
 
 FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
-USER root
-
 ############################
-ARG IMAGE_VERSION="0.2.0"
+ARG IMAGE_VERSION="dev"
 ############################
 
 LABEL org.opencontainers.image.title="FacsimiLab-base"
