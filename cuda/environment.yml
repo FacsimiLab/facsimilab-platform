@@ -1,20 +1,24 @@
 name: facsimilab
 channels:
   - conda-forge
-  - bioconda
+  # - bioconda
+  - pytorch
   - nvidia
+
 dependencies:
   # Python and interactive python
-  - python=3.10
+  - python=3.11
   - IPython=8.14
   - ipykernel=6.23
   - ipywidgets=8.0
+  # - nb_conda_kernels=2.3
   - jupyter=1.0
   - jupyter-cache=0.6
   - nbformat=5.9
   - nbclient>0.7
   - six=1.16
   - mamba
+
 
   # General
   - tqdm=4.65
@@ -49,17 +53,20 @@ dependencies:
   - pygraphviz=1.11
 
   # Machine Learning
-  - pytorch=2.0
   - lightning=2.0.1
   - leidenalg=0.9
   - louvain=0.8
   - hnswlib=0.7
 
   # # GPU
-  # - jaxlib=*=*cuda*
+  # - jaxlib=*=12cuda*
   # - jax=0.4.11
   # - flax=0.6
   # - cuda-nvcc
+  # - pytorch
+  # - torchvision
+  # - torchaudio
+  # - pytorch-cuda=12.1 
 
   # Next-generation -omics
   - scanpy=1.9
@@ -67,10 +74,10 @@ dependencies:
   - scikit-learn=1.*
   - scikit-image=0.22
   - scikit-misc=0.1
-  - scvelo=0.3
-  - bioconda::pydeseq2=0.4
-  - bioconda::gseapy=1.1
-  - bioconda::celltypist=1.6
+  # - scvelo=0.3
+  # - bioconda::pydeseq2=0.4
+  # - bioconda::gseapy=1.1
+  # - bioconda::celltypist=1.6
 
   # # Primer design
   # - primer3-py
@@ -92,6 +99,11 @@ dependencies:
   # pip
   - pip
   # - pip:
+  #     - torch==2.3.1
+  #     - torchaudio
+  #     - torchvision
+  #     - --extra-index-url https://download.pytorch.org/whl/cu121/torch_stable.html
+  #     - jax[cuda12]
   #     - velocyto
   #     - pybind11
   #     - pyvis

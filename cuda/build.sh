@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Adjust this according to the container name desired
-CONTAINER_NAME="facsimilab-vscoder-cuda:dev"
+CONTAINER_NAME="facsimilab-cuda:dev"
 
 
 ##################################################################
