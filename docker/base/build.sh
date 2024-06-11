@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Adjust this according to the container name desired
-CONTAINER_NAME="facsimilab-cuda:dev"
-
+CONTAINER_NAME="facsimilab-base:v0.2.0"
 
 ##################################################################
 
