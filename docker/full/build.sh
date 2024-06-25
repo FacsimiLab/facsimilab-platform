@@ -9,7 +9,8 @@ CONTAINER_NAME="facsimilab-full":$facsimilab_version_num
 
 # Initialize the build
 start_time=$(date +%s)
-
+printf "\n\n\n\n\n"
+echo "-----------------------------------------"
 echo "Building the following container:"
 echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
 

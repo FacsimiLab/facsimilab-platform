@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ -z ${facsimilab_version_num+x} ]; then facsimilab_version_num="dev"; else echo "facsimilab_version_num is set to '$facsimilab_version_num'"; fi
+if [ -z ${facsimilab_username+x} ]; then facsimilab_username="root"; else echo "facsimilab_username is set to '$facsimilab_username'"; fi
 
 # Adjust this according to the container name desired
 CONTAINER_NAME="facsimilab-main":$facsimilab_version_num
@@ -10,6 +11,8 @@ CONTAINER_NAME="facsimilab-main":$facsimilab_version_num
 # Initialize the build
 start_time=$(date +%s)
 
+printf "\n\n\n\n\n"
+echo "-----------------------------------------"
 echo "Building the following container:"
 echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
 
