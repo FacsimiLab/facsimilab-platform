@@ -2,7 +2,9 @@
 ARG IMAGE_VERSION="dev"
 ############################
 
-FROM pranavmishra90/facsimilab-base:${IMAGE_VERSION} as main-builder
+FROM pranavmishra90/facsimilab-base:${IMAGE_VERSION}
+
+ARG IMAGE_VERSION="dev"
 
 LABEL org.opencontainers.image.title="FacsimiLab-main"
 LABEL version=${IMAGE_VERSION}
@@ -30,7 +32,7 @@ ENV LANG=C.UTF-8
 # Install quarto
 USER root
 COPY quarto.deb /tmp/quarto.deb
-RUN --mount=type=cache,target=/var/cache/apt apt install -y /tmp/quarto.deb
+RUN --mount=type=cache,target=/var/cache/apt apt install -y /tmp/quarto.deb && rm /tmp/quarto.deb
 
 # Install python environment for the base image
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/base-environment.yml
@@ -40,21 +42,19 @@ RUN --mount=type=cache,target=/home/pranav/.docker/buildcache/mamba \
 	micromamba create -y -f /tmp/base-environment.yml \
 	&& micromamba clean --all --yes
 
-FROM pranavmishra90/facsimilab-base:${IMAGE_VERSION}
-
-# Copy conda and apt packages from the builder stage
-COPY --from=main-builder ${MAMBA_ROOT_PREFIX} ${MAMBA_ROOT_PREFIX}
-COPY --from=main-builder /var/lib/apt /var/lib/apt
-COPY --from=main-builder /etc/sudoers /etc/sudoers
-COPY --from=main-builder /usr/local/bin/ /usr/local/bin/
-
-
 # Set login username and work directory
 USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/coder/.profile
-RUN cat /home/coder/.profile >> /home/coder/.bashrc
+COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
+RUN cat /home/${MAMBA_USER}/.profile >> /home/${MAMBA_USER}/.bashrc
 
+
+SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
+# Optional: if you want to customize the ENTRYPOINT and have a conda
+# environment activated, then do this:
+# ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
+
+CMD ["/bin/bash"]

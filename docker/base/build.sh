@@ -13,7 +13,7 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 echo "Building the following container:"
-echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
 
 # Build the docer container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
@@ -22,7 +22,7 @@ docker build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHE
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME gcr.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME ghcr.io/pranavmishra90/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)

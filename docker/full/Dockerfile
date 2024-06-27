@@ -2,7 +2,9 @@
 ARG IMAGE_VERSION="dev"
 ############################
 
-FROM facsimilab-main:${IMAGE_VERSION} as full-builder
+FROM facsimilab-main:${IMAGE_VERSION} AS full-builder
+
+ARG IMAGE_VERSION="dev"
 
 LABEL org.opencontainers.image.title="FacsimiLab-full"
 LABEL version=${IMAGE_VERSION}
@@ -48,18 +50,22 @@ RUN ${MAMBA_ROOT_PREFIX}/envs/facsimilab/bin/pip install -U torch==2.3.1 torchau
 
 # Second stage image
 #--------------------------------------
-FROM mambaorg/micromamba:1.5 as micromamba
+FROM mambaorg/micromamba:1.5 AS micromamba
 FROM facsimilab-main:${IMAGE_VERSION}
 
 # Set environment variables
 ARG MAMBA_USER=coder
 ENV MAMBA_USER=${MAMBA_USER}
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV TZ="America/Chicago"
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
+# Change user to root
 USER root
 
-
-
+# Copy directories from the first build stage
 COPY --from=micromamba "$MAMBA_EXE" "$MAMBA_EXE"
 COPY --from=micromamba /usr/local/bin/_activate_current_env.sh /usr/local/bin/_activate_current_env.sh
 COPY --from=micromamba /usr/local/bin/_dockerfile_shell.sh /usr/local/bin/_dockerfile_shell.sh
@@ -86,4 +92,11 @@ WORKDIR /home/${MAMBA_USER}/work
 COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
 RUN cat /home/${MAMBA_USER}/.profile >> /home/${MAMBA_USER}/.bashrc
 
+SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
+
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
+# Optional: if you want to customize the ENTRYPOINT and have a conda
+# environment activated, then do this:
+# ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
+
+CMD ["/bin/bash"]

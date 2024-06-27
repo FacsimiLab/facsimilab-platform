@@ -21,3 +21,5 @@
 
 /cuda-test
 /tmp
+
+**/datalad

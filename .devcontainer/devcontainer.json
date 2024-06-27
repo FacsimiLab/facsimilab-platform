@@ -1,6 +1,14 @@
 {
-    "image": "pranavmishra90/facsimilab-full:v0.2.0",
+    "image": "pranavmishra90/facsimilab-main:v0.2.0",
+    "containerUser": "coder",
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/coder,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder},target=/home/coder/work,type=bind,consistency=cached"
+    ],
+    "updateRemoteUserUID": true,
     "runArgs": ["--gpus", "all"],
+    "forwardPorts": [3334],
+    "postCreateCommand": ["/bin/bash"],
 
     "customizations": {
         "vscode": {
@@ -17,6 +25,5 @@
                 "ms-toolsai.vscode-jupyter-slideshow"
             ]
         }
-    },
-    "forwardPorts": [3000]
+    }
 }

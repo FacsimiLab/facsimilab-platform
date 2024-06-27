@@ -1,6 +1,6 @@
 # Facsimilab Base Image
 
-FROM mambaorg/micromamba:1.5 as micromamba
+FROM mambaorg/micromamba:1.5 AS micromamba
 
 FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
@@ -23,9 +23,13 @@ ENV LANG=C.UTF-8
 
 
 RUN apt-get update -y \
-    && apt-get install -y tzdata git ninja-build \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
+    && apt-get install -y tzdata git ninja-build gnupg2 wget && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /etc/apt/keyrings && \
+    wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor -o /etc/apt/keyrings/gierens.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | tee /etc/apt/sources.list.d/gierens.list && \
+    chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
 
 RUN apt-get update && \
     apt-get --no-install-recommends install -y \
@@ -33,8 +37,8 @@ RUN apt-get update && \
     bzip2 \
     ca-certificates \
     curl \
+    eza \
     fonts-liberation \
-    gnupg2 \
     less \
     locales \
     nano \
@@ -42,12 +46,11 @@ RUN apt-get update && \
     openssh-server \
     systemd \
     systemd-sysv \
+    sudo \
     tini \
     unzip \
-    wget \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 ARG CACHEBUST=1
 
@@ -75,7 +78,7 @@ RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
 # Set login username and work directory
 USER $MAMBA_USER
 
-ENV MAMBA_USER_WORK_DIR = /home/${MAMBA_USER}/work
+ENV MAMBA_USER_WORK_DIR=/home/${MAMBA_USER}/work
 
 WORKDIR ${MAMBA_USER_WORK_DIR}
 

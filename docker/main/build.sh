@@ -14,7 +14,7 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 echo "Building the following container:"
-echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
 
 # Download necessary files
 wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
@@ -26,7 +26,7 @@ docker build --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAM
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME gcr.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME ghcr.io/pranavmishra90/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)
