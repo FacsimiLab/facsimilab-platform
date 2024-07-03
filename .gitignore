@@ -23,3 +23,5 @@
 /tmp
 
 **/datalad
+
+/docker/main/quarto.deb
