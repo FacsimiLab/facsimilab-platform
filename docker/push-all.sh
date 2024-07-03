@@ -32,3 +32,7 @@ docker tag $CONTAINER_NAME ghcr.io/pranavmishra90/facsimilab-base:latest
 
 docker push docker.io/pranavmishra90/facsimilab-base:latest
 docker push ghcr.io/pranavmishra90/facsimilab-base:latest
+
+
+# Play an alert tone in the terminal to mark completion
+echo -e '\a'
