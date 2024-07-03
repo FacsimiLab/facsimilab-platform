@@ -1,3 +1,5 @@
 #!/bin/bash
 
-conda activate facsimilab
+alias mamba='micromamba'
+
+micromamba activate facsimilab

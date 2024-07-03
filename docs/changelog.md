@@ -1,3 +1,14 @@
+# v0.2.1 Add rclone into Facsimilab-Main
+
+- Adding back the `rclone` binary, so that datalad can have access to many more types of siblings.
+
+# v0.2.0 Split Facsimilab into multiple images
+
+- Base: Adding python (`mambaorg/micromamba:1.5`) into `nvidia/cuda:12.1.0-base-ubuntu22.04`
+- Main: Add quarto, build a "minimal" python installation with `/main/environment.yml`
+- Full: All packages required for a reproducible research platform for next generation transcriptomics experiments
+
+
 # v0.1.0 SinguLab is now FacsimiLab
 
 https://github.com/pranavmishra90/SinguLab/commit/b4295c63d83a31a735a3d83116fad794e401e29e
