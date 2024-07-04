@@ -1,5 +1,5 @@
 #!/bin/bash
 
-alias mamba='micromamba'
+# Alias
 
-micromamba activate facsimilab
+alias mamba='micromamba'

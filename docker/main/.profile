@@ -14,4 +14,6 @@ unset __mamba_setup
 # <<< mamba initialize <<<
 
 
-micromamba activate facsimilab
+# Alias
+
+alias mamba='micromamba'
