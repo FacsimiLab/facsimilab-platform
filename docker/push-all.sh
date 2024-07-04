@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the image version number
-facsimilab_version_num="v0.2.0"
+facsimilab_version_num="v0.2.1"
 
 # Base image
 CONTAINER_NAME="pranavmishra90/facsimilab-base:$facsimilab_version_num"

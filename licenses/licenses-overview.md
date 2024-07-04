@@ -4,10 +4,11 @@ FacsimiLab is built upon the incredible contributions of many open-source projec
 
 ## Licenses
 
-- Moby (Docker): [Apache 2.0](https://github.com/moby/moby/blob/master/LICENSE)
-- Micromamba: [Apache 2.0](https://github.com/mamba-org/micromamba-docker/blob/main/LICENSE)
-- Quarto: [MIT License](https://quarto.org/license.html)
-- Rclone: [MIT License](https://rclone.org/licence/)
+- Nvidia CUDA (Docker Image): [NGC DEEP LEARNING CONTAINER LICENSE](https://gitlab.com/nvidia/container-images/cuda/-/blob/master/LICENSE)
+- Moby (Docker Engine): [Apache 2.0](https://github.com/moby/moby/blob/master/LICENSE)
+- Micromamba (Docker Image): [Apache 2.0](https://github.com/mamba-org/micromamba-docker/blob/main/LICENSE)
+- Quarto (Binary): [MIT License](https://quarto.org/license.html)
+- Rclone (Docker Image): [MIT License](https://rclone.org/licence/)
 
 ## References
 
