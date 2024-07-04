@@ -1,11 +1,13 @@
 name: facsimilab
 channels:
   - conda-forge
-  - bioconda
+  # - bioconda
+  - pytorch
   - nvidia
+
 dependencies:
   # Python and interactive python
-  - python=3.10
+  - python=3.11
   - IPython=8.14
   - ipykernel=6.23
   - ipywidgets=8.0
@@ -22,12 +24,12 @@ dependencies:
   - black-jupyter=23.3
   - click>8.1
 
+  # Version control
+  - datalad=0.19
+
   # Web
   - requests=2.31
   - urllib3
-
-  # Version control
-  - datalad=0.19
 
   # Data structures and analysis
   - pandas=2.1
@@ -43,31 +45,35 @@ dependencies:
 
   # Visualization
   - matplotlib=3.8
-  - seaborn>0.12 #=0.12
+  - seaborn>0.12
   - plotly=5.15
   - tabulate=0.9
   - pygraphviz=1.11
 
+  # Automation
+  - nbconvert=7.6
+  - papermill=2.3
+
+  # Documentation
+  - markdown=3
+  - pandoc=3.1
+
   # Machine Learning
-  - pytorch=2.0
   - lightning=2.0.1
   - leidenalg=0.9
   - louvain=0.8
   - hnswlib=0.7
-
-  # # GPU
-  # - jaxlib=*=*cuda*
-  # - jax=0.4.11
-  # - flax=0.6
-  # - cuda-nvcc
+  - scikit-learn=1
+  - scikit-image=0.22
+  - scikit-misc=0.1
+  - sklearn-pandas
+  - imbalanced-learn
+  - dtreeviz
 
   # Next-generation -omics
   - scanpy=1.9
   - scvi-tools=1.0
-  - scikit-learn=1.*
-  - scikit-image=0.22
-  - scikit-misc=0.1
-  - scvelo=0.3
+  # - scvelo=0.3
   - bioconda::pydeseq2=0.4
   - bioconda::gseapy=1.1
   - bioconda::celltypist=1.6
@@ -75,23 +81,16 @@ dependencies:
   # # Primer design
   # - primer3-py
 
-  # Automation
-  - nbconvert=7.6
-  - papermill=2.3
-
-  # Documentation
-  - pandoc=3.1
-  - mdutils=1.6
-
   # # C  / C++
-  # - cython=0.29.36
+  - cython=3.0
 
   # # R
   # - rpy2=3.5
 
   # pip
   - pip
-  # - pip:
+  - pip:
+      - PyCap
   #     - velocyto
   #     - pybind11
   #     - pyvis

@@ -35,6 +35,11 @@ cd library
 mamba env create -f facsimilab.yml
 ```
 
+```sh
+# Deploying a GPU enabled docker container
+docker run -it --rm --gpus all -v ./testing:/root/work facsimilab-cuda:dev bash
+```
+
 ## License
 
 [MIT License](./LICENSE)

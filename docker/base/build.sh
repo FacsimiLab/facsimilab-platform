@@ -1,25 +1,28 @@
 #!/bin/bash
 
-# Adjust this according to the container name desired
-CONTAINER_NAME="facsimilab-vscoder-cuda:dev"
+if [ -z ${facsimilab_version_num+x} ]; then facsimilab_version_num="dev"; else echo "facsimilab_version_num is set to '$facsimilab_version_num'"; fi
 
+# Adjust this according to the container name desired
+CONTAINER_NAME=facsimilab-base:$facsimilab_version_num
 
 ##################################################################
 
 # Initialize the build
 start_time=$(date +%s)
 
+printf "\n\n\n\n\n"
+echo "-----------------------------------------"
 echo "Building the following container:"
-echo "gcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
 
 # Build the docer container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 
-docker build --build-arg CACHE_BUST=$(date +%s) -t $CONTAINER_NAME .
+docker build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME gcr.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME ghcr.io/pranavmishra90/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)

@@ -1,0 +1,29 @@
+{
+    "image": "pranavmishra90/facsimilab-main:v0.2.0",
+    "containerUser": "coder",
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/coder,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder},target=/home/coder/work,type=bind,consistency=cached"
+    ],
+    "updateRemoteUserUID": true,
+    "runArgs": ["--gpus", "all"],
+    "forwardPorts": [3334],
+    "postCreateCommand": ["/bin/bash"],
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "quarto.quarto",
+                "ms-azuretools.vscode-docker",
+                "ms-python.debugpy",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "ms-toolsai.jupyter-keymap",
+                "ms-toolsai.jupyter-renderers",
+                "ms-toolsai.vscode-jupyter-cell-tags",
+                "ms-toolsai.vscode-jupyter-slideshow"
+            ]
+        }
+    }
+}

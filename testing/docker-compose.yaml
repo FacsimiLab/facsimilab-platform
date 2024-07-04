@@ -1,7 +1,6 @@
 ####################################
-#         Docker-Compose           #
+#        Facsimilab - Test         #
 ####################################
-version: "3"
 
 ####################################
 #            Networks              #
@@ -15,23 +14,30 @@ networks:
 ####################################
 
 services:
-  facsimilab:
-    image: docker.io/pranavmishra90/facsimilab-vscoder:cuda-testing
-
-    container_name: Facsimilab-VSCoder
-
-    ports:
-      # Facsimilab will be accessible by the browser to the first port listed below
-      - 8088:8080
+  main:
+    image: pranavmishra90/facsimilab-main:v0.2.1
+    container_name: Facsimilab-Main
+    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+    
+    
+    # Keep alive command for docker compose
+    command: tail -F anything
+  
 
     volumes:
       # Here we "mount" directories from the host computer into the Facsimilab container
-
-      # SSH configuration (read only)
-      - ~/.ssh:/home/coder/.ssh:ro
-
-      # coder/code-server configuration files
-      - .config:/home/coder/.config
-
+  
       # The current directory (./testing) is mounted into ~/work
       - ./:/home/coder/work
+
+      # Rclone config
+      - ./config/rclone:/config/rclone
+
+      # # SSH configuration (read only)
+      - ~/.ssh:/home/coder/.ssh:ro

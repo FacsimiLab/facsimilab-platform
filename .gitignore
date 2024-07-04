@@ -1,5 +1,27 @@
 *.env
 *.deb
 
+**/.cache
+**/.dotnet
+**/.ipython
+**/.local
+**/.gnupg
+
+**.nv
+**/.ssh
+**/.vscode-server
+
+**/micromamba
+
+*.bashrc
+*.gitconfig
+
+.known_hosts
+.bash_history
+
 /cuda-test
 /tmp
+
+**/datalad
+
+/docker/main/quarto.deb
