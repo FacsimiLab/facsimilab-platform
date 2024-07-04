@@ -49,6 +49,7 @@ RUN apt-get update && \
     sudo \
     tini \
     unzip \
+    zoxide \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -82,8 +83,10 @@ ENV MAMBA_USER_WORK_DIR=/home/${MAMBA_USER}/work
 
 WORKDIR ${MAMBA_USER_WORK_DIR}
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/coder/.profile
-RUN cat /home/coder/.profile >> /home/coder/.bashrc
+COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
+RUN echo "Facsimilab-Base $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
+RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
+
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 

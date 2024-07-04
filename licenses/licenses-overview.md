@@ -7,6 +7,7 @@ FacsimiLab is built upon the incredible contributions of many open-source projec
 - Moby (Docker): [Apache 2.0](https://github.com/moby/moby/blob/master/LICENSE)
 - Micromamba: [Apache 2.0](https://github.com/mamba-org/micromamba-docker/blob/main/LICENSE)
 - Quarto: [MIT License](https://quarto.org/license.html)
+- Rclone: [MIT License](https://rclone.org/licence/)
 
 ## References
 

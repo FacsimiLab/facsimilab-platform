@@ -22,7 +22,7 @@ wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/qua
 # Build the docer container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 
-docker build --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME .
+docker buildx build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
