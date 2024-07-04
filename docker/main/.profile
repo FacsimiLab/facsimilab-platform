@@ -1,19 +1,30 @@
 #!/bin/bash
 
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE='/usr/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/home/coder/micromamba';
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<
+# Join Message
+server_name=$(cat ~/.server_name.txt )
+
+echo -e "\e[1;31m$server_name\e[0m"
+
+# Set Windows Terminal Tab Name
+echo -ne "\033]0;$server_name\a"
 
 
-# Alias
+# Join paragraph
+
+echo """
+Welcome to the Facsimilab suite of docker images.
+For more information, please visit github.com/pranavmishra90/facsimilab-platform
+
+Available python environments:
+"""
+
+
+micromamba env list
+
+
+echo """
+----------------------------------------------------------------------------------
+"""
+
 
 alias mamba='micromamba'

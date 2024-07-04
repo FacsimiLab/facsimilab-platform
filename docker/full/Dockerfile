@@ -61,7 +61,7 @@ WORKDIR /home/${MAMBA_USER}/work
 # Add the bash profile
 COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
 RUN echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
-RUN cat /home/${MAMBA_USER}/.profile >> /home/${MAMBA_USER}/.bashrc
+RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 

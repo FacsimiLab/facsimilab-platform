@@ -13,12 +13,18 @@ echo -ne "\033]0;$server_name\a"
 
 echo """
 Welcome to the Facsimilab suite of docker images.
-
 For more information, please visit github.com/pranavmishra90/facsimilab-platform
 
+Available python environments:
+"""
+
+
+micromamba env list
+
+
+echo """
 ----------------------------------------------------------------------------------
 """
 
 
-# Aliases
 alias mamba='micromamba'
