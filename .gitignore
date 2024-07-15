@@ -25,3 +25,5 @@
 **/datalad
 
 /docker/main/quarto.deb
+
+*.code-workspace
