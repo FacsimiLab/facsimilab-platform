@@ -1,4 +1,4 @@
-# Quickly deploy Facsimilab in your current directory 
+# Quickly deploy Facsimilab in your current directory
 
 ```sh
 docker run -it --rm --name Facsimilab-test \
@@ -7,7 +7,6 @@ docker run -it --rm --name Facsimilab-test \
     pranavmishra90/facsimilab-full:v0.2.2 \
     bash
 ```
-
 
 ## Non-GPU Test
 
