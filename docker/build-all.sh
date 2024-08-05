@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the image version number
-facsimilab_version_num="v0.2.3p"
+facsimilab_version_num="v0.2.3"
 
 facsimilab_username="coder"
 
