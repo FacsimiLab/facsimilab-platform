@@ -17,7 +17,7 @@ echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
 # Build the docer container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 
-docker build --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME .
+docker build --progress=plain --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME

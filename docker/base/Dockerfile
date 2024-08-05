@@ -2,7 +2,9 @@
 
 FROM mambaorg/micromamba:1.5 AS micromamba
 
-FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
+#nvidia/cuda:12.1.0-base-ubuntu22.04
+# FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
 
 ############################
 ARG IMAGE_VERSION="dev"
@@ -52,8 +54,6 @@ RUN apt-get update && \
     zoxide \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
-ARG CACHEBUST=1
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000

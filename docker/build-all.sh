@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the image version number
-facsimilab_version_num="v0.2.1"
+facsimilab_version_num="v0.2.3p"
 
 facsimilab_username="coder"
 
@@ -10,7 +10,7 @@ facsimilab_username="coder"
 export facsimilab_version_num
 export facsimilab_username
 
-# # Base container
+# # # Base container
 cd base && bash build.sh
 
 CONTAINER_NAME="facsimilab-base":$facsimilab_version_num

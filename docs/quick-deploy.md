@@ -4,7 +4,7 @@
 docker run -it --rm --name Facsimilab-test \
     --gpus all \
     -v $(pwd):/home/coder/work \
-    pranavmishra90/facsimilab-full:v0.2.1 \
+    pranavmishra90/facsimilab-full:v0.2.2 \
     bash
 ```
 
@@ -14,6 +14,6 @@ docker run -it --rm --name Facsimilab-test \
 ```sh
 docker run -it --rm --name Facsimilab-NonGPU \
     -v $(pwd):/home/coder/work \
-    pranavmishra90/facsimilab-main:v0.2.1 \
+    pranavmishra90/facsimilab-main:v0.2.2 \
     bash
 ```

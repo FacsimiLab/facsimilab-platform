@@ -1,5 +1,5 @@
 {
-    "image": "pranavmishra90/facsimilab-main:v0.2.0",
+    "image": "pranavmishra90/facsimilab-full:latest",
     "containerUser": "coder",
     "mounts": [
         "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/home/coder,type=bind,consistency=cached",
@@ -9,7 +9,6 @@
     "runArgs": ["--gpus", "all"],
     "forwardPorts": [3334],
     "postCreateCommand": ["/bin/bash"],
-
     "customizations": {
         "vscode": {
             "extensions": [
@@ -22,7 +21,8 @@
                 "ms-toolsai.jupyter-keymap",
                 "ms-toolsai.jupyter-renderers",
                 "ms-toolsai.vscode-jupyter-cell-tags",
-                "ms-toolsai.vscode-jupyter-slideshow"
+                "ms-toolsai.vscode-jupyter-slideshow",
+                "ms-vsliveshare.vsliveshare"
             ]
         }
     }
