@@ -4,7 +4,7 @@
 docker run -it --rm --name Facsimilab-GPUTest \
     --gpus all \
     -v $(pwd):/home/coder/work \
-    pranavmishra90/facsimilab-base:v0.2.3 \
+    pranavmishra90/facsimilab-main:v0.2.3 \
     bash
 ```
 
