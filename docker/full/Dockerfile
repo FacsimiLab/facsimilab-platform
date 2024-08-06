@@ -19,6 +19,9 @@ ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
 
+ARG CONDA_FILE=facsimilab-bm
+ENV CONDA_FILE=${CONDA_FILE}
+
 ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
@@ -39,12 +42,13 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 # Install python environment for the full image
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
+COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-bm.yaml /tmp/facsimilab-bm.yaml
 
-RUN micromamba create -y -f /tmp/facsimilab-environment.yml \
+RUN micromamba create -y -f /tmp/${CONDA_FILE}.yml \
     && micromamba clean --all --yes
 
-# # Add the GPU (CUDA 12.4) supported pytorch
-RUN ${MAMBA_ROOT_PREFIX}/envs/facsimilab/bin/pip install -U torch==2.4.1 torchaudio torchvision --index-url https://download.pytorch.org/whl/cu124 && micromamba clean --all --yes
+# # # Add the GPU (CUDA 12.4) supported pytorch
+# RUN ${MAMBA_ROOT_PREFIX}/envs/facsimilab/bin/pip install -U torch==2.4.1 torchaudio torchvision --index-url https://download.pytorch.org/whl/cu124 && micromamba clean --all --yes
 
 # Change user to root
 USER root
@@ -60,8 +64,13 @@ WORKDIR /home/${MAMBA_USER}/work
 
 # Add the bash profile
 COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
-RUN echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
+RUN echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
+
+
+# Copy the tests
+COPY --chown=$MAMBA_USER:$MAMBA_USER /testing /home/${MAMBA_USER}/testing
+
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 

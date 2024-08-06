@@ -2,9 +2,9 @@
 
 FROM mambaorg/micromamba:1.5 AS micromamba
 
-FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+# FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
-# FROM pranavmishra90/cuda:12.4.1-devel-ubuntu22.04
+FROM pranavmishra90/cuda:12.4.1-base-ubuntu22.04
 # this base image was created with 
 # ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4 --os ubuntu --os-version 22.04 --arch x86_64
 # taken from https://gitlab.com/nvidia/container-images/cuda

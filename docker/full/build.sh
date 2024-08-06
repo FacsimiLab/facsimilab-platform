@@ -19,7 +19,7 @@ echo "$CONTAINER_NAME"
 # export BUILDX_METADATA_PROVENANCE=max
 
 # docker buildx build --progress=plain --load --build-arg IMAGE_VERSION=$facsimilab_version_num --metadata-file ../metadata/full_metadata.json -t $CONTAINER_NAME .
-docker build --no-cache --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME .
+docker build --no-cache --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=facsimilab-bm  -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
