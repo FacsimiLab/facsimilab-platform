@@ -6,7 +6,7 @@ FROM facsimilab-main:${IMAGE_VERSION} AS full-builder
 
 ARG IMAGE_VERSION="dev"
 
-LABEL org.opencontainers.image.title="FacsimiLab-full"
+LABEL org.opencontainers.image.title="FacsimiLab-Full"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
@@ -43,8 +43,8 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment
 RUN micromamba create -y -f /tmp/facsimilab-environment.yml \
     && micromamba clean --all --yes
 
-# Add the GPU (CUDA 12.1) supported pytorch
-RUN ${MAMBA_ROOT_PREFIX}/envs/facsimilab/bin/pip install -U torch==2.3.1 torchaudio torchvision --index-url https://download.pytorch.org/whl/cu121 && micromamba clean --all --yes
+# # Add the GPU (CUDA 12.4) supported pytorch
+RUN ${MAMBA_ROOT_PREFIX}/envs/facsimilab/bin/pip install -U torch==2.4.1 torchaudio torchvision --index-url https://download.pytorch.org/whl/cu124 && micromamba clean --all --yes
 
 # Change user to root
 USER root

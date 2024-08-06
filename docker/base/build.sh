@@ -13,12 +13,14 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 echo "Building the following container:"
-echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "$CONTAINER_NAME"
 
-# Build the docer container
+# Build the docker container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
+export BUILDX_METADATA_PROVENANCE=max
 
 docker build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
+# docker buildx build --load --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=1 -t $CONTAINER_NAME --progress=auto --metadata-file ../metadata/base_metadata.json .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME

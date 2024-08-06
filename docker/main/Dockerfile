@@ -2,12 +2,12 @@
 ARG IMAGE_VERSION="dev"
 ############################
 FROM rclone/rclone:1.67 AS rclone 
-FROM pranavmishra90/facsimilab-base:${IMAGE_VERSION} AS main-python-builder
+FROM facsimilab-base:${IMAGE_VERSION} AS main-python-builder
 
 
 ARG IMAGE_VERSION="dev"
 
-LABEL org.opencontainers.image.title="FacsimiLab-main"
+LABEL org.opencontainers.image.title="FacsimiLab-Main"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
@@ -16,8 +16,6 @@ LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-
 LABEL org.opencontainers.image.licenses="MIT"
 
 
-# Python conda caching directory on host
-ARG HOST_CONDA="/home/pranav/mambaforge/pkgs"
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
@@ -33,10 +31,10 @@ ENV LANG=C.UTF-8
 
 # Install python environment for the base image
 COPY environment.yml /tmp/base-environment.yml
+COPY --chown=$MAMBA_USER:$MAMBA_USER .mambarc ${MAMBA_ROOT_PREFIX}/.mambarc
+USER root
 
-
-RUN --mount=type=cache,target=/home/${MAMBA_USER}/cache \
-	micromamba install -y -n base -f /tmp/base-environment.yml \
+RUN	micromamba install -y -n base -f /tmp/base-environment.yml \
 	&& micromamba clean --all --yes
 
 
@@ -46,15 +44,13 @@ RUN --mount=type=cache,target=/home/${MAMBA_USER}/cache \
 # Add / install binaries
 #############################
 
-FROM pranavmishra90/facsimilab-base:${IMAGE_VERSION} 
+FROM facsimilab-base:${IMAGE_VERSION} 
 
 
 # Copy from Stage 1
 COPY --from=main-python-builder --chown=$MAMBA_USER:$MAMBA_USER /opt/conda /opt/conda
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/
 
-# Redfine arguments and environment variables
-ARG HOST_CONDA="/home/pranav/mambaforge/pkgs"
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
@@ -72,9 +68,6 @@ USER root
 COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
 RUN --mount=type=cache,target=/var/cache/apt apt install -y /tmp/quarto.deb && rm /tmp/quarto.deb && \
 	mkdir -p /config && mkdir -p /config/rclone
-
-# Cachebust
-ARG CACHEBUST=1
 
 # Set login username and work directory
 USER $MAMBA_USER

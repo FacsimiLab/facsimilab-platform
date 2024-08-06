@@ -14,15 +14,18 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 echo "Building the following container:"
-echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "$CONTAINER_NAME"
 
 # Download necessary files
 wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
 
 # Build the docer container
-export DOCKER_BUILDKIT=1 # use docker buildx caching
 
-docker buildx build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
+docker build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
+
+# export DOCKER_BUILDKIT=1 # use docker buildx caching
+# export BUILDX_METADATA_PROVENANCE=max
+# docker buildx build --load --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME --progress=plain --metadata-file ../metadata/main_metadata.json .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME

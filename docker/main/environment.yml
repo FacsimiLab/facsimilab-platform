@@ -25,6 +25,7 @@ dependencies:
 
     # Version control
     - datalad=1.1
+    - git-annex=*=*nodep*
 
     # Web
     - requests=2.31
