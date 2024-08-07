@@ -6,6 +6,7 @@
 **/.ipython
 **/.local
 **/.gnupg
+**/env
 
 **.nv
 **/.ssh

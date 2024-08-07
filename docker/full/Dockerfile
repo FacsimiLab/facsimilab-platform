@@ -1,8 +1,44 @@
+
 ############################
 ARG IMAGE_VERSION="dev"
+ARG IMAGE_REPO_PREFIX=""
 ############################
 
-FROM facsimilab-main:${IMAGE_VERSION} AS full-builder
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
+
+
+ARG MAMBA_USER=coder
+ARG MAMBA_USER_ID=1000
+ARG MAMBA_USER_GID=1000
+
+ARG CONDA_FILE=facsimilab-environment.yml
+ENV CONDA_FILE=${CONDA_FILE}
+
+ENV MAMBA_USER=$MAMBA_USER
+ENV MAMBA_ROOT_PREFIX="/opt/conda"
+ENV MAMBA_EXE="/bin/micromamba"
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV TZ="America/Chicago"
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+USER root
+
+COPY .mambarc /root/.mambarc
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
+COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-conda-lock.yml /tmp/facsimilab-conda-lock.yml
+
+
+RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
+    micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
+    && micromamba clean --all --yes
+
+############################
+ARG IMAGE_VERSION="dev"
+ARG IMAGE_REPO_PREFIX=""
+############################
+
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-builder
 
 ARG IMAGE_VERSION="dev"
 
@@ -19,7 +55,7 @@ ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
 
-ARG CONDA_FILE=facsimilab-bm
+ARG CONDA_FILE="facsimilab-conda-lock.yml"
 ENV CONDA_FILE=${CONDA_FILE}
 
 ENV MAMBA_USER=$MAMBA_USER
@@ -40,18 +76,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* 
 
-# Install python environment for the full image
+COPY .mambarc /root/.mambarc
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
-COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-bm.yaml /tmp/facsimilab-bm.yaml
-
-RUN micromamba create -y -f /tmp/${CONDA_FILE}.yml \
-    && micromamba clean --all --yes
-
-# # # Add the GPU (CUDA 12.4) supported pytorch
-# RUN ${MAMBA_ROOT_PREFIX}/envs/facsimilab/bin/pip install -U torch==2.4.1 torchaudio torchvision --index-url https://download.pytorch.org/whl/cu124 && micromamba clean --all --yes
-
-# Change user to root
-USER root
+COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-conda-lock.yml /tmp/facsimilab-conda-lock.yml
 
 # Confirm that $MAMBA_USER has sudo permissions
 RUN echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
@@ -70,6 +97,9 @@ RUN echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server
 
 # Copy the tests
 COPY --chown=$MAMBA_USER:$MAMBA_USER /testing /home/${MAMBA_USER}/testing
+
+# Copy the python environment from the first stage
+COPY --chown=$MAMBA_USER:$MAMBA_USER --from=pythonenv ${MAMBA_ROOT_PREFIX}/envs ${MAMBA_ROOT_PREFIX}/envs
 
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]

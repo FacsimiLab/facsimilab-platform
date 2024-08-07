@@ -1,111 +1,111 @@
 name: facsimilab
 channels:
-    - conda-forge
-    - pytorch
-    - nvidia
+  - conda-forge
+  - pytorch
+  - nvidia
 
 dependencies:
-    # Python and interactive python
-    - python=3.11
-    - IPython=8.14
-    - ipykernel=6.23
-    - ipywidgets=8.0
-    - jupyter=1.0
-    - jupyter-cache=0.6
-    - nbformat=5.9
-    - nbclient>0.7
-    - six=1.16
-    - mamba
+  # Python and interactive python
+  - python=3.11
+  - IPython=8.14
+  - ipykernel=6.23
+  - ipywidgets=8.0
+  - jupyter=1.0
+  - jupyter-cache=0.6
+  - nbformat=5.9
+  - nbclient>0.7
+  - six=1.16
+  - mamba
 
-    # General
-    - tqdm=4.65
-    - black=23.3
-    - black-jupyter=23.3
-    - click>8.1
+  # General
+  - tqdm=4.65
+  - black=23.3
+  - black-jupyter=23.3
+  - click>8.1
 
-    # Version control
-    - datalad=1.1
+  # Version control
+  - datalad=1.1
 
-    # Web
-    - requests=2.31
-    - urllib3
+  # Web
+  - requests=2.31
+  - urllib3
 
-    # Data structures and analysis
-    - pandas=2.1
-    - numpy>1.23
-    - scipy=1
-    - pingouin=0.5
-    - h5py=3
-    - arrow=1.3
-    - fastparquet=2023.10
-    - python-igraph=0.10
-    - xlsxwriter=3.1
-    - pyreadstat=1.2
+  # Data structures and analysis
+  - pandas=2.1
+  - numpy>1.23
+  - scipy=1
+  - pingouin=0.5
+  - h5py=3
+  - arrow=1.3
+  - fastparquet=2023.10
+  - python-igraph=0.10
+  - xlsxwriter=3.1
+  - pyreadstat=1.2
 
-    # Visualization
-    - matplotlib=3.8
-    - seaborn>0.12
-    - plotly=5.15
-    - tabulate=0.9
-    - pygraphviz=1.11
+  # Visualization
+  - matplotlib=3.8
+  - seaborn>0.12
+  - plotly=5.15
+  - tabulate=0.9
+  - pygraphviz=1.11
 
-    # Automation
-    - nbconvert=7.6
-    - papermill=2.3
+  # Automation
+  - nbconvert=7.6
+  - papermill=2.3
 
-    # Documentation
-    - markdown=3
-    - pandoc=3.1
+  # Documentation
+  - markdown=3
+  - pandoc=3.1
 
-    # Machine Learning
-    - lightning=2.0.1
-    - leidenalg=0.9
-    - louvain=0.8
-    - hnswlib=0.7
-    - scikit-learn=1
-    - scikit-image=0.22
-    - scikit-misc=0.1
-    - igraph=0.10
-    - hnswlib=0.7
-    - sklearn-pandas
-    - imbalanced-learn
-    - dtreeviz
+  # Machine Learning
+  - lightning=2.0.1
+  - leidenalg=0.9
+  - louvain=0.8
+  - hnswlib=0.7
+  - scikit-learn=1
+  - scikit-image=0.22
+  - scikit-misc=0.1
+  - igraph=0.10
+  - hnswlib=0.7
+  - sklearn-pandas
+  - imbalanced-learn
+  - dtreeviz
 
-    # Next-generation -omics
-    - scanpy=1.9
-    - scvi-tools=1.1
-    # - scvelo=0.3
-    - bioconda::pydeseq2=0.4
-    - bioconda::gseapy=1.1
-    - bioconda::celltypist=1.6
+  # Next-generation -omics
+  - scanpy=1.9
+  - scvi-tools=1.1
+  # - scvelo=0.3
+  - bioconda::pydeseq2=0.4
+  - bioconda::gseapy=1.1
+  - bioconda::celltypist=1.6
 
-    # # GPU
-    # - conda-forge::jaxlib=*=*cuda120py311*
-    - conda-forge::jax=0.4
-    - conda-forge::flax=0.8
-    - nvidia::cuda-nvcc
-    # ML Base
-    - pytorch::pytorch=2
-    - pytorch::pytorch-cuda=12
-    - pytorch::torchvision
+  # # GPU
+  - conda-forge::jaxlib=*=*cuda120py311*
+  - conda-forge::jax=0.4
+  - conda-forge::flax=0.8
+  - nvidia::cuda-nvcc
+  # ML Base
+  - pytorch::pytorch=2
+  - pytorch::pytorch-cuda=12
+  - pytorch::torchvision
 
-    # Data Sources
-    - conda-forge::zenodo_get=1
+  # Data Sources
+  - conda-forge::zenodo_get=1
 
-    # # Primer design
-    # - primer3-py
+  # # Primer design
+  # - primer3-py
 
-    # # C  / C++
-    - cython=3.0
-    - pybind11
+  # # C  / C++
+  - cython=3.0
+  - pybind11
 
-    # # R
-    # - rpy2=3.5
+  # # R
+  # - rpy2=3.5
 
-    # pip
-    - pip
-    - pip:
-          - PyCap
-    #     - velocyto
-    #     - pybind11
-    #     - pyvis
+  # pip
+  - pip
+  - pip:
+      - PyCap
+  #     - velocyto
+  #     - pybind11
+  #     - pyvis

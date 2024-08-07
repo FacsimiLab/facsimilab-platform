@@ -1,0 +1,46 @@
+{
+  "buildx.build.provenance": {
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/mambaorg/micromamba@1.5?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "954e438daab0ad0835430ea84acb27dd47d1ea35a7120c3c9dd9d1a5578f4b13"
+        }
+      },
+      {
+        "uri": "pkg:docker/pranavmishra90/cuda@12.4.1-base-ubuntu22.04?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "8a4fbdc73e85ed29b08d4b7f5027b089bccfc138be7ccc39dbd594dc254cdbaa"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "entryPoint": "Dockerfile"
+      },
+      "parameters": {
+        "frontend": "dockerfile.v0",
+        "args": {
+          "build-arg:CACHEBUST": "1722988962",
+          "build-arg:IMAGE_VERSION": "v0.2.4-lock"
+        },
+        "locals": [
+          {
+            "name": "context"
+          },
+          {
+            "name": "dockerfile"
+          }
+        ]
+      },
+      "environment": {
+        "platform": "linux/amd64"
+      }
+    }
+  },
+  "buildx.build.ref": "default/default/p19mq4aq8acw2dis0xkwo7e22",
+  "containerimage.config.digest": "sha256:65e084e3633155877724ff81020d16db80638279f22213cfc939348aa29838c9",
+  "containerimage.digest": "sha256:65e084e3633155877724ff81020d16db80638279f22213cfc939348aa29838c9",
+  "image.name": "docker.io/library/facsimilab-base:v0.2.4-lock"
+}
