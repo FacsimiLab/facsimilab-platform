@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Choose a version number ---------------------------------------------------------------------------------
+cd $(git rev-parse --show-toplevel)
+cd docker
+
 version_file="build_version.txt"
 
 if [ -f "$version_file" ]; then

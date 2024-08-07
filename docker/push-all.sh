@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Choose a version number ---------------------------------------------------------------------------------
+cd $(git rev-parse --show-toplevel)
+cd docker
+
 version_file="build_version.txt"
 
 if [ -f "$version_file" ]; then
@@ -85,7 +88,7 @@ else
 		docker push gitea.mishracloud.com/pranav/facsimilab-base:latest
 		docker push gitea.mishracloud.com/pranav/facsimilab-main:latest
 		docker push gitea.mishracloud.com/pranav/facsimilab-full:latest
-	) >dockerhub_push.log 2>&1 &
+	) >log/dockerhub_push.log 2>&1 &
 
 	# Gitea section
 	(
@@ -96,7 +99,7 @@ else
 		docker push docker.io/pranavmishra90/facsimilab-base:latest
 		docker push docker.io/pranavmishra90/facsimilab-main:latest
 		docker push docker.io/pranavmishra90/facsimilab-full:latest
-	) >gitea_push.log 2>&1 &
+	) >log/gitea_push.log 2>&1 &
 
 	# Wait for all background jobs to complete
 	wait
