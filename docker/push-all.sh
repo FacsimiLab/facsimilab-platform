@@ -79,6 +79,8 @@ else
 
 	echo "Starting to push images to Gitea and DockerHub"
 
+	rm ./log/*.log
+
 	# DockerHub section
 	(
 		echo "Pushing to DockerHub..."
@@ -88,7 +90,7 @@ else
 		docker push gitea.mishracloud.com/pranav/facsimilab-base:latest
 		docker push gitea.mishracloud.com/pranav/facsimilab-main:latest
 		docker push gitea.mishracloud.com/pranav/facsimilab-full:latest
-	) >log/dockerhub_push.log 2>&1 &
+	) 2>&1 | tee -a log/dockerhub_push.log &
 
 	# Gitea section
 	(
@@ -99,7 +101,7 @@ else
 		docker push docker.io/pranavmishra90/facsimilab-base:latest
 		docker push docker.io/pranavmishra90/facsimilab-main:latest
 		docker push docker.io/pranavmishra90/facsimilab-full:latest
-	) >log/gitea_push.log 2>&1 &
+	) 2>&1 | tee -a log/gitea_push.log &
 
 	# Wait for all background jobs to complete
 	wait
