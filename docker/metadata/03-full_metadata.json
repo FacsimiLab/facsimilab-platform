@@ -3,7 +3,7 @@
     "buildType": "https://mobyproject.org/buildkit@v1",
     "materials": [
       {
-        "uri": "pkg:docker/facsimilab-main@v0.2.4-lock?platform=linux%2Famd64",
+        "uri": "pkg:docker/pranavmishra90/facsimilab-main@latest?platform=linux%2Famd64",
         "digest": {
           "sha256": "d9e174a70f77f46035858a6ef7ca6a4d0fac3e5c04a1a6154cbb2417dd4b769d"
         }
@@ -17,8 +17,8 @@
         "frontend": "dockerfile.v0",
         "args": {
           "build-arg:CONDA_FILE": "facsimilab-conda-lock.yml",
-          "build-arg:IMAGE_REPO_PREFIX": "",
-          "build-arg:IMAGE_VERSION": "v0.2.4-lock"
+          "build-arg:IMAGE_REPO_PREFIX": "pranavmishra90/",
+          "build-arg:IMAGE_VERSION": "latest"
         },
         "locals": [
           {
@@ -40,7 +40,7 @@
           "op": {
             "Op": {
               "source": {
-                "identifier": "docker-image://docker.io/library/facsimilab-main:v0.2.4-lock",
+                "identifier": "docker-image://docker.io/pranavmishra90/facsimilab-main:latest",
                 "attrs": {
                   "image.resolvemode": "local"
                 }
@@ -74,7 +74,7 @@
                     "NVIDIA_VISIBLE_DEVICES=all",
                     "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
                     "MAMBA_USER_WORK_DIR=/home/coder/work",
-                    "IMAGE_VERSION=v0.2.4-lock",
+                    "IMAGE_VERSION=latest",
                     "MAMBA_USER_ID=1000",
                     "MAMBA_USER_GID=1000",
                     "CONDA_FILE=facsimilab-conda-lock.yml",
@@ -293,7 +293,7 @@
                     "NVIDIA_VISIBLE_DEVICES=all",
                     "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
                     "MAMBA_USER_WORK_DIR=/home/coder/work",
-                    "IMAGE_VERSION=v0.2.4-lock",
+                    "IMAGE_VERSION=latest",
                     "MAMBA_USER_ID=1000",
                     "MAMBA_USER_GID=1000",
                     "CONDA_FILE=facsimilab-conda-lock.yml",
@@ -439,7 +439,7 @@
                     "NVIDIA_VISIBLE_DEVICES=all",
                     "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
                     "MAMBA_USER_WORK_DIR=/home/coder/work",
-                    "IMAGE_VERSION=v0.2.4-lock",
+                    "IMAGE_VERSION=latest",
                     "MAMBA_USER_ID=1000",
                     "MAMBA_USER_GID=1000",
                     "CONDA_FILE=facsimilab-conda-lock.yml",
@@ -495,7 +495,7 @@
                     "NVIDIA_VISIBLE_DEVICES=all",
                     "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
                     "MAMBA_USER_WORK_DIR=/home/coder/work",
-                    "IMAGE_VERSION=v0.2.4-lock",
+                    "IMAGE_VERSION=latest",
                     "MAMBA_USER_ID=1000",
                     "MAMBA_USER_GID=1000",
                     "CONDA_FILE=facsimilab-conda-lock.yml",
@@ -847,30 +847,30 @@
         }
       ],
       "digestMapping": {
-        "sha256:08195d49ade57a52cd010cbfe11cfb01e8068438219ce8a18c656ea736bf9360": "step5",
-        "sha256:088a0e6ba03d07f413defe5ace51a3f98950b58f2cfdf9ffe2f7eb930be7f3b2": "step17",
-        "sha256:08cbe4f775415d2de43bfdc95eda39edd642c7fd468e73e2478b41f40af133be": "step1",
-        "sha256:1828215d1820e8b33465e819c11f9a31ccb56343f37b01a58144d2de9eac9a7d": "step13",
-        "sha256:1ae76155395a70318c1d6d95fdc2fd1b6d79e39097fe6cc10b21c85a93d10f0e": "step14",
-        "sha256:217ee083e92119bd573d863e1e21549337033b4c7c677343e9b1a6399484aaf0": "step15",
-        "sha256:2747b94192331bab7a7438c1ce291dd3e91a132fc800cd935b17337e193ea0af": "step12",
-        "sha256:3dcc9bb0b56864909e3955c16ac2bfe973be54d9e5297bd5a118b2eef43e1d3c": "step16",
-        "sha256:74bbca26c50570bce2ffa3986ec9c6fe2d6aa908d57f231dc1a76f770335e196": "step11",
-        "sha256:7f892e3e84a306dbee68f78a18754c91bed835d7b702387a56d4ae2a7a6dbf10": "step0",
-        "sha256:8236982118dfc563487e4f0fc7f488888fbadafe60e2cd88870bb1e98c9490d0": "step9",
-        "sha256:8f905b1d9c70369178bfc2983b4909cbf4111fcfc7fa9eb33d6e4abbcf2821c0": "step2",
-        "sha256:9ba539da7ecc1d8e51e39a6346e44ea529c58d0e3191e8c902fe3a4e0cba0223": "step8",
-        "sha256:b68bcd3e46af336d847fac4c281cd7c2cb7aada98ef0bbfd22e141488ad54b65": "step6",
-        "sha256:cfe3d4755f2909d1ff1d8302dddebb91b30b34f246dbd60e242b65343d75baa7": "step4",
-        "sha256:d3fe807b3a462e1f7cc63e1140cd741e889bb72b7e71a82e920596f6812264e0": "step7",
-        "sha256:d66c5bd8ed7c20c845d29c45e46ace297b60b907e581a245f59bc0a6be84fb85": "step10",
-        "sha256:e7fa3d72e61132a412164828def5730284ced9948abb0481e05f4e53a33f9165": "step3"
+        "sha256:012f1b833d960acae17fa065f6b6e4a6cb348bb904784c400016d2cb306bf86b": "step11",
+        "sha256:0f90fcf66eee16ddacab53997b0ac7ba2fd99b2ad7b67e2e491b94ee21aff03c": "step1",
+        "sha256:184bcfa98f81d1347004a9ce202f6c1eb13b55eab28d169ffec4e5ee21aace85": "step4",
+        "sha256:2f8ec653285e1d661c7857a1c9a7e8e6808d4cba3f47dc3e2a115113b7b4ada5": "step12",
+        "sha256:3d486010ed610257c52e4ce42e16a4339b016dad2dd50ba5784c2aaae63d5f75": "step2",
+        "sha256:514899d430510f5e71dbc53a5796af353e6c1a7d5b47fbab87b5a7e606729c79": "step8",
+        "sha256:5a971a6b6ce8837240fdcfdaf161ee10f19c2337d2a9b7b7c4c57d772fa71f57": "step10",
+        "sha256:5dbe6421663e3fbab5428def0083671fdac76dfc713f71557783f7655cbd7f9c": "step15",
+        "sha256:619275c815dc949c91f60ccaa9ce45f6f25e47163ac6a90101066852e7e5f12f": "step5",
+        "sha256:68caa5c69a8188a6e6c898d76b05757b4befc4613f2d96acd615f4e273e94941": "step3",
+        "sha256:6f71e179461c937ce78d9422c6a5e8935658d3db01151e70163d9ec50b69894a": "step0",
+        "sha256:8ee4175b11712ca89d1410de89f87d98444a1ed5f8882f7bd21f57fc7d1f2946": "step7",
+        "sha256:b398a2f7b0d9d2ed29c914d1bdd3b2f0a87a2a72f5f44d20f588c873e630d203": "step16",
+        "sha256:bb6befd911848b575e5a761a5069487b231354319ffe9714e299264dd66b70a4": "step13",
+        "sha256:bc7fcc88d77860f984b844e65ede51a366a1adf9442b4dc83747e86f79de171f": "step6",
+        "sha256:d274a9e24e41e0bec44f8a5064d0a66eca86c64a3a7c8a6fccc6c374be39fa23": "step14",
+        "sha256:e4b98b91bce12562a69d6ea5d109e64765690faf6125432ee9d300e8b2018181": "step17",
+        "sha256:ef14616ac191b55672ef949707c288745c20c403c5ef00e5e3260e3c6f9de08c": "step9"
       }
     },
     "metadata": {
-      "buildInvocationID": "c2qdzwn97lgk661nl4w8eihj7",
-      "buildStartedOn": "2024-08-06T19:02:43.995885044-05:00",
-      "buildFinishedOn": "2024-08-06T19:02:44.085333468-05:00",
+      "buildInvocationID": "nbn64ehcp7a3h1m3iaeycrh92",
+      "buildStartedOn": "2024-08-09T16:34:33.221421741-05:00",
+      "buildFinishedOn": "2024-08-09T16:34:33.303567206-05:00",
       "completeness": {
         "parameters": true,
         "environment": true,
@@ -881,7 +881,7 @@
         "vcs": {
           "localdir:context": "docker/full",
           "localdir:dockerfile": "docker/full",
-          "revision": "c5b0f2cc4aa4c2c9fe64ed9e40c7da41202d4e1a",
+          "revision": "ea153df67b23ea281f2ed1685dafd5f5581e8119",
           "source": "git@github.com:pranavmishra90/facsimilab-platform.git"
         },
         "source": {
@@ -1261,8 +1261,8 @@
                 }
               ],
               "digestMapping": {
-                "sha256:583b3b25e06a80b4f8882df2e4ce5694e5fe36f3b2d948dd1e7d9fed19e6a374": "step0",
-                "sha256:ffb1baf77623736c16fe8fcacf568de70f4258e1271c77b38716f06c080d85d4": "step1"
+                "sha256:0d9778909292e009e420121a3ae72d08d8d6ee74348ea5a86360b68fac31fe6c": "step1",
+                "sha256:a7d716fefbc91efd92d1718041ef7a80392d6550ea3f4d0756003dbca6d69b82": "step0"
               }
             }
           ]
@@ -1556,27 +1556,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               },
               {
@@ -1586,17 +1586,17 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b703b65021b1fb6b2c1002842fd0ba077e74c02e11eab30cefbb214c96f772ff",
+                "digest": "sha256:66c6cf3e8c28689fa8c6ef93edcaf6dfb49124c047ea7e84ebd4132dc0462a28",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:962cb7b19d2a9cd98fbc2890eeec6c5b23300ed15fdbfe64532b6240a1c60bee",
+                "digest": "sha256:46ed274674a6afbe59303e776abe39203ec01b3eef487ca741dcebdcf296ebce",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:9662993a0ee0f67c2a0a975de8808e771f413a3988e112ec5b3fe8f4c7e22270",
+                "digest": "sha256:5d4de4c0dc305b41b9003b81b83d6e559f0b14df210e8a7cbf8aac0a20818408",
                 "size": -1
               }
             ]
@@ -1745,27 +1745,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               },
               {
@@ -1775,22 +1775,22 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b703b65021b1fb6b2c1002842fd0ba077e74c02e11eab30cefbb214c96f772ff",
+                "digest": "sha256:66c6cf3e8c28689fa8c6ef93edcaf6dfb49124c047ea7e84ebd4132dc0462a28",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:962cb7b19d2a9cd98fbc2890eeec6c5b23300ed15fdbfe64532b6240a1c60bee",
+                "digest": "sha256:46ed274674a6afbe59303e776abe39203ec01b3eef487ca741dcebdcf296ebce",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:9662993a0ee0f67c2a0a975de8808e771f413a3988e112ec5b3fe8f4c7e22270",
+                "digest": "sha256:5d4de4c0dc305b41b9003b81b83d6e559f0b14df210e8a7cbf8aac0a20818408",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cd256e0c7866b55667e3e35e6790910481b34202820ab989576e3102933a3069",
+                "digest": "sha256:6344bea317861bed490157936bdeac57ebdd205c9cbedfc0050b2628ea039cfb",
                 "size": -1
               }
             ]
@@ -1951,27 +1951,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               },
               {
@@ -1981,27 +1981,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b703b65021b1fb6b2c1002842fd0ba077e74c02e11eab30cefbb214c96f772ff",
+                "digest": "sha256:66c6cf3e8c28689fa8c6ef93edcaf6dfb49124c047ea7e84ebd4132dc0462a28",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:962cb7b19d2a9cd98fbc2890eeec6c5b23300ed15fdbfe64532b6240a1c60bee",
+                "digest": "sha256:46ed274674a6afbe59303e776abe39203ec01b3eef487ca741dcebdcf296ebce",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:9662993a0ee0f67c2a0a975de8808e771f413a3988e112ec5b3fe8f4c7e22270",
+                "digest": "sha256:5d4de4c0dc305b41b9003b81b83d6e559f0b14df210e8a7cbf8aac0a20818408",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cd256e0c7866b55667e3e35e6790910481b34202820ab989576e3102933a3069",
+                "digest": "sha256:6344bea317861bed490157936bdeac57ebdd205c9cbedfc0050b2628ea039cfb",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:6ba06fe228c7749ff31f80b48bc6d8095f75b34057e66ed4a04f490c7c5a993d",
+                "digest": "sha256:465d9384f3c7616622733d6b73c41638a164d068fd6bd5705e88521ec0a69837",
                 "size": -1
               }
             ]
@@ -2150,7 +2150,7 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               }
             ]
@@ -2302,12 +2302,12 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               }
             ]
@@ -2456,17 +2456,17 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               }
             ]
@@ -2615,22 +2615,22 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               }
             ]
@@ -2779,27 +2779,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               }
             ]
@@ -2948,27 +2948,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               },
               {
@@ -3122,27 +3122,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               },
               {
@@ -3152,7 +3152,7 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b703b65021b1fb6b2c1002842fd0ba077e74c02e11eab30cefbb214c96f772ff",
+                "digest": "sha256:66c6cf3e8c28689fa8c6ef93edcaf6dfb49124c047ea7e84ebd4132dc0462a28",
                 "size": -1
               }
             ]
@@ -3301,27 +3301,27 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:380c246d999f9cec651225a34e793510cf76a18f249db42670f418ba9502a3e2",
+                "digest": "sha256:b86618c79f711555b1024134e78d5bc4b38604c1944eb474094f769cc5129327",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:f2151f067cb9460de4aec79db09040fdc588394f3c34c8ddd5569af9fe6d7dc5",
+                "digest": "sha256:d813581002c1a13c4bac54d21d24ffe64513a7682e9be4949dc7242f7cc3e46c",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:5fb631019f1100286a8a13a0f4ee112b043de1b5388c57f8a77575bc6f6f0d23",
+                "digest": "sha256:442c91db62661a3ce7c72d236d06a85d2a277f823ffb72a1a0d43ffa4687d588",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:cce6b66fb0184a2ecfc3fe88bc76794b38e38a584372235e57f287b0db411f09",
+                "digest": "sha256:a0f6ebd41df4bed44cc62592746cd36e66f3fd7f2be63dbecceafe57f3b87738",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b5ec5b665c04ec0a348a743a882752d0156b080a7a201b2d6d8a69480fc60872",
+                "digest": "sha256:38dbca9b2e5f5c3cda32a8d563dfc83bf572332ca84e3b4215ebb467400d66a3",
                 "size": -1
               },
               {
@@ -3331,12 +3331,12 @@
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:b703b65021b1fb6b2c1002842fd0ba077e74c02e11eab30cefbb214c96f772ff",
+                "digest": "sha256:66c6cf3e8c28689fa8c6ef93edcaf6dfb49124c047ea7e84ebd4132dc0462a28",
                 "size": -1
               },
               {
                 "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
-                "digest": "sha256:962cb7b19d2a9cd98fbc2890eeec6c5b23300ed15fdbfe64532b6240a1c60bee",
+                "digest": "sha256:46ed274674a6afbe59303e776abe39203ec01b3eef487ca741dcebdcf296ebce",
                 "size": -1
               }
             ]
@@ -3344,44 +3344,44 @@
         },
         "sysUsage": [
           {
-            "timestamp": "2024-08-06T19:02:44.08691563-05:00",
+            "timestamp": "2024-08-09T16:34:33.305420701-05:00",
             "cpuStat": {
-              "user": 8226.21,
-              "nice": 23.81,
-              "system": 5207.4,
-              "idle": 1842497.7,
-              "iowait": 1133.51,
-              "irq": 233.93,
-              "softirq": 258.57,
+              "user": 28753.79,
+              "nice": 111.21,
+              "system": 13135.84,
+              "idle": 9820914.74,
+              "iowait": 1500.23,
+              "irq": 1057.79,
+              "softirq": 810.68,
               "steal": 0,
               "guest": 0,
               "guestNice": 0
             },
             "procStat": {
-              "contextSwitches": 186314725,
-              "processCreated": 316646,
+              "contextSwitches": 523771137,
+              "processCreated": 1056404,
               "processesRunning": 1
             },
             "memoryStat": {
               "total": 131402220,
-              "free": 918904,
-              "available": 120308096,
-              "buffers": 5468,
-              "cached": 115947228,
-              "active": 52419936,
-              "inactive": 69392880,
+              "free": 23397836,
+              "available": 115143452,
+              "buffers": 5120,
+              "cached": 87367692,
+              "active": 60064480,
+              "inactive": 37686844,
               "swap": 4194300,
-              "dirty": 2448,
+              "dirty": 716,
               "writeback": 0,
-              "slab": 6208792
+              "slab": 7402204
             }
           }
         ]
       }
     }
   },
-  "buildx.build.ref": "default/default/xvptl4c36ky9te8z1a9gvth8e",
-  "containerimage.config.digest": "sha256:1cf6329af44524f80fab45d2f9c3de09a1ab9459866df40d821eb64d9c7c2881",
-  "containerimage.digest": "sha256:1cf6329af44524f80fab45d2f9c3de09a1ab9459866df40d821eb64d9c7c2881",
-  "image.name": "docker.io/library/facsimilab-full:v0.2.4-lock"
+  "buildx.build.ref": "default/default/009pm247c3cdmjyia6c5lu1ka",
+  "containerimage.config.digest": "sha256:20c7376d44c10fd029892d8c0f52d4302a595047ac75a52093467aa1ac824105",
+  "containerimage.digest": "sha256:20c7376d44c10fd029892d8c0f52d4302a595047ac75a52093467aa1ac824105",
+  "image.name": "docker.io/library/facsimilab-full:v0.2.5-alpha"
 }
