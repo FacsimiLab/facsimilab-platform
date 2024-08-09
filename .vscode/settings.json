@@ -1,6 +1,7 @@
 {
     "files.eol": "\n",
     "conventionalCommits.scopes": [
-        "docker"
+        "docker",
+        "dependencies"
     ]
 }

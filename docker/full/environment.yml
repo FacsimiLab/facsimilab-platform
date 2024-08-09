@@ -61,6 +61,7 @@ dependencies:
   - lightning=2.0.1
   - leidenalg=0.9
   - louvain=0.8
+  - fa2=0.3
   - hnswlib=0.7
   - scikit-learn=1
   - scikit-image=0.22
