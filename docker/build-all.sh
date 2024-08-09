@@ -46,16 +46,25 @@ facsimilab_username="coder"
 export facsimilab_version_num
 export facsimilab_username
 
-# # # # Base container
-# cd base
+# Base container
+#----------------------
+cd base
 
-# bash build.sh
+bash build.sh
 
-# # # Main container
-# cd ../main && bash build.sh
+# Main container
+#----------------------
+cd ../main && bash build.sh
 
-# # Full container
-# cd ../full && bash build.sh
+# Full container
+#----------------------
+cd ../full
+
+# Generate the lock file from the conda environment.yml
+bash generate-lock.sh
+
+# Build the docker container
+bash build.sh
 
 # # Play an alert tone in the terminal to mark completion
-# echo -e '\a'
+echo -e '\a'
