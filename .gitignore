@@ -1,11 +1,13 @@
 *.env
 *.deb
+*.log
 
 **/.cache
 **/.dotnet
 **/.ipython
 **/.local
 **/.gnupg
+**/env
 
 **.nv
 **/.ssh
@@ -25,3 +27,5 @@
 **/datalad
 
 /docker/main/quarto.deb
+
+*.code-workspace

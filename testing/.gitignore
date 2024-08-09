@@ -7,3 +7,6 @@
 
 *.h5ad
 *.pt
+
+doublets.py
+**/__pycache__

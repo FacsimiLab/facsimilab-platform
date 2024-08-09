@@ -13,16 +13,14 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 echo "Building the following container:"
-echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "$CONTAINER_NAME"
 
-# Build the docer container
-export DOCKER_BUILDKIT=1 # use docker buildx caching
-
-docker build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
+# Build the docker container
+docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) --metadata-file ../metadata/01-base_metadata.json -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME ghcr.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)
@@ -37,7 +35,7 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "FacsimiLab Docker images:"
+echo "FacsimiLab Docker images: $facsimilab_version_num"
 echo ""
 
-docker image ls | grep facsimilab
+docker image ls | grep facsimilab | grep $facsimilab_version_num

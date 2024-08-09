@@ -14,19 +14,27 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 echo "Building the following container:"
-echo "ghcr.io/pranavmishra90/$CONTAINER_NAME"
+echo "$CONTAINER_NAME"
 
 # Download necessary files
 wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
 
-# Build the docer container
+######################################################################
+# Build the docker container
+
 export DOCKER_BUILDKIT=1 # use docker buildx caching
+export BUILDX_METADATA_PROVENANCE=max
+export IMAGE_REPO_PREFIX="gitea.mishracloud.com/pranav/"
+export CACHEBUST="100"
 
-docker buildx build --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) -t $CONTAINER_NAME .
+# docker buildx build --load --progress=auto --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME --metadata-file ../metadata/main_metadata.json .
 
+docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --metadata-file ../metadata/02-main_metadata.json -t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
+
+#######################################################################
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME ghcr.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)
@@ -41,7 +49,7 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "FacsimiLab Docker images:"
+echo "FacsimiLab Docker images: $facsimilab_version_num"
 echo ""
 
-docker image ls | grep facsimilab
+docker image ls | grep facsimilab | grep $facsimilab_version_num

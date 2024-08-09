@@ -1,7 +1,6 @@
 name: facsimilab
 channels:
   - conda-forge
-  # - bioconda
   - pytorch
   - nvidia
 
@@ -25,7 +24,7 @@ dependencies:
   - click>8.1
 
   # Version control
-  - datalad=0.19
+  - datalad=1.1
 
   # Web
   - requests=2.31
@@ -66,23 +65,39 @@ dependencies:
   - scikit-learn=1
   - scikit-image=0.22
   - scikit-misc=0.1
+  - igraph=0.10
+  - hnswlib=0.7
   - sklearn-pandas
   - imbalanced-learn
   - dtreeviz
 
   # Next-generation -omics
   - scanpy=1.9
-  - scvi-tools=1.0
+  - scvi-tools=1.1
   # - scvelo=0.3
   - bioconda::pydeseq2=0.4
   - bioconda::gseapy=1.1
   - bioconda::celltypist=1.6
+
+  # # GPU
+  - conda-forge::jaxlib=*=*cuda120py311*
+  - conda-forge::jax=0.4
+  - conda-forge::flax=0.8
+  - nvidia::cuda-nvcc
+  # ML Base
+  - pytorch::pytorch=2
+  - pytorch::pytorch-cuda=12
+  - pytorch::torchvision
+
+  # Data Sources
+  - conda-forge::zenodo_get=1
 
   # # Primer design
   # - primer3-py
 
   # # C  / C++
   - cython=3.0
+  - pybind11
 
   # # R
   # - rpy2=3.5

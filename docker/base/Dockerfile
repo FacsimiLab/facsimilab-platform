@@ -2,13 +2,18 @@
 
 FROM mambaorg/micromamba:1.5 AS micromamba
 
-FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+# FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+
+FROM pranavmishra90/cuda:12.4.1-base-ubuntu22.04
+# this base image was created with 
+# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4 --os ubuntu --os-version 22.04 --arch x86_64
+# taken from https://gitlab.com/nvidia/container-images/cuda
 
 ############################
 ARG IMAGE_VERSION="dev"
 ############################
 
-LABEL org.opencontainers.image.title="FacsimiLab-base"
+LABEL org.opencontainers.image.title="FacsimiLab-Base"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
@@ -27,9 +32,13 @@ RUN apt-get update -y \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings && \
+    # Eza
     wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | gpg --dearmor -o /etc/apt/keyrings/gierens.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | tee /etc/apt/sources.list.d/gierens.list && \
-    chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+    chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list && \
+    # Neuro Debian
+    wget -O- http://neuro.debian.net/lists/jammy.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
+    apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9
 
 RUN apt-get update && \
     apt-get --no-install-recommends install -y \
@@ -37,6 +46,8 @@ RUN apt-get update && \
     bzip2 \
     ca-certificates \
     curl \
+    # datalad \
+    # git-annex \
     eza \
     fonts-liberation \
     less \
@@ -46,14 +57,13 @@ RUN apt-get update && \
     openssh-server \
     systemd \
     systemd-sysv \
+    pipx \
     sudo \
     tini \
     unzip \
     zoxide \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-
-ARG CACHEBUST=1
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
@@ -86,7 +96,6 @@ WORKDIR ${MAMBA_USER_WORK_DIR}
 COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
 RUN echo "Facsimilab-Base $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
-
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
