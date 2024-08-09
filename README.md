@@ -28,7 +28,7 @@ You can select from our current recommended image `pranavmishra90/facsimilab-ful
 
 ## Quick Install and Testing
 
-You can quickly deploy FacsimiLab using the docker run commands found in [Quick Deploy](./docs/quick-deploy.md). For futher testing, a `docker-compose.yaml` file is available in `/testing/`.
+You can quickly deploy FacsimiLab using the docker run commands found in [Quick Deploy](./notebook/quick-deploy.md). For futher testing, a `docker-compose.yaml` file is available in `/testing/`.
 
 
 
