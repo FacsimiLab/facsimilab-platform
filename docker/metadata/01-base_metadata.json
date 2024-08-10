@@ -22,8 +22,8 @@
       "parameters": {
         "frontend": "dockerfile.v0",
         "args": {
-          "build-arg:CACHEBUST": "1722988962",
-          "build-arg:IMAGE_VERSION": "v0.2.4-lock"
+          "build-arg:CACHEBUST": "1723274591",
+          "build-arg:IMAGE_VERSION": "v0.2.5-alpha2"
         },
         "locals": [
           {
@@ -39,8 +39,8 @@
       }
     }
   },
-  "buildx.build.ref": "default/default/p19mq4aq8acw2dis0xkwo7e22",
-  "containerimage.config.digest": "sha256:65e084e3633155877724ff81020d16db80638279f22213cfc939348aa29838c9",
-  "containerimage.digest": "sha256:65e084e3633155877724ff81020d16db80638279f22213cfc939348aa29838c9",
-  "image.name": "docker.io/library/facsimilab-base:v0.2.4-lock"
+  "buildx.build.ref": "default/default/bqoc7ozuu2suet8v5qkk40rto",
+  "containerimage.config.digest": "sha256:b545e26d225059d7bd1ad744c37e8ebbd4b73b4d8f25cbb741cb4f8d45cd364b",
+  "containerimage.digest": "sha256:b545e26d225059d7bd1ad744c37e8ebbd4b73b4d8f25cbb741cb4f8d45cd364b",
+  "image.name": "docker.io/library/facsimilab-base:v0.2.5-alpha2"
 }
