@@ -17,7 +17,7 @@ jobs:
 
       - name: Run Facsmilab-Main container and execute script
         run: |
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-main:latest /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
+          docker run --rm -v $(pwd):/home/coder/work ~/.gitconfig:/home/coder/.gitconfig  --gpus 0  pranavmishra90/facsimilab-main:latest /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
 
       - name: Run Facsmilab-Full container and execute script
         run: |

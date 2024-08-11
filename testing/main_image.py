@@ -1,3 +1,3 @@
 import datalad.api as dl
 
-print(dl.status())
+print(dl.configuration("get", ["user.name", "user.email"]))
