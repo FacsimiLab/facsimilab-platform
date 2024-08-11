@@ -17,7 +17,7 @@ import flax
 
 
 # Print library versions
-print("# Python Packages   ")
+print("## FacsimiLab Full - Python Packages   ")
 print("   ")
 print("   ")
 print("- JAX version:", jax.__version__)

@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
 jobs:
-  container-test-job:
+  facsimilab-packages:
     runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout code
@@ -15,19 +15,19 @@ jobs:
       - name: Pull Docker image
         run: docker pull pranavmishra90/facsimilab-full:latest
 
+      - name: Run Facsmilab-Main container and execute script
+        run: |
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-main:latest /opt/conda/envs/facsimilab/bin/python testing/main_image.py >> testing/results/main-image.txt
+
       - name: Run Facsmilab-Full container and execute script
         run: |
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:latest /opt/conda/envs/facsimilab/bin/python testing/versions.py >> testing/results/versions.txt
-
-      # - name: Upload pytest test results
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: python-versions
-      #     path: testing/results/versions.txt
-      #   # Use always() to always run this step to publish test results when there are test failures
-      #   if: ${{ always() }}
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:latest /opt/conda/envs/facsimilab/bin/python testing/versions.py >> testing/results/full-image.txt
 
       - name: Write to workflow job summary
         run: |
-          SUMMARY=$'# Job Summary\n## Second Level Heading\nHello GitHub'
-          cat testing/results/versions.txt >> $GITHUB_STEP_SUMMARY
+          build_version=$(cat docker/build_version.txt)
+          builder_header="# $build_version \n"
+          echo "$builder_header" > testing/results/job_summary.md
+          cat testing/results/main-image.txt >> testing/results/job_summary.md
+          cat testing/results/full-image.txt >> testing/results/job_summary.md
+          cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY

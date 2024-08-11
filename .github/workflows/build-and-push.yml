@@ -9,7 +9,7 @@ on:
       - "docker/build_version.txt"
   workflow_dispatch:
 jobs:
-  container-test-job:
+  build-test-and-push:
     runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout code

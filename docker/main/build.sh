@@ -17,7 +17,7 @@ echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
 # Download necessary files
-wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
+wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
 
 ######################################################################
 # Build the docker container
