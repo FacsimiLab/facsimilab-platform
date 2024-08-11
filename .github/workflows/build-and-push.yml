@@ -5,6 +5,10 @@ on:
     tags:
       - "**"
   pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - assigned
     paths:
       - "docker/build_version.txt"
   workflow_dispatch:
