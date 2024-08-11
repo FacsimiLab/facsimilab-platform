@@ -81,27 +81,28 @@ else
 
 	rm ./log/*.log
 
+	# # Gitea section
+	# (
+	# 	echo "Pushing to Gitea..."
+	# 	docker push gitea.mishracloud.com/pranav/facsimilab-base:$facsimilab_version_num
+	# 	docker push gitea.mishracloud.com/pranav/facsimilab-main:$facsimilab_version_num
+	# 	docker push gitea.mishracloud.com/pranav/facsimilab-full:$facsimilab_version_num
+	# 	docker push gitea.mishracloud.com/pranav/facsimilab-base:latest
+	# 	docker push gitea.mishracloud.com/pranav/facsimilab-main:latest
+	# 	docker push gitea.mishracloud.com/pranav/facsimilab-full:latest
+	# ) 2>&1 | tee -a log/gitea_push.log &
+
 	# DockerHub section
+
 	(
 		echo "Pushing to DockerHub..."
-		docker push gitea.mishracloud.com/pranav/facsimilab-base:$facsimilab_version_num
-		docker push gitea.mishracloud.com/pranav/facsimilab-main:$facsimilab_version_num
-		docker push gitea.mishracloud.com/pranav/facsimilab-full:$facsimilab_version_num
-		docker push gitea.mishracloud.com/pranav/facsimilab-base:latest
-		docker push gitea.mishracloud.com/pranav/facsimilab-main:latest
-		docker push gitea.mishracloud.com/pranav/facsimilab-full:latest
-	) 2>&1 | tee -a log/dockerhub_push.log &
-
-	# Gitea section
-	(
-		echo "Pushing to Gitea..."
 		docker push docker.io/pranavmishra90/facsimilab-base:$facsimilab_version_num
 		docker push docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
 		docker push docker.io/pranavmishra90/facsimilab-full:$facsimilab_version_num
 		docker push docker.io/pranavmishra90/facsimilab-base:latest
 		docker push docker.io/pranavmishra90/facsimilab-main:latest
 		docker push docker.io/pranavmishra90/facsimilab-full:latest
-	) 2>&1 | tee -a log/gitea_push.log &
+	) 2>&1 | tee -a log/dockerhub_push.log &
 
 	# Wait for all background jobs to complete
 	wait
