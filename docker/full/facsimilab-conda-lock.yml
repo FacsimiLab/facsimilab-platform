@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 7397b7328b700c04e53725cebc2374e9c033c34bd1a5abc3d3fe892ca641c94e
+    linux-64: ac65b3dc645e5487139596747a6a05bc3189abdad3f6c03a4d78b42951abc165
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1887,6 +1887,20 @@ package:
     sha256: b5867ca3c43adeaeb2321da717ad1de1a91d52a241ee6b0368cec049ddedc7bf
   category: main
   optional: false
+- name: fbpca
+  version: '1.0'
+  manager: conda
+  platform: linux-64
+  dependencies:
+    numpy: ''
+    python: ''
+    scipy: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/fbpca-1.0-py_0.tar.bz2
+  hash:
+    md5: a76509d7c9abd6e978029aa73e36f6bd
+    sha256: 21ba49ce9d0d9c8e2380f6ec2caf11ca609b808528176c8f355a90954172c8a3
+  category: main
+  optional: false
 - name: ffmpeg
   version: 7.0.2
   manager: conda
@@ -2216,6 +2230,21 @@ package:
     sha256: d5283b95a8d49dcd88d29b360d8b38694aaa905d968d156d72ab71d32b38facb
   category: main
   optional: false
+- name: geosketch
+  version: '1.2'
+  manager: conda
+  platform: linux-64
+  dependencies:
+    fbpca: '>=1'
+    numpy: '>=1.12'
+    python: '>=3.6'
+    scikit-learn: '>=0.24'
+  url: https://conda.anaconda.org/bioconda/noarch/geosketch-1.2-py_0.tar.bz2
+  hash:
+    md5: 4f9d1092b2509c526ff9a2cca40fd57d
+    sha256: 387d332f1bc9757dce13af3423e0c984a7e02b64e261e79619e97f22c2f83e3d
+  category: main
+  optional: false
 - name: get-annotations
   version: 0.1.2
   manager: conda
@@ -2256,18 +2285,6 @@ package:
   hash:
     md5: 985f2f453fb72408d6b6f1be0f324033
     sha256: 67d7b1d6fe4f1c516df2000640ec7dcfebf3ff6ea0785f0276870e730c403d33
-  category: main
-  optional: false
-- name: gh
-  version: 2.54.0
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/gh-2.54.0-h76a2195_0.conda
-  hash:
-    md5: b9a47f586e0f4832ce8c76a43421d280
-    sha256: 24e3e72e57384c308135971d5fd27692be4d133bf318d08f6b285f1738beccb7
   category: main
   optional: false
 - name: giflib
@@ -2982,6 +2999,19 @@ package:
   hash:
     md5: b1613af94768e65d09bb86c3a88fb21f
     sha256: d0150cc052b07fdefa743c3150e799ee52b68b0e954c3e67b3c30715123c7e61
+  category: main
+  optional: false
+- name: intervaltree
+  version: 3.1.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=2.7'
+    sortedcontainers: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/intervaltree-3.1.0-pyhd8ed1ab_1.conda
+  hash:
+    md5: e32bb5b0369e819c4dde653d4c4572f3
+    sha256: 5d7f0d432772b2a1a750cd61b522e9c283dad04058a130656c95ad3321a308c5
   category: main
   optional: false
 - name: ipykernel
@@ -6983,6 +7013,21 @@ package:
     sha256: 57759580fa2477599ea730ea3ba0eed0c88c65a4a8476da6ad0e0364f4d7c1f1
   category: main
   optional: false
+- name: pooch
+  version: 1.8.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    packaging: '>=20.0'
+    platformdirs: '>=2.5.0'
+    python: '>=3.7'
+    requests: '>=2.19.0'
+  url: https://conda.anaconda.org/conda-forge/noarch/pooch-1.8.2-pyhd8ed1ab_0.conda
+  hash:
+    md5: 8dab97d8a9616e07d779782995710aed
+    sha256: f2ee98740ac62ff46700c3cae8a18c78bdb3d6dd80832c6e691e789b844830d8
+  category: main
+  optional: false
 - name: popt
   version: '1.16'
   manager: conda
@@ -8156,6 +8201,26 @@ package:
     sha256: aea88a1be4be3d71ebb4c10ecdadcfa852115e9071c36c063fa315319fb25cae
   category: main
   optional: false
+- name: scanorama
+  version: 1.7.4
+  manager: conda
+  platform: linux-64
+  dependencies:
+    fbpca: '>=1.0'
+    geosketch: '>=1'
+    intervaltree: '>=3.1.0'
+    matplotlib-base: '>=2.0.2'
+    numpy: '>=1.12'
+    python: '>=3.6'
+    python-annoy: '>=1.11.5'
+    scikit-learn: ''
+    scipy: '>=1'
+  url: https://conda.anaconda.org/bioconda/noarch/scanorama-1.7.4-pyhdfd78af_0.tar.bz2
+  hash:
+    md5: 016a5b61d4b941462823aa6daf16ad86
+    sha256: 07974488222b50b94884304d1eb958096a8be385fbcee6c2a30eb4bf55686c4a
+  category: main
+  optional: false
 - name: scanpy
   version: 1.10.2
   manager: conda
@@ -8485,6 +8550,18 @@ package:
   hash:
     md5: 490730480d76cf9c8f8f2849719c6e2b
     sha256: bc12100b2d8836b93c55068b463190505b8064d0fc7d025e89f20ebf22fe6c2b
+  category: main
+  optional: false
+- name: sortedcontainers
+  version: 2.4.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=2.7'
+  url: https://conda.anaconda.org/conda-forge/noarch/sortedcontainers-2.4.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: 6d6552722448103793743dabfbda532d
+    sha256: 0cea408397d50c2afb2d25e987ebac4546ae11e549d65b1403d80dc368dfaaa6
   category: main
   optional: false
 - name: soupsieve

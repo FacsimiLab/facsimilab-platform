@@ -80,6 +80,7 @@ dependencies:
   - bioconda::pydeseq2=0.4
   - bioconda::gseapy=1.1
   - bioconda::celltypist=1.6
+  - bioconda::scanorama=1.7
 
   # # GPU
   - conda-forge::jaxlib=*=*cuda120py311*
@@ -93,6 +94,7 @@ dependencies:
 
   # Data Sources
   - conda-forge::zenodo_get=1
+  - conda-forge::pooch=1.8
 
   # # Primer design
   # - primer3-py

@@ -15,24 +15,24 @@ networks:
 
 services:
   main:
-    image: pranavmishra90/facsimilab-main:v0.2.1
-    container_name: Facsimilab-Main
-    
+    image: pranavmishra90/facsimilab-full:latest
+    container_name: Facsimilab
+
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              capabilities: [ gpu ]
-    
-    
+              capabilities: [gpu]
+    ports:
+      - 8888:8888
+    user: "1000:1002"
     # Keep alive command for docker compose
     command: tail -F anything
-  
 
     volumes:
       # Here we "mount" directories from the host computer into the Facsimilab container
-  
+
       # The current directory (./testing) is mounted into ~/work
       - ./:/home/coder/work
 
@@ -41,3 +41,6 @@ services:
 
       # # SSH configuration (read only)
       - ~/.ssh:/home/coder/.ssh:ro
+
+      # Jupyter config
+      - ./config/.jupyter/:/home/coder/.jupyter/
