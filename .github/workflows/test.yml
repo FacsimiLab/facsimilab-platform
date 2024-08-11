@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docker/build_version.txt"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  container-test-job:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/pranavmishra90/facsimilab-full:dev
+      # env:
+      #     NODE_ENV: development
+      ports:
+        - 8888:8888
+      volumes:
+        - my_docker_volume:/home/coder/work
+      options: --cpus 1
+    steps:
+      - name: Check for versions testing file
+        run: (cat /home/coder/work/testing/versions.py && echo Found versions.py) || (echo No versions.py)
