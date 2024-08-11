@@ -2,9 +2,11 @@ name: Build and Push Version
 
 on:
   push:
-    # Pattern matched against refs/tags
     tags:
       - "**"
+  pull_request:
+    paths:
+      - "docker/build_version.txt"
   workflow_dispatch:
 jobs:
   container-test-job:
