@@ -35,4 +35,9 @@ jobs:
 
       - name: Write to workflow job summary
         run: |
-          cat testing/results/versions.txt >> $GITHUB_STEP_SUMMARY
+          build_version=$(cat docker/build_version.txt)
+          builder_header="# $build_version \n"
+          echo "$builder_header" > testing/results/job_summary.md
+          cat testing/results/main-image.txt >> testing/results/job_summary.md
+          cat testing/results/full-image.txt >> testing/results/job_summary.md
+          cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
