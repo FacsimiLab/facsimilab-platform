@@ -4,18 +4,18 @@ You can select from our current recommended image `pranavmishra90/facsimilab-ful
 
 ## Platform Images
 
+[![Docker Python Packages](https://github.com/pranavmishra90/facsimilab-platform/actions/workflows/python-packages.yml/badge.svg)](https://github.com/pranavmishra90/facsimilab-platform/actions/workflows/python-packages.yml)
+
 - **facsimilab-base**: Adds functionality for python (micromamba) and a number of apt packages into the CUDA capable `nvidia/cuda:12.1.0-base-ubuntu22.04`
 
-
-- **facsimilab-main**: Creates a python 3.11 [base environment](./docker/main/environment.yml) with the essentials for statistics, graphing, documention, and reproducible science with `datalad`, `quarto`, and `rclone` 
-
+- **facsimilab-main**: Creates a python 3.11 [base environment](./docker/main/environment.yml) with the essentials for statistics, graphing, documention, and reproducible science with `datalad`, `quarto`, and `rclone`
 
 - **facsimilab-full**: Creates the python 3.11 [full facsimilab environment](./docker/full/environment.yml) with a large number of packages capable of completing a variety of experiments, including:
-	- Clininal research with REDCap: `pycap`
-	- Next generation -omics: `scvi`, `scanpy`, `gseapy`, `pydeseq2`, `celltypist`, etc.
-	- Machine learning: `scikit-learn`, `leidenalg`, `imbalanced-learn`
-	- Reproducible research (file versioning, archival, and documentation): `datalad`, `git`, `git-annex`, `rclone`, `quarto`
-	- `jupyter` notebooks with `papermill` automation
+  - Clininal research with REDCap: `pycap`
+  - Next generation -omics: `scvi`, `scanpy`, `gseapy`, `pydeseq2`, `celltypist`, etc.
+  - Machine learning: `scikit-learn`, `leidenalg`, `imbalanced-learn`
+  - Reproducible research (file versioning, archival, and documentation): `datalad`, `git`, `git-annex`, `rclone`, `quarto`
+  - `jupyter` notebooks with `papermill` automation
 
 ### Important Components
 
@@ -30,15 +30,12 @@ You can select from our current recommended image `pranavmishra90/facsimilab-ful
 
 You can quickly deploy FacsimiLab using the docker run commands found in [Quick Deploy](./notebook/quick-deploy.md). For futher testing, a `docker-compose.yaml` file is available in `/testing/`.
 
-
-
 ## Building
 
 ```sh
 cd docker
 bash build-all.sh
 ```
-
 
 ## License
 

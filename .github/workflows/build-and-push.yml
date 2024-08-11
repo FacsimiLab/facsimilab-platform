@@ -1,0 +1,24 @@
+name: Build and Push Version
+
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:
+      - "**"
+  workflow_dispatch:
+jobs:
+  container-test-job:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: bash docker/build-all.sh
+
+      - name: Push Docker images
+        run: bash docker/push-all.sh
+
+      - name: Write to workflow job summary
+        run: |
+          cat testing/results/versions.txt >> $GITHUB_STEP_SUMMARY
