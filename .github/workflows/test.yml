@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/pranavmishra90/facsimilab-full:dev
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.github_token }}
       # env:
       #     NODE_ENV: development
       ports:
