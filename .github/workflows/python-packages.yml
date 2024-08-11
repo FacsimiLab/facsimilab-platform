@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Pull Docker image
-        run: docker pull pranavmishra90/facsimilab-full:dev
+        run: docker pull pranavmishra90/facsimilab-full:latest
 
       - name: Run Facsmilab-Full container and execute script
         run: |
