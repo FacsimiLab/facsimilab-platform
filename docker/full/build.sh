@@ -22,8 +22,6 @@ export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
 export IMAGE_REPO_PREFIX=""
 export CACHEBUST="100"
 
-# docker buildx build --progress=auto --load --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/full_metadata.json -t gitea.mishracloud.com/pranav/$CONTAINER_NAME .
-
 docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/03-full_metadata.json -t $CONTAINER_NAME .
 
 # Add additional tags

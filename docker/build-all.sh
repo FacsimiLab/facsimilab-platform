@@ -60,8 +60,8 @@ cd ../main && bash build.sh
 #----------------------
 cd ../full
 
-# Generate the lock file from the conda environment.yml
-bash generate-lock.sh
+# # Generate the lock file from the conda environment.yml
+# bash generate-lock.sh
 
 # Build the docker container
 bash build.sh
