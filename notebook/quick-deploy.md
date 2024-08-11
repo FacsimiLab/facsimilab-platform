@@ -18,3 +18,11 @@ docker run -it --rm --name Facsimilab-NonGPU \
     pranavmishra90/facsimilab-full:latest \
     bash
 ```
+
+```sh
+docker run --rm --name Facsimilab-NonGPU \
+    --gpus 0 \
+    -v $(pwd):/home/coder/work \
+    pranavmishra90/facsimilab-full:latest \
+    /home/coder/work/testing/versions.py
+```

@@ -1,10 +1,9 @@
 name: CI
+
 on:
   push:
     branches:
       - main
-    paths:
-      - "docker/build_version.txt"
   pull_request:
     branches:
       - main
@@ -13,18 +12,20 @@ on:
 jobs:
   container-test-job:
     runs-on: ubuntu-latest
-    container:
-      image: pranavmishra90/facsimilab-full:dev
-      # credentials:
-      #   username: ${{ github.actor }}
-      #   password: ${{ secrets.github_token }}
-      # env:
-      #     NODE_ENV: development
-      ports:
-        - 8888:8888
-      volumes:
-        - my_docker_volume:/home/coder/work
-      options: --cpus 1
     steps:
-      - name: Check for versions testing file
-        run: (cat /home/coder/work/testing/versions.py && echo Found versions.py) || (echo No versions.py)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Pull Docker image
+        run: docker pull pranavmishra90/facsimilab-full:dev
+
+      - name: Run Docker container and execute script
+        run: |
+          docker run -it --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:dev /opt/conda/envs/facsimilab/bin/python testing/versions.py > testing/results/versions.txt
+      - name: Upload pytest test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-versions
+          path: testing/results/versions.txt
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}

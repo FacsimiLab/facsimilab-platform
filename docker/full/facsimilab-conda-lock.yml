@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: bc0b45910725e42ca162368adf1f82b71e443a1451026829e3c890f7d7e14524
+    linux-64: 7397b7328b700c04e53725cebc2374e9c033c34bd1a5abc3d3fe892ca641c94e
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -563,18 +563,18 @@ package:
   category: main
   optional: false
 - name: boto3
-  version: 1.34.157
+  version: 1.34.158
   manager: conda
   platform: linux-64
   dependencies:
-    botocore: '>=1.34.157,<1.35.0'
+    botocore: '>=1.34.158,<1.35.0'
     jmespath: '>=0.7.1,<2.0.0'
     python: '>=3.8'
     s3transfer: '>=0.10.0,<0.11.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/boto3-1.34.157-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/boto3-1.34.158-pyhd8ed1ab_0.conda
   hash:
-    md5: 6f55641cdb4477169f8869f61ac7676e
-    sha256: 67cd7dc1bc11e1dce3ec4461fbd94452a2e08a4a4278430b12cf5af2805ce289
+    md5: a31e704f5cf15d050cedaaf410ef52e8
+    sha256: b0a7a3747a21bcb779c250e8722e6a10ec00cf4772b4c899ecf0d03ba2548a66
   category: main
   optional: false
 - name: botocore
@@ -2256,6 +2256,18 @@ package:
   hash:
     md5: 985f2f453fb72408d6b6f1be0f324033
     sha256: 67d7b1d6fe4f1c516df2000640ec7dcfebf3ff6ea0785f0276870e730c403d33
+  category: main
+  optional: false
+- name: gh
+  version: 2.54.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/gh-2.54.0-h76a2195_0.conda
+  hash:
+    md5: b9a47f586e0f4832ce8c76a43421d280
+    sha256: 24e3e72e57384c308135971d5fd27692be4d133bf318d08f6b285f1738beccb7
   category: main
   optional: false
 - name: giflib
@@ -3976,10 +3988,10 @@ package:
     libgcc-ng: '>=12'
     libllvm18: '>=18.1.8,<18.2.0a0'
     libstdcxx-ng: '>=12'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libclang13-18.1.8-default_h9def88c_1.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libclang13-18.1.8-default_h9def88c_2.conda
   hash:
-    md5: 04c8c481b30c3fe62bec148fa4a75857
-    sha256: ec9a672623c5d485e48bd14f36353ec0b5c14f516440dfbb6674b1c784289eb4
+    md5: ba2d12adbea9de311297f2b577f4bb86
+    sha256: 0259c1e50d036a1f7c6aac04d1010e01451f0e6370835b644d516cb73e8a164b
   category: main
   optional: false
 - name: libcublas
@@ -5717,16 +5729,16 @@ package:
   category: main
   optional: false
 - name: menuinst
-  version: 2.1.1
+  version: 2.1.2
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.11,<3.12.0a0'
     python_abi: 3.11.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/menuinst-2.1.1-py311h38be061_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/menuinst-2.1.2-py311h38be061_0.conda
   hash:
-    md5: a0662a939f35a43684e7fee4e350daef
-    sha256: c54c9f073739f65d7b00a9a0758b8ca117fba74e69b195287dc533e91468cc23
+    md5: 8056bb9339279f0eae65c44d58fd4f3c
+    sha256: adcf3c91e7da0b8d7e404caf9d7729b72962392464e58936908838aa854ac6b2
   category: main
   optional: false
 - name: mistune
@@ -9151,15 +9163,15 @@ package:
   category: main
   optional: false
 - name: webcolors
-  version: 24.6.0
+  version: 24.8.0
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.5'
-  url: https://conda.anaconda.org/conda-forge/noarch/webcolors-24.6.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/webcolors-24.8.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 419f2f6cf90fc7a6feee657752cd0f7b
-    sha256: 6377de3bc05b80f25c5fe75f180a81fc8a6aa601d4b228161f75f78862d00a0f
+    md5: eb48b812eb4fbb9ff238a6651fdbbcae
+    sha256: ec71f97c332a7d328ae038990b8090cbfa772f82845b5d2233defd167b7cc5ac
   category: main
   optional: false
 - name: webencodings
