@@ -2,9 +2,10 @@
 
 ```sh
 docker run -it --rm --name Facsimilab-GPUTest \
-    --gpus all \
+    --gpus 0 \
     -v $(pwd):/home/coder/work \
-    pranavmishra90/facsimilab-main:v0.2.3 \
+    -p 8888:8888 \
+    pranavmishra90/facsimilab-full:full \
     bash
 ```
 
@@ -13,6 +14,7 @@ docker run -it --rm --name Facsimilab-GPUTest \
 ```sh
 docker run -it --rm --name Facsimilab-NonGPU \
     -v $(pwd):/home/coder/work \
-    pranavmishra90/facsimilab-main:v0.2.3 \
+    -p 8888:8888 \
+    pranavmishra90/facsimilab-full:latest \
     bash
 ```
