@@ -28,7 +28,7 @@ jobs:
 
       - name: Run Facsmilab-Full container and execute script
         run: |
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:latest /opt/conda/envs/facsimilab/bin/python testing/versions.py >> testing/results/full-image.txt
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:latest /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
 
       - name: Push Docker images
         run: bash docker/push-all.sh
@@ -38,6 +38,8 @@ jobs:
           build_version=$(cat docker/build_version.txt)
           builder_header="# $build_version "
           echo "$builder_header" > testing/results/job_summary.md
+          cat "## Main Image" >> testing/results/job_summary.md
+          cat "   " >> testing/results/job_summary.md
           cat testing/results/main-image.txt >> testing/results/job_summary.md
           cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
