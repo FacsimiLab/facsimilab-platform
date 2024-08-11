@@ -18,6 +18,10 @@ jobs:
       - name: Build Docker images
         run: bash docker/build-all.sh
 
+      - name: Run Facsmilab-Full container and execute script
+        run: |
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:dev /opt/conda/envs/facsimilab/bin/python testing/versions.py >> testing/results/versions.txt
+
       - name: Push Docker images
         run: bash docker/push-all.sh
 

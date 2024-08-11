@@ -29,6 +29,7 @@ docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:dev
 
 # Calculate the total time
 end_time=$(date +%s)
