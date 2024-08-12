@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: dca2fa119e8658e094908a26eb405b55da814c8fd0b54ec42c17b8e5476d3b91
+    linux-64: 27b079f84545506e084b0b950f6b6a3fd6c25429c5eb2c3fa87eea7a4af61ac1
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1923,6 +1923,39 @@ package:
   hash:
     md5: 3d61802493ac3efc59dc5a4f8f8f1113
     sha256: dd97d0080dde148b604c9d5b29beada125dd4aeb1a1165d57858d6f568d1604e
+  category: main
+  optional: false
+- name: faiss
+  version: 1.8.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    _openmp_mutex: '>=4.5'
+    cuda-version: '>=12.0,<13'
+    libfaiss: 1.8.0
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    numpy: '>=1.23.5,<2.0a0'
+    packaging: ''
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/faiss-1.8.0-py311cuda120hebc9808_1_cuda.conda
+  hash:
+    md5: af78b4ce7fda232ccb4838b994b4274a
+    sha256: 88bf42d64e102c02b1257caed899ce589939a683041bd576c3138fc4f4e8a09c
+  category: main
+  optional: false
+- name: faiss-gpu
+  version: 1.8.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    faiss: 1.8.0
+  url: https://conda.anaconda.org/conda-forge/linux-64/faiss-gpu-1.8.0-hb76ca00_1.conda
+  hash:
+    md5: 493e76717367a31dfb8015e54f3f320f
+    sha256: a2d1357c49f0a8ec0a8ea5b47c91b1c952513b51ad558ff6a8e40034c3131858
   category: main
   optional: false
 - name: fastapi
@@ -4303,6 +4336,27 @@ package:
   hash:
     md5: e7ba12deb7020dd080c6c70e7b6f6a3d
     sha256: 331bb7c7c05025343ebd79f86ae612b9e1e74d2687b8f3179faec234f986ce19
+  category: main
+  optional: false
+- name: libfaiss
+  version: 1.8.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    _openmp_mutex: '>=4.5'
+    cuda-cudart: '>=12.0.107,<13.0a0'
+    cuda-version: '>=12.0,<13'
+    libblas: '>=3.9.0,<4.0a0'
+    libcublas: '>=12.0.1.189,<13.0a0'
+    libcurand: '>=10.3.1.50,<11.0a0'
+    libgcc-ng: '>=12'
+    liblapack: '>=3.9.0,<4.0a0'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libfaiss-1.8.0-cuda120h03f6ba9_1_cuda.conda
+  hash:
+    md5: 20e5972ed2d02191b41c0d38912122d8
+    sha256: c98549f64f3604222041cc3f7096f0a6d2a4ae762d1c4d2956e67a49c7e3ecfe
   category: main
   optional: false
 - name: libffi

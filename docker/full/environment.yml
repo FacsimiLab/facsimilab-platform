@@ -98,7 +98,7 @@ dependencies:
   # GPU Accelerated Packages
   - conda-forge::cupy-core=13.2
   - rapidsai::rmm=24.*=*cuda12*
-  # - faiss-gpu=1.8
+  - faiss-gpu=1.8
 
   # Data Sources
   - conda-forge::zenodo_get=1
