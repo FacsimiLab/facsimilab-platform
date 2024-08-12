@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 262110df687ee34fb371a894ce6f7da176b21aceadec462e375b837ece6aa04a
+    linux-64: b8b390a5664ede52475a0a35a4a05e9f9049c31431337f42ae8ea993d6740a5b
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -391,6 +391,27 @@ package:
   hash:
     md5: c747b1d79f136013c3b7ebcba876afa6
     sha256: 7ba30f32daad2e7ca251508525185ba170eedc14123572611c2acf261c7956b3
+  category: main
+  optional: false
+- name: bbknn
+  version: 1.6.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    libgcc-ng: '>=12'
+    numpy: '>=1.26.4,<2.0a0'
+    pandas: ''
+    pynndescent: ''
+    python: '>=3.11,<3.12.0a0'
+    python-annoy: ''
+    python_abi: 3.11.*
+    scikit-learn: '>=1.0.2'
+    scipy: '>=1.6.0'
+    umap-learn: ''
+  url: https://conda.anaconda.org/bioconda/linux-64/bbknn-1.6.0-py311hdad781d_3.tar.bz2
+  hash:
+    md5: d023db74125c02946e9c748315bd162c
+    sha256: f34f08f4f7b7f3794773ddbc176342912a0811383f83f245029999f891e15877
   category: main
   optional: false
 - name: beautifulsoup4
@@ -8980,7 +9001,7 @@ package:
   category: main
   optional: false
 - name: sympy
-  version: 1.13.1
+  version: 1.13.2
   manager: conda
   platform: linux-64
   dependencies:
@@ -8988,10 +9009,10 @@ package:
     gmpy2: '>=2.0.8'
     mpmath: '>=0.19'
     python: '>=3.8'
-  url: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.1-pypyh2585a3b_103.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/sympy-1.13.2-pypyh2585a3b_103.conda
   hash:
-    md5: e8095a7cdbe43c73ba5a381ead1a52f4
-    sha256: 5e3759530525516b52711d5645c8aaff245628304d7721388ef9e34145f8427e
+    md5: 7327125b427c98b81564f164c4a75d4c
+    sha256: ef2e841c53aff71fcbf5922883543374040a9799d064d152516b30ff6694e022
   category: main
   optional: false
 - name: sysroot_linux-64

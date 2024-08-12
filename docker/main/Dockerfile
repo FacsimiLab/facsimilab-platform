@@ -23,7 +23,7 @@ ENV LANG=C.UTF-8
 
 # Install python base environment for the image
 COPY environment.yml /tmp/base-environment.yml
-COPY --chown=$MAMBA_USER:$MAMBA_USER .mambarc ${MAMBA_ROOT_PREFIX}/.mambarc
+COPY --chown=$MAMBA_USER:$MAMBA_USER .condarc ${MAMBA_ROOT_PREFIX}/.condarc
 USER root
 
 RUN	--mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
@@ -89,6 +89,7 @@ WORKDIR /home/${MAMBA_USER}/work
 
 RUN echo "Facsimilab-Main $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
+COPY --chown=$MAMBA_USER:$MAMBA_USER .condarc ${MAMBA_ROOT_PREFIX}/.condarc
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
 
 

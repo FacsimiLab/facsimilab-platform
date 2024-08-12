@@ -24,7 +24,7 @@ ENV LANG=C.UTF-8
 
 USER root
 
-COPY .mambarc /root/.mambarc
+COPY .condarc /root/.condarc
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
 COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-conda-lock.yml /tmp/facsimilab-conda-lock.yml
 

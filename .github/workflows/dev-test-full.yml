@@ -1,4 +1,4 @@
-name: Build and Push Version
+name: Build Dev Image of FacsimiLab-Full
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "docker/facsimilab-conda-lock.yml"
   workflow_dispatch:
 jobs:
-  build-test-and-push:
+  full-image-devevelopment:
     runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout code

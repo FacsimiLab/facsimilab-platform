@@ -15,7 +15,7 @@ networks:
 
 services:
   main:
-    image: pranavmishra90/facsimilab-full:latest
+    image: pranavmishra90/facsimilab-full:dev
     container_name: Facsimilab
 
     deploy:
@@ -44,6 +44,9 @@ services:
 
       # # SSH configuration (read only)
       - ~/.ssh:/home/coder/.ssh:ro
+
+      # Git Config
+      - ~/.gitconfig:/home/coder/.gitconfig:ro
 
       # Jupyter config
       - ./config/.jupyter/:/home/coder/.jupyter/
