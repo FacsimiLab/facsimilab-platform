@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: ac65b3dc645e5487139596747a6a05bc3189abdad3f6c03a4d78b42951abc165
+    linux-64: caee7ca2ff6af3f0bdc3447cbb5d2c019feab12f61e26d0ae367832a4975a614
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1442,6 +1442,24 @@ package:
     sha256: 5483fc51ad296db41fd1db9497c4743f5c7662c22429745b943dc985ab657169
   category: main
   optional: false
+- name: cuda-python
+  version: 12.6.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    cuda-nvrtc: '>=12,<13.0a0'
+    cuda-version: '>=12,<13.0a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/cuda-python-12.6.0-py311h817de4b_0.conda
+  hash:
+    md5: 13cc2159b22adf68f10c3724c3683d9f
+    sha256: 792e95fe4583e51163afbea25584ffbf61ff47b564a5bba0805cf11460b5d523
+  category: main
+  optional: false
 - name: cuda-runtime
   version: 12.4.0
   manager: conda
@@ -1482,6 +1500,24 @@ package:
   hash:
     md5: 2242eab289d88f2f819f8aee5aa49823
     sha256: 27156736f5a0a30e6fb426f35216b903968b58bdf209d0a04b6eeb6530838456
+  category: main
+  optional: false
+- name: cupy-core
+  version: 13.2.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    fastrlock: '>=0.8.2,<0.9.0a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    numpy: '>=1.22,<3.0.0a0'
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/cupy-core-13.2.0-py311h3bdf873_1.conda
+  hash:
+    md5: e8603abc4d338f00462fa080b4624bdc
+    sha256: 8327cf9120aca1ae9afc4cc6fe3e4d41b1a07902781ba9452a48aa7c22095977
   category: main
   optional: false
 - name: curl
@@ -1529,6 +1565,21 @@ package:
   hash:
     md5: 9f66da0a75608eeeaaa5dc07b8162c68
     sha256: bbba89223011eacf0aac68447b762ef2ecd4b6c8c802ccefad79ff4991472ff1
+  category: main
+  optional: false
+- name: cytoolz
+  version: 0.12.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    libgcc-ng: '>=12'
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+    toolz: '>=0.10.0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/cytoolz-0.12.3-py311h459d7ec_0.conda
+  hash:
+    md5: 13d385f635d7fbe9acc93600f67a6cb4
+    sha256: 1c05863330af1c1af9fcd721170fe50a42757b60e32f35933edd96e97bc188bd
   category: main
   optional: false
 - name: datalad
@@ -1885,6 +1936,21 @@ package:
   hash:
     md5: 8a2751326598877f1565d791a3a9a0fe
     sha256: b5867ca3c43adeaeb2321da717ad1de1a91d52a241ee6b0368cec049ddedc7bf
+  category: main
+  optional: false
+- name: fastrlock
+  version: 0.8.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/fastrlock-0.8.2-py311hb755f60_2.conda
+  hash:
+    md5: 4909588156a4662b9137d634d89b1291
+    sha256: 1b171f23037c1d5e8e963c3b70ccd2d72894a1300e3427a01bfca5d45a536123
   category: main
   optional: false
 - name: fbpca
@@ -5063,6 +5129,20 @@ package:
     sha256: 3f3c65fe0e9e328b4c1ebc2b622727cef3e5b81b18228cfa6cf0955bc1ed8eff
   category: main
   optional: false
+- name: librmm
+  version: 24.08.02
+  manager: conda
+  platform: linux-64
+  dependencies:
+    cuda-version: '>=12,<13.0a0'
+    fmt: '>=10.1.1,<11'
+    spdlog: '>=1.12.0,<1.13'
+  url: https://conda.anaconda.org/rapidsai/linux-64/librmm-24.08.02-cuda12_240807_g5aa8ebe6_0.tar.bz2
+  hash:
+    md5: 3f939ecc87a28906f36d84b58b09b2f8
+    sha256: 7eacde08ac326eb6a6cb35f2c5685fcca0f041003b7c6c653bd020cf03e17b44
+  category: main
+  optional: false
 - name: librsvg
   version: 2.58.2
   manager: conda
@@ -5988,6 +6068,32 @@ package:
     sha256: f86fb22b58e93d04b6f25e0d811b56797689d598788b59dcb47f59045b568306
   category: main
   optional: false
+- name: muon
+  version: 0.1.6
+  manager: conda
+  platform: linux-64
+  dependencies:
+    anndata: ''
+    h5py: ''
+    matplotlib-base: ''
+    mudata: ''
+    natsort: ''
+    numba: ''
+    numpy: ''
+    pandas: ''
+    protobuf: ''
+    python: '>=3.6'
+    scanpy: ''
+    scikit-learn: ''
+    seaborn: ''
+    tqdm: ''
+    umap-learn: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/muon-0.1.6-pyhd8ed1ab_0.conda
+  hash:
+    md5: dbefd0e97a7cd6bb9d21510d46c20842
+    sha256: 1490356d89aff5d005711246c437b21cd93819c693f1bf570a4e6f02642dc0ba
+  category: main
+  optional: false
 - name: mutagen
   version: 1.47.0
   manager: conda
@@ -6395,7 +6501,7 @@ package:
   category: main
   optional: false
 - name: openpyxl
-  version: 3.1.4
+  version: 3.1.5
   manager: conda
   platform: linux-64
   dependencies:
@@ -6403,10 +6509,10 @@ package:
     libgcc-ng: '>=12'
     python: '>=3.11,<3.12.0a0'
     python_abi: 3.11.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/openpyxl-3.1.4-py311h459d7ec_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/openpyxl-3.1.5-py311h459d7ec_0.conda
   hash:
-    md5: ce8c8565ab28dc02587e3c4014186e06
-    sha256: d806cae25da02181d755816f19fc3e5fe650502878aa48d16169b79f9140d2c2
+    md5: b635b3b6a2dcab441c2ef474a3da9e67
+    sha256: 9e4a09db92396bd49290e791f1b953f0d24d5b987cf80a1f857cad1f3b0e8a93
   category: main
   optional: false
 - name: openssh
@@ -7979,15 +8085,15 @@ package:
   category: main
   optional: false
 - name: readchar
-  version: 4.1.0
+  version: 4.2.0
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.6'
-  url: https://conda.anaconda.org/conda-forge/noarch/readchar-4.1.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/readchar-4.2.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 3c5eb2a2c770d2740d1eec49a3b7a2ad
-    sha256: 4603e20d9cb3f099ebc9cf196c04eb56ddf6eea43a536e009912ca013e559ea5
+    md5: b578301525c2c0ac7c91809d10d4f768
+    sha256: 6ddd104e484a4aa6ec674f8ed434f8681ef08e3fb84f329441bf127d3f278dc8
   category: main
   optional: false
 - name: readline
@@ -8123,6 +8229,27 @@ package:
   hash:
     md5: ba445bf767ae6f0d959ff2b40c20912b
     sha256: 2b26d58aa59e46f933c3126367348651b0dab6e0bf88014e857415bb184a4667
+  category: main
+  optional: false
+- name: rmm
+  version: 24.08.02
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    cuda-cudart: ''
+    cuda-python: '>=12,<13.0a0'
+    cuda-version: '>=12,<13.0a0'
+    libgcc-ng: '>=12'
+    librmm: '>=24.8.2,<24.9.0a0'
+    libstdcxx-ng: '>=12'
+    numba: '>=0.57'
+    numpy: '>=1.23,<2.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/rapidsai/linux-64/rmm-24.08.02-cuda12_py311_240807_g5aa8ebe6_0.tar.bz2
+  hash:
+    md5: fc52ff82e368dca05570550bcbf46fd8
+    sha256: 094521625d467264d44999ac1fed81bea1d7bbe31803bfa258de71d74e593636
   category: main
   optional: false
 - name: rpds-py
@@ -8591,6 +8718,20 @@ package:
     sha256: 69717fb862bff834197f2aa627f64b38221d91ec6be435968b71f72998e2f5fa
   category: main
   optional: false
+- name: spdlog
+  version: 1.12.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    fmt: '>=10.1.1,<11.0a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/spdlog-1.12.0-hd2e6256_2.conda
+  hash:
+    md5: f37afc6ce10d45b9fae2f55ddc635b9f
+    sha256: 34c2ac3ecafc109ea659087f2a429b8fd7c557eb75d072e723a9954472726e62
+  category: main
+  optional: false
 - name: sqlalchemy
   version: 2.0.32
   manager: conda
@@ -8848,17 +8989,17 @@ package:
   category: main
   optional: false
 - name: tifffile
-  version: 2024.7.24
+  version: 2024.8.10
   manager: conda
   platform: linux-64
   dependencies:
     imagecodecs: '>=2023.8.12'
     numpy: '>=1.19.2'
     python: '>=3.10'
-  url: https://conda.anaconda.org/conda-forge/noarch/tifffile-2024.7.24-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/tifffile-2024.8.10-pyhd8ed1ab_0.conda
   hash:
-    md5: 5e59c23bd7626e83acf61657cf0512e9
-    sha256: e31137890b9677a0c7f6f8961970a4c052d2bb0f75de80d5a89c95d89e82ad68
+    md5: 4299bb3917015d44536cd73001256b19
+    sha256: db89a5a0996804c412bdf29d45b26186428bb1c82686576dd118550274c5c432
   category: main
   optional: false
 - name: tinycss2

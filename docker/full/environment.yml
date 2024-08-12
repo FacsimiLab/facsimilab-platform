@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - pytorch
   - nvidia
+  - rapidsai
 
 dependencies:
   # Python and interactive python
@@ -22,6 +23,7 @@ dependencies:
   - black=23
   - black-jupyter=23
   - click>8.1
+  # - dask-core
 
   # Version control
   - datalad=1.1
@@ -76,6 +78,9 @@ dependencies:
   # Next-generation -omics
   - scanpy=1.10
   - scvi-tools=1.1
+  - muon=0.1
+  # - squidpy=1.5
+  # - scirpy=0.17
   # - scvelo=0.3
   - bioconda::pydeseq2=0.4
   - bioconda::gseapy=1.1
@@ -83,33 +88,36 @@ dependencies:
   - bioconda::scanorama=1.7
 
   # # GPU
+  - nvidia::cuda-nvcc
   - conda-forge::jaxlib=*=*cuda120py311*
   - conda-forge::jax=0.4
   - conda-forge::flax=0.8
-  - nvidia::cuda-nvcc
   # ML Base
   - pytorch::pytorch=2
   - pytorch::pytorch-cuda=12
   - pytorch::torchvision
+  # GPU Accelerated Packages
+  - conda-forge::cupy-core=13.2
+  - rapidsai::rmm=24.*=*cuda12*
+  # - faiss-gpu=1.8
 
   # Data Sources
   - conda-forge::zenodo_get=1
   - conda-forge::pooch=1.8
 
-  # # Primer design
-  # - primer3-py
-
   # # C  / C++
   - cython=3.0
-  - pybind11
+  - pybind11>2.10
+  - cytoolz>0.10
 
-  # # R
-  # - rpy2=3.5
+  # Primer design
+  # - bioconda::primer3-py
 
-  # pip
+  # pip - Packages not available through conda
   - pip
   - pip:
-      - PyCap
+      - PyCap==2.6
+      # - pyscenic==0.12
   #     - velocyto
   #     - pybind11
   #     - pyvis
