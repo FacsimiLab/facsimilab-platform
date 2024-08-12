@@ -3,7 +3,6 @@ channels:
   - conda-forge
   - pytorch
   - nvidia
-  - rapidsai
 
 dependencies:
   # Python and interactive python
@@ -23,7 +22,7 @@ dependencies:
   - black=23
   - black-jupyter=23
   - click>8.1
-  # - dask-core
+  - dask-core
 
   # Version control
   - datalad=1.1
