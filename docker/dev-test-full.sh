@@ -52,21 +52,18 @@ cd ./full
 read -t 5 -p "Update the conda environment? (y/n) [default is 'n', 5 sec]: " user_input
 
 # Determine the facsimilab_version_num to use
-if [ -n "$user_input" ]; then
+if [ "$user_input" = "n" ]; then
 	echo "Skipping conda-lock generation (assuming it has already been completed)."
-elif [ -n 'y' ]; then
+elif [ "$user_input" = "y" ]; then
 	bash generate-lock.sh
 else
 	echo "Skipping conda-lock generation (assuming it has already been completed)."
 fi
 
-
 # bash generate-lock.sh
 
 # Adjust this according to the container name desired
 CONTAINER_NAME="facsimilab-full":$facsimilab_version_num
-
-
 
 # Initialize the build
 start_time=$(date +%s)
@@ -83,8 +80,7 @@ export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
 export IMAGE_REPO_PREFIX="pranavmishra90/"
 export CACHEBUST="100"
 
-
-docker build --cache-from=pranavmishra90/facsimilab-full:latest --cache-from=gitea.mishracloud.com/pranav/facsimilab-full:dev --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=latest --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/03-full_metadata.json -t $CONTAINER_NAME .
+docker build --cache-from=pranavmishra90/facsimilab-full:latest --cache-from=pranavmishra90/facsimilab-full:dev --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=latest --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/03-full_metadata.json -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
@@ -109,7 +105,6 @@ echo ""
 
 docker image ls | grep facsimilab | grep $facsimilab_version_num
 docker image ls | grep facsimilab | grep dev
-
 
 # Push the dev image
 docker push pranavmishra90/facsimilab-full:dev
