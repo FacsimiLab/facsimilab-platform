@@ -110,7 +110,7 @@ dependencies:
   - cytoolz>0.10
 
   # Primer design
-  # - bioconda::primer3-py
+  - bioconda::primer3-py
 
   # pip - Packages not available through conda
   - pip

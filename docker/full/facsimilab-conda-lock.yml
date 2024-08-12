@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 27b079f84545506e084b0b950f6b6a3fd6c25429c5eb2c3fa87eea7a4af61ac1
+    linux-64: 262110df687ee34fb371a894ce6f7da176b21aceadec462e375b837ece6aa04a
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -7258,6 +7258,20 @@ package:
   hash:
     md5: 78388f97473c02e5ac8a3742eee4c959
     sha256: 2868865a437515136840dbb7d901adea798128427f32f984cfa4cc56989f90ce
+  category: main
+  optional: false
+- name: primer3-py
+  version: 2.0.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    libgcc-ng: '>=12'
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/bioconda/linux-64/primer3-py-2.0.3-py311hdad781d_3.tar.bz2
+  hash:
+    md5: 87129f49331a08997f9451afdc94d95f
+    sha256: 2f4acf1def02d1702524bfede7638a026db2b8a41f4c6740218c4844635c3f7d
   category: main
   optional: false
 - name: prometheus_client
