@@ -76,7 +76,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* 
 
-COPY .mambarc /root/.mambarc
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
 COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-conda-lock.yml /tmp/facsimilab-conda-lock.yml
 
@@ -91,6 +90,7 @@ WORKDIR /home/${MAMBA_USER}/work
 
 # Add the bash profile
 COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
+COPY .condarc /home/${MAMBA_USER}/.condarc
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
 RUN echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 
