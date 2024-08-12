@@ -5,6 +5,7 @@ docker run -it --rm --name Facsimilab-GPUTest \
     --gpus 0 \
     -v $(pwd):/home/coder/work \
     -p 8888:8888 \
+    -e ENV_NAME=facsimilab \
     pranavmishra90/facsimilab-full:latest \
     bash
 ```
@@ -15,6 +16,7 @@ docker run -it --rm --name Facsimilab-GPUTest \
 docker run -it --rm --name Facsimilab-NonGPU \
     -v $(pwd):/home/coder/work \
     -p 8888:8888 \
+    -e ENV_NAME=facsimilab \
     pranavmishra90/facsimilab-full:latest \
     bash
 ```
@@ -25,6 +27,7 @@ docker run -it --rm --name Facsimilab-NonGPU \
 docker run --rm --name Facsimilab-Test \
     --gpus 0 \
     -v $(pwd):/home/coder/work \
+    -e ENV_NAME=facsimilab \
     pranavmishra90/facsimilab-full:latest \
     /home/coder/work/testing/full_image.py
 ```
@@ -36,6 +39,7 @@ docker run -it --rm --name Facsimilab-Jupyter \
     --gpus 0 \
     -v $(pwd):/home/coder/work \
     -p 8888:8888 \
+    -e ENV_NAME=facsimilab \
     pranavmishra90/facsimilab-full:latest \
-    conda activate facsimilab && jupyter notebook
+    conda activate facsimilab && nohup jupyter notebook
 ```

@@ -28,7 +28,10 @@ services:
       - 8888:8888
     user: "1000:1002"
     # Keep alive command for docker compose
-    command: tail -F anything
+    environment:
+      - ENV_NAME=facsimilab
+
+    command: nohup jupyter notebook
 
     volumes:
       # Here we "mount" directories from the host computer into the Facsimilab container
