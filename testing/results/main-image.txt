@@ -1,0 +1,3 @@
+Pranav Kumar Mishra
+62562712+pranavmishra90@users.noreply.github.com
+[{'action': 'get_configuration', 'refds': '/home/coder/work', 'name': 'user.name', 'value': 'Pranav Kumar Mishra', 'path': '/home/coder/work', 'status': 'ok'}, {'action': 'get_configuration', 'refds': '/home/coder/work', 'name': 'user.email', 'value': '62562712+pranavmishra90@users.noreply.github.com', 'path': '/home/coder/work', 'status': 'ok'}]
