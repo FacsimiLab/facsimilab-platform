@@ -5,7 +5,7 @@
       {
         "uri": "pkg:docker/mambaorg/micromamba@1.5?platform=linux%2Famd64",
         "digest": {
-          "sha256": "954e438daab0ad0835430ea84acb27dd47d1ea35a7120c3c9dd9d1a5578f4b13"
+          "sha256": "e37ec9f3f7dea01ef9958d3d924d46077911f7e29c4faed40cd6b37a9ac239fc"
         }
       },
       {
@@ -22,8 +22,8 @@
       "parameters": {
         "frontend": "dockerfile.v0",
         "args": {
-          "build-arg:CACHEBUST": "1723274591",
-          "build-arg:IMAGE_VERSION": "v0.2.5-alpha2"
+          "build-arg:CACHEBUST": "1723502438",
+          "build-arg:IMAGE_VERSION": "v0.2.5-alpha3"
         },
         "locals": [
           {
@@ -39,8 +39,8 @@
       }
     }
   },
-  "buildx.build.ref": "default/default/bqoc7ozuu2suet8v5qkk40rto",
-  "containerimage.config.digest": "sha256:b545e26d225059d7bd1ad744c37e8ebbd4b73b4d8f25cbb741cb4f8d45cd364b",
-  "containerimage.digest": "sha256:b545e26d225059d7bd1ad744c37e8ebbd4b73b4d8f25cbb741cb4f8d45cd364b",
-  "image.name": "docker.io/library/facsimilab-base:v0.2.5-alpha2"
+  "buildx.build.ref": "default/default/amqth0j0tthj251wq0yytdwkf",
+  "containerimage.config.digest": "sha256:ffdb61ca06b70e4708f97811a805ac40379dbf6507589d1d8230a34b273945ad",
+  "containerimage.digest": "sha256:ffdb61ca06b70e4708f97811a805ac40379dbf6507589d1d8230a34b273945ad",
+  "image.name": "docker.io/library/facsimilab-base:v0.2.5-alpha3"
 }

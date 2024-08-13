@@ -16,7 +16,9 @@ echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
 # Build the docker container
-docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CACHEBUST=$(date +%s) --metadata-file ../metadata/01-base_metadata.json -t $CONTAINER_NAME .
+export DOCKER_BUILDKIT=1 # use docker buildx caching
+export BUILDX_METADATA_PROVENANCE=max
+docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num --cache-from=pranavmishra90/facsimilab-base:latest --metadata-file ../metadata/01-base_metadata.json -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME

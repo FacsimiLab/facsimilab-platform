@@ -29,7 +29,7 @@ export CACHEBUST="100"
 
 # docker buildx build --load --progress=auto --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME --metadata-file ../metadata/main_metadata.json .
 
-docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --metadata-file ../metadata/02-main_metadata.json -t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
+docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --cache-from=pranavmishra90/facsimilab-main:latest --metadata-file ../metadata/02-main_metadata.json -t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
 
 #######################################################################
 # Add additional tags

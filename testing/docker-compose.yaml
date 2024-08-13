@@ -31,13 +31,15 @@ services:
     environment:
       - ENV_NAME=facsimilab
 
+    # Start a jupyter notebook on launch: password = pranavmishra90
     command: nohup jupyter notebook
 
     volumes:
       # Here we "mount" directories from the host computer into the Facsimilab container
 
-      # The current directory (./testing) is mounted into ~/work
-      - ./:/home/coder/work
+      # The current directory (./testing) is mounted into ~/work/testing
+      - ./:/home/coder/work/testing
+      # - /home/pranav/work/facsimilab/tutorials:/home/coder/work/tutorials
 
       # Rclone config
       - ./config/rclone:/config/rclone

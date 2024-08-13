@@ -22,7 +22,7 @@ export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
 export IMAGE_REPO_PREFIX=""
 export CACHEBUST="100"
 
-docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/03-full_metadata.json -t $CONTAINER_NAME .
+docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=$CONDA_FILE --cache-from=pranavmishra90/facsimilab-full:latest --cache-from=pranavmishra90/facsimilab-full:dev --metadata-file ../metadata/03-full_metadata.json -t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME

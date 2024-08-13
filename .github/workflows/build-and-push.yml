@@ -33,6 +33,16 @@ jobs:
       - name: Push Docker images
         run: bash docker/push-all.sh
 
+      - name: Run the Action
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          # add_timestamp: false
+          commit_prefix: "[AUTO]"
+          commit_message: "Docker images built and pushed"
+          force: false
+          # target_branch:
+
       - name: Write to workflow job summary
         run: |
           build_version=$(cat docker/build_version.txt)
