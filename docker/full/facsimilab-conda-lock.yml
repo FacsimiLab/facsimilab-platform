@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: d94b2cb4ca0f5bcbb30536b2283679e98c5ff5bfb840041696731675623b9187
+    linux-64: 5aa90bb975b1a0afe22f5396d8ab2fc67d519b1100caf94be12c2d0325e717ea
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -9276,18 +9276,6 @@ package:
     sha256: 9da9a849d53705dee450b83507df1ca8ffea5f83bd21a215202221f1c492f8ad
   category: main
   optional: false
-- name: python-wget
-  version: '3.2'
-  manager: conda
-  platform: linux-64
-  dependencies:
-    python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/python-wget-3.2-py_0.tar.bz2
-  hash:
-    md5: fa3a96642ac9f0cf746cf0825a95bcf9
-    sha256: 25795e337c6dba30ced4b698bb22f3903b3c55b798a297bc23b81d23a8c37217
-  category: main
-  optional: false
 - name: python_abi
   version: '3.11'
   manager: conda
@@ -11731,21 +11719,6 @@ package:
   hash:
     md5: 02f53038910b6fbc9d36bd5f663318e8
     sha256: 16685f7412d79345732e889595a881ee320b85abd44f7244c0f7e628d9d976ec
-  category: main
-  optional: false
-- name: zenodo_get
-  version: 1.6.1
-  manager: conda
-  platform: linux-64
-  dependencies:
-    humanize: ''
-    python: '>=3.6'
-    python-wget: ''
-    requests: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/zenodo_get-1.6.1-pyhd8ed1ab_0.conda
-  hash:
-    md5: 92d07335f138161213b85cf0796c1e25
-    sha256: 196ba6c3056ef2456cf41a78ad1029e4c5da61e841c5682a5ee08e9ae865c492
   category: main
   optional: false
 - name: zeromq

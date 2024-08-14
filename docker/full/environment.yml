@@ -22,7 +22,7 @@ dependencies:
   - black=23
   - black-jupyter=23
   - click>8.1
-  - dask-core
+  - dask-core=2024
 
   # Version control
   - datalad=1.1
@@ -103,7 +103,6 @@ dependencies:
   - faiss-gpu=1.8
 
   # Data Sources
-  - conda-forge::zenodo_get=1
   - conda-forge::pooch=1.8
 
   # # C  / C++
