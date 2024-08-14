@@ -41,6 +41,7 @@ dependencies:
   - fastparquet=2024.5
   - python-igraph=0.11
   - xlsxwriter=3.1
+  - openpyxl=3.1
   - pyreadstat=1.2
 
   # Visualization
@@ -79,7 +80,7 @@ dependencies:
   - scanpy=1.10
   - scvi-tools=1.1
   - muon=0.1
-  # - squidpy=1.5
+  - squidpy=1.5
   # - scirpy=0.17
   # - scvelo=0.3
   - bioconda::pydeseq2=0.4
