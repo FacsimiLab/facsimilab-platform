@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Facsimilab Base Image
 
 FROM mambaorg/micromamba:1.5 AS micromamba

@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 ############################
 ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
@@ -74,14 +76,16 @@ ENV LANG=C.UTF-8
 
 # Install packages
 USER root
-COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
+# COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
 RUN --mount=type=cache,target=/var/cache/apt \
+	--mount=type=cache,target=/tmp/ \
+	wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O /tmp/quarto.deb && \
 	apt install -y /tmp/quarto.deb && rm /tmp/quarto.deb && \
+	/usr/bin/pipx install conda-lock && \
+	quarto install tinytex && \
 	mkdir -p /config/rclone && \
 	apt clean && \
-	rm -rf /var/lib/apt/lists/* 
-
-RUN	/usr/bin/pipx install conda-lock 
+	rm -rf /var/lib/apt/lists/*
 
 # Set login username and work directory
 USER $MAMBA_USER

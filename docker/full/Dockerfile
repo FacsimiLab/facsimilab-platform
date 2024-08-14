@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 
 ############################
 ARG IMAGE_VERSION="dev"
