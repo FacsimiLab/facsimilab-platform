@@ -52,13 +52,13 @@ cd base
 
 bash build.sh
 
-nohup docker push pranavmishra90/facsimilab-base:dev > log/build-base.log
+nohup docker push pranavmishra90/facsimilab-base:dev > ../log/build-base.log &
 
 # Main container
 #----------------------
 cd ../main && bash build.sh
 
-nohup docker push pranavmishra90/facsimilab-main:dev > log/build-base.log
+nohup docker push pranavmishra90/facsimilab-main:dev > ../log/build-main.log &
 
 # Full container
 #----------------------

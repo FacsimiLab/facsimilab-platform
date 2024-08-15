@@ -33,7 +33,7 @@ docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST"  \
 	--cache-from=pranavmishra90/facsimilab-main:latest \
 	--cache-from=pranavmishra90/facsimilab-main:dev \
 	--metadata-file ../metadata/02-main_metadata.json \
-	-t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
+	-t $CONTAINER_NAME .
 
 #######################################################################
 # Add additional tags

@@ -90,7 +90,7 @@ WORKDIR /home/${MAMBA_USER}/work
 
 # Add the bash profile
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases && \
-    "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
+    echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 
 # Copy the tests
 COPY --chown=$MAMBA_USER:$MAMBA_USER /testing /home/${MAMBA_USER}/testing
