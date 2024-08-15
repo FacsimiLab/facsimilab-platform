@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with: 
+          clean: false
+          submodules: true
 
       - name: Build Docker images
         run: bash docker/build-all.sh
