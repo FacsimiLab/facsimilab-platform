@@ -20,6 +20,7 @@ export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
 docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--cache-from=pranavmishra90/facsimilab-base:latest \
+	--cache-from=pranavmishra90/facsimilab-base:dev \
 	--metadata-file ../metadata/01-base_metadata.json \
 	-t $CONTAINER_NAME .
 

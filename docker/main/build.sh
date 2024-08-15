@@ -31,6 +31,7 @@ docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST"  \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--cache-from=pranavmishra90/facsimilab-main:latest \
+	--cache-from=pranavmishra90/facsimilab-main:dev \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
 
