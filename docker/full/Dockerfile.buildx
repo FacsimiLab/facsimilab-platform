@@ -30,7 +30,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
 
 
 RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-    micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
+    micromamba create -y -v --copy --name facsimilab -f /tmp/${CONDA_FILE} \
     && micromamba clean --all --yes
 
 ############################
@@ -95,8 +95,7 @@ RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases && \
 # Copy the tests
 COPY --chown=$MAMBA_USER:$MAMBA_USER /testing /home/${MAMBA_USER}/testing
 
-# Copy the python environment from the first stage
-COPY --chown=$MAMBA_USER:$MAMBA_USER --from=pythonenv ${MAMBA_ROOT_PREFIX}/envs ${MAMBA_ROOT_PREFIX}/envs
+COPY --chown=$MAMBA_USER:$MAMBA_USER /env /opt/conda/envs/facsimilab
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 

@@ -46,6 +46,13 @@ facsimilab_username="coder"
 export facsimilab_version_num
 export facsimilab_username
 
+# Initialize the build
+start_time=$(date +%s)
+
+printf "\n\n\n\n\n"
+echo "-----------------------------------------"
+
+
 # CUDA container
 #----------------------
 cd cuda
@@ -60,13 +67,13 @@ cd base
 
 bash build.sh
 
-nohup docker push pranavmishra90/facsimilab-base:dev > ../log/build-base.log &
+docker push pranavmishra90/facsimilab-base:$facsimilab_version_num > ../log/build-base.log
 
 # Main container
 #----------------------
 cd ../main && bash build.sh
 
-nohup docker push pranavmishra90/facsimilab-main:dev > ../log/build-main.log &
+docker push pranavmishra90/facsimilab-main:$facsimilab_version_num > ../log/build-main.log
 
 # Full container
 #----------------------
@@ -78,5 +85,26 @@ cd ../full
 # Build the docker container
 bash build.sh
 
-# # Play an alert tone in the terminal to mark completion
+
+# Finished
+#----------------------
+# Calculate the total time
+end_time=$(date +%s)
+total_time=$((end_time - start_time))
+minutes=$((total_time / 60))
+seconds=$((total_time % 60))
+
+# Print the completion statement
+formatted_date=$(date "+%m/%d/%Y at %I:%M %p")
+
+echo "Completed: $formatted_date"
+echo "Total time taken: $minutes minutes and $seconds seconds"
+echo ""
+echo ""
+echo "FacsimiLab Docker images: $facsimilab_version_num"
+echo ""
+
+docker image ls | grep facsimilab | grep $facsimilab_version_num
+
+# Play an alert tone in the terminal to mark completion'
 echo -e '\a'
