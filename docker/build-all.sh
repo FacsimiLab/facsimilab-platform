@@ -46,6 +46,14 @@ facsimilab_username="coder"
 export facsimilab_version_num
 export facsimilab_username
 
+# CUDA container
+#----------------------
+cd cuda
+
+./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
+
+cd ..
+
 # Base container
 #----------------------
 cd base
