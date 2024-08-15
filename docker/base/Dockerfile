@@ -30,7 +30,7 @@ ENV LANG=C.UTF-8
 
 
 RUN apt-get update -y \
-    && apt-get install -y tzdata git ninja-build gnupg2 wget && \
+    && apt-get install -y tzdata git ninja-build gnupg2 wget yadm && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings && \
@@ -49,7 +49,7 @@ RUN apt-get update && \
     ca-certificates \
     curl \
     # datalad \
-    # git-annex \
+    git-annex \
     eza \
     fonts-liberation \
     less \

@@ -25,9 +25,8 @@ ENV LANG=C.UTF-8
 
 USER root
 
-COPY .condarc /root/.condarc
-COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
-COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-conda-lock.yml /tmp/facsimilab-conda-lock.yml
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /home/${MAMBA_USER}/
+COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
 
 
 RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
@@ -39,7 +38,7 @@ ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
 ############################
 
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-builder
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-image-builder
 
 ARG IMAGE_VERSION="dev"
 
@@ -66,7 +65,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-
+ENV ENV_NAME=facsmilab
 
 # Install additional packages
 USER root
@@ -77,8 +76,8 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* 
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/facsimilab-environment.yml
-COPY --chown=$MAMBA_USER:$MAMBA_USER facsimilab-conda-lock.yml /tmp/facsimilab-conda-lock.yml
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /home/${MAMBA_USER}/
+COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
 
 # Confirm that $MAMBA_USER has sudo permissions
 RUN echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
@@ -90,11 +89,8 @@ USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
 
 # Add the bash profile
-COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
-COPY .condarc /home/${MAMBA_USER}/.condarc
-RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
-RUN echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
-
+RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases && \
+    "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 
 # Copy the tests
 COPY --chown=$MAMBA_USER:$MAMBA_USER /testing /home/${MAMBA_USER}/testing

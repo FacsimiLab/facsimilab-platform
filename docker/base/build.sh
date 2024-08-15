@@ -18,10 +18,14 @@ echo "$CONTAINER_NAME"
 # Build the docker container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
-docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num --cache-from=pranavmishra90/facsimilab-base:latest --metadata-file ../metadata/01-base_metadata.json -t $CONTAINER_NAME .
+docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--cache-from=pranavmishra90/facsimilab-base:latest \
+	--metadata-file ../metadata/01-base_metadata.json \
+	-t $CONTAINER_NAME .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 # Calculate the total time

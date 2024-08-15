@@ -24,14 +24,20 @@ wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download
 
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
-export IMAGE_REPO_PREFIX="pranavmishra90/"
+export IMAGE_REPO_PREFIX=""
 export CACHEBUST="100"
 
-docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --cache-from=pranavmishra90/facsimilab-main:latest --metadata-file ../metadata/02-main_metadata.json -t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
+docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST"  \
+	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--cache-from=pranavmishra90/facsimilab-main:latest \
+	--metadata-file ../metadata/02-main_metadata.json \
+	-t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
 
 #######################################################################
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 # Calculate the total time

@@ -78,9 +78,8 @@ ENV LANG=C.UTF-8
 USER root
 # COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
 RUN --mount=type=cache,target=/var/cache/apt \
-	--mount=type=cache,target=/tmp/ \
-	wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O /tmp/quarto.deb && \
-	apt install -y /tmp/quarto.deb && rm /tmp/quarto.deb && \
+	--mount=type=bind,source=quarto.deb,target=/tmp/quarto.deb \
+	apt install -y /tmp/quarto.deb && \
 	/usr/bin/pipx install conda-lock && \
 	quarto install tinytex && \
 	mkdir -p /config/rclone && \
@@ -92,8 +91,7 @@ USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
 
 RUN echo "Facsimilab-Main $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
-COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
-COPY --chown=$MAMBA_USER:$MAMBA_USER .condarc ${MAMBA_ROOT_PREFIX}/.condarc
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /home/${MAMBA_USER}/
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
 
 
