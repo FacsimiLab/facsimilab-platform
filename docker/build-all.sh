@@ -52,15 +52,19 @@ cd base
 
 bash build.sh
 
+nohup docker push pranavmishra90/facsimilab-base:dev > log/build-base.log
+
 # Main container
 #----------------------
 cd ../main && bash build.sh
+
+nohup docker push pranavmishra90/facsimilab-main:dev > log/build-base.log
 
 # Full container
 #----------------------
 cd ../full
 
-# # Generate the lock file from the conda environment.yml
+# Generate the lock file from the conda environment.yml
 # bash generate-lock.sh
 
 # Build the docker container
