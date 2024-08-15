@@ -18,13 +18,23 @@ echo "$CONTAINER_NAME"
 # Build the docker container
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
-docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num \
-	--cache-from=pranavmishra90/facsimilab-base:latest \
-	--cache-from=pranavmishra90/facsimilab-base:dev \
+# docker build --progress=auto --build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--cache-from=pranavmishra90/facsimilab-base:latest \
+# 	--cache-from=pranavmishra90/facsimilab-base:dev \
+# 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
+# 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
+# 	--metadata-file ../metadata/01-base_metadata.json \
+# 	-t $CONTAINER_NAME .
+
+docker buildx build \
+	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
+	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
+	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/01-base_metadata.json \
-	-t $CONTAINER_NAME .
+	. --file Dockerfile
 
 # Add additional tags
+docker tag pranavmishra90/$CONTAINER_NAME $CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME

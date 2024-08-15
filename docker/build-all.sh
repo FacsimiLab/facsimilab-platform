@@ -55,11 +55,11 @@ echo "-----------------------------------------"
 
 # CUDA container
 #----------------------
-cd cuda
+# cd cuda
 
-./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
+# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
 
-cd ..
+# cd ..
 
 # Base container
 #----------------------
@@ -83,7 +83,7 @@ cd ../full
 # bash generate-lock.sh
 
 # Build the docker container
-bash build.sh
+bash build.sh  > ../log/build-full.log
 
 
 # Finished

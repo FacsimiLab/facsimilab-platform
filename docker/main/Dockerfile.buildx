@@ -4,45 +4,48 @@
 ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
 ############################
+FROM rclone/rclone:1.67 AS rclone 
+# Build container
+FROM continuumio/miniconda:latest AS main-python-builder
 
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
-
+ARG IMAGE_VERSION="dev"
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
-
-ARG CONDA_FILE=facsimilab-environment.yml
-ENV CONDA_FILE=${CONDA_FILE}
-
 ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
+
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-USER root
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
-COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
+# Install python base environment for the image
+COPY environment.yml /tmp/base-environment.yml
+COPY conda-lock.yml /locks/conda-linux-64.lock
+# RUN cd /tmp && conda-lock -p linux-64 -f /tmp/base-environment.yml && ls
 
+# RUN conda-lock install -n base --copy --file /locks/conda-linux-64.lock
+RUN conda create -p /opt/env --copy --file /locks/conda-linux-64.lock
 
-RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-    micromamba create -y -v --copy --name facsimilab -f /tmp/${CONDA_FILE} \
-    && micromamba clean --all --yes
+#############################
+# Stage 2: 
+# Add / install binaries
+#############################
 
 ############################
 ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
 ############################
 
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-image-builder
+FROM ${IMAGE_REPO_PREFIX}facsimilab-base:${IMAGE_VERSION} 
 
 ARG IMAGE_VERSION="dev"
 
-LABEL org.opencontainers.image.title="FacsimiLab-Full"
+LABEL org.opencontainers.image.title="FacsimiLab-Main"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
@@ -51,51 +54,43 @@ LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-
 LABEL org.opencontainers.image.licenses="MIT"
 
 
+
+# Copy from Stage 1
+COPY --from=main-python-builder --chown=$MAMBA_USER:$MAMBA_USER /opt/env /opt/conda
+COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/
+
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
-
-ARG CONDA_FILE="facsimilab-conda-lock.yml"
-ENV CONDA_FILE=${CONDA_FILE}
-
 ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
+
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-ENV ENV_NAME=facsmilab
 
-# Install additional packages
+# Install packages
 USER root
+# COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
 RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-    zoxide \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
-
-COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /home/${MAMBA_USER}/
-COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
-
-# Confirm that $MAMBA_USER has sudo permissions
-RUN echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
+	--mount=type=bind,source=quarto.deb,target=/tmp/quarto.deb \
+	apt install -y /tmp/quarto.deb && \
+	/usr/bin/pipx install conda-lock && \
+	quarto install tinytex && \
+	mkdir -p /config/rclone && \
+	apt clean && \
+	rm -rf /var/lib/apt/lists/*
 
 # Set login username and work directory
 USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
 
-# Add the bash profile
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /home/${MAMBA_USER}/
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases && \
-    echo "Facsimilab-Full $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
+	echo "Facsimilab-Main $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 
-# Copy the tests
-COPY --chown=$MAMBA_USER:$MAMBA_USER /testing /home/${MAMBA_USER}/testing
-
-COPY --chown=$MAMBA_USER:$MAMBA_USER /env /opt/conda/envs/facsimilab
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 

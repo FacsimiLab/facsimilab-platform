@@ -25,25 +25,30 @@ wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
 export IMAGE_REPO_PREFIX="pranavmishra90/"
-export CACHEBUST="100"
 
-docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST"  \
+docker build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg BUILDKIT_INLINE_CACHE=1 \
 	--cache-from=pranavmishra90/facsimilab-main:latest \
 	--cache-from=pranavmishra90/facsimilab-main:dev \
+	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-t $CONTAINER_NAME .
 
-# docker buildx build --progress=auto \
+
+### Buildx is not working due to a hardlink error with packages such as git-annex
+
+# docker buildx build --progress=plain \
 # 	--pull --push \
 # 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 # 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 # 	--cache-from=pranavmishra90/facsimilab-main:latest \
 # 	--cache-from=pranavmishra90/facsimilab-main:dev \
+# 	--cache-from type=registry,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+# 	--cache-to type=registry,mode=max,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 # 	--metadata-file ../metadata/02-main_metadata.json \
-# 	-t pranavmishra90/$CONTAINER_NAME .
-
+# 	-t pranavmishra90/$CONTAINER_NAME . -f Dockerfile.buildx
 
 #######################################################################
 # Add additional tags

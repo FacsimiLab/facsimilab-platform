@@ -21,22 +21,23 @@ export BUILDX_METADATA_PROVENANCE=max
 export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
 export IMAGE_REPO_PREFIX="pranavmishra90/"
 
-# docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num \
-# 	--build-arg CONDA_FILE=$CONDA_FILE \
-# 	--cache-from=pranavmishra90/facsimilab-full:latest \
-# 	--cache-from=pranavmishra90/facsimilab-full:dev \
-# 	--metadata-file ../metadata/03-full_metadata.json \
-# 	-t $CONTAINER_NAME . -f Dockerfile
-
-docker buildx build --progress=auto \
-	--pull --push --load \
-	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg CONDA_FILE=$CONDA_FILE \
 	--cache-from=pranavmishra90/facsimilab-full:latest \
 	--cache-from=pranavmishra90/facsimilab-full:dev \
-	--metadata-file ../metadata/02-main_metadata.json \
-	-t pranavmishra90/$CONTAINER_NAME . -f Dockerfile.buildx
+	--cache-from type=registry,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
+	--metadata-file ../metadata/03-full_metadata.json \
+	-t $CONTAINER_NAME . -f Dockerfile
+
+# docker buildx build --progress=auto --pull \
+# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--build-arg CONDA_FILE=$CONDA_FILE \
+# 	--cache-from=pranavmishra90/facsimilab-full:latest \
+# 	--cache-from=pranavmishra90/facsimilab-full:dev \
+# 	--cache-to type=registry,mode=max,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
+# 	--metadata-file ../metadata/03-full_metadata.json \
+# 	--output type=image,name=pranavmishra90/$CONTAINER_NAME,push=true .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
