@@ -4,7 +4,7 @@
 cd $(git rev-parse --show-toplevel)
 cd docker
 
-version_file="build_version.txt"
+version_file="image_vesion_txt"
 
 if [ -f "$version_file" ]; then
 	set_version=$(cat "$version_file" | tr -d '[:space:]')
@@ -18,7 +18,7 @@ docker image ls | grep pranavmishra90/facsimilab
 printf "\n\n"
 echo "--------------------------------------------------------------------------------"
 # Prompt the user for the version number
-read -t 15 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./build_version.txt)]: " user_input
+read -t 15 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./image_vesion_txt)]: " user_input
 
 # Remove any whitespace from the user input
 user_input=$(echo "$user_input" | tr -d '[:space:]')
