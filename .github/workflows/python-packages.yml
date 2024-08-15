@@ -25,7 +25,7 @@ jobs:
 
       - name: Write to workflow job summary
         run: |
-          build_version=$(cat docker/image_vesion_txt)
+          build_version=$(cat docker/image_version.txt)
           builder_header="# $build_version "
           echo "$builder_header" > testing/results/job_summary.md
           cat "## Main Image" >> testing/results/job_summary.md
