@@ -52,7 +52,6 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 
-
 # CUDA container
 #----------------------
 # cd cuda
@@ -61,30 +60,29 @@ echo "-----------------------------------------"
 
 # cd ..
 
-# Base container
-#----------------------
+# # Base container
+# #----------------------
 cd base
 
 bash build.sh
 
-docker push pranavmishra90/facsimilab-base:$facsimilab_version_num > ../log/build-base.log
+docker push pranavmishra90/facsimilab-base:$facsimilab_version_num
 
 # Main container
 #----------------------
 cd ../main && bash build.sh
 
-docker push pranavmishra90/facsimilab-main:$facsimilab_version_num > ../log/build-main.log
+docker push pranavmishra90/facsimilab-main:$facsimilab_version_num
 
-# Full container
-#----------------------
-cd ../full
+# # Full container
+# #----------------------
+# cd ../full
 
-# Generate the lock file from the conda environment.yml
-# bash generate-lock.sh
+# # Generate the lock file from the conda environment.yml
+# # bash generate-lock.sh
 
-# Build the docker container
-bash build.sh  > ../log/build-full.log
-
+# # Build the docker container
+# bash build.sh
 
 # Finished
 #----------------------

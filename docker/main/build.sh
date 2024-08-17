@@ -36,7 +36,6 @@ docker build --progress=auto \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-t $CONTAINER_NAME .
 
-
 ### Buildx is not working due to a hardlink error with packages such as git-annex
 
 # docker buildx build --progress=plain \

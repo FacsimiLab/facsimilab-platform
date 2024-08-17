@@ -1,5 +1,5 @@
 {
-  "buildx.build.ref": "cuda/cuda/bhrtym5rrvfulpturvcfikrcg",
+  "buildx.build.ref": "cuda/cuda/qoa62q6fpt6s4zvjgv2md0bk2",
   "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:d3b15f87056c3c988e7ae392de5e4c7888dec01a12adb9dace1d69fcddbe74a8\",\"size\":6481}",
   "containerimage.buildinfo": {
     "frontend": "dockerfile.v0",
@@ -27,5 +27,5 @@
     "size": 4282
   },
   "containerimage.digest": "sha256:ccbc0d8b4d6e9c0b4f95570b737e259386174ec7e58d1e29e1727bacea98d3ac",
-  "image.name": "pranavmishra90/facsimilab-base:v0.2.5-beta6"
+  "image.name": "pranavmishra90/facsimilab-base:v0.2.5-beta7"
 }

@@ -43,3 +43,13 @@ docker run -it --rm --name Facsimilab-Jupyter \
     pranavmishra90/facsimilab-full:latest \
     conda activate facsimilab && nohup jupyter notebook
 ```
+## Main
+
+```sh
+docker run -it --rm --name Facsimilab-GPUTest \
+    --gpus 0 \
+    -v $(pwd):/home/coder/work \
+    -p 8888:8888 \
+    pranavmishra90/facsimilab-main:latest \
+    bash
+```
