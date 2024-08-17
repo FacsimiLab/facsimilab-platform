@@ -1,4 +1,1 @@
-[submodule "docker/cuda"]
-	path = docker/cuda
-	url = https://gitlab.com/nvidia/container-images/cuda.git
-	datalad-url = https://gitlab.com/nvidia/container-images/cuda.git
+
