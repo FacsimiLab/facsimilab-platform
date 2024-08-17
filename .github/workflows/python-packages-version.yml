@@ -17,9 +17,12 @@ jobs:
         uses: juliangruber/read-file-action@v1
         with:
           path: ./docker/image_version.txt
+      
+      - name: Pull Docker Main Image
+        run: docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
 
-      - name: Pull Docker image
-        run: docker pull pranavmishra90/facsimilab-full:latest
+      - name: Pull Docker Full Image
+        run: docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
 
       - name: Run Facsmilab-Main container and execute script
         run: |
