@@ -21,12 +21,12 @@ jobs:
       - name: Pull Docker Main Image
         run: docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
 
-      - name: Pull Docker Full Image
-        run: docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-
       - name: Run Facsmilab-Main container and execute script
         run: |
           docker run --rm -v $(pwd):/home/coder/work -v ~/.gitconfig:/home/coder/.gitconfig  --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
+
+      - name: Pull Docker Full Image
+        run: docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
 
       - name: Run Facsmilab-Full container and execute script
         run: |
