@@ -21,7 +21,7 @@ jobs:
 
       - name: Run Facsmilab-Full container and execute script
         run: |
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:latest /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:latest /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
 
       - name: Write to workflow job summary
         run: |
