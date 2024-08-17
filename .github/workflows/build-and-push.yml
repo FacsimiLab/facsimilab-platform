@@ -16,9 +16,6 @@ jobs:
   build-test-and-push:
     runs-on: [self-hosted, linux, x64]
     steps:
-      # - uses: eviden-actions/clean-self-hosted-runner@v1
-      #   name: Clean self-hosted runner
-        
       - name: Checkout code
         uses: actions/checkout@v4
         with: 
