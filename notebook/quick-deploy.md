@@ -46,7 +46,7 @@ docker run -it --rm --name Facsimilab-Jupyter \
 ## Main
 
 ```sh
-docker run -it --rm --name Facsimilab-GPUTest \
+docker run -it --rm --name Facsimilab-Main \
     --gpus 0 \
     -v $(pwd):/home/coder/work \
     -p 8888:8888 \

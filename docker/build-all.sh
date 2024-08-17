@@ -76,13 +76,13 @@ docker push pranavmishra90/facsimilab-main:$facsimilab_version_num
 
 # # Full container
 # #----------------------
-# cd ../full
+cd ../full
 
-# # Generate the lock file from the conda environment.yml
-# # bash generate-lock.sh
+# Generate the lock file from the conda environment.yml
+# bash generate-lock.sh
 
-# # Build the docker container
-# bash build.sh
+# Build the docker container
+bash build.sh
 
 # Finished
 #----------------------
