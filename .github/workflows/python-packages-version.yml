@@ -1,4 +1,4 @@
-name: Check Python Packages
+name: Check Python Packages - By Label
 
 on:
   workflow_dispatch:
