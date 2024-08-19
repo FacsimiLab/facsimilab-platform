@@ -19,15 +19,15 @@ dependencies:
 
   # General
   - tqdm=4.65
-  - black=23
-  - black-jupyter=23
+  - black=24
+  - black-jupyter=24
   - click>8.1
 
   # Version control
   - datalad=1.1
 
   # Web
-  - requests=2.31
+  - requests>=2.32.0
   - urllib3
 
   # Data structures and analysis
@@ -56,6 +56,12 @@ dependencies:
 
   # Data Sources
   - conda-forge::pooch=1.8
+
+  # CVE Dependency Pinning
+  - lightning>=2.3.3
+  - fastapi>=0.109.1
+  - starlette>=0.25.0
+  - aiohttp>=3.10.2
 
   # pip
   - pip
