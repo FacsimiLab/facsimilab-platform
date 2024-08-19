@@ -9,4 +9,4 @@ conda-lock --mamba --kind lock -p linux-64 -f environment.yml --with-cuda 12.4 -
 cp ./tmp/facsimilab-conda-lock.yml ./facsimilab.conda-lock.yml
 
 
-conda-lock install -p ./env ./facsimilab.conda-lock.yml
+# conda-lock install -p ./env ./facsimilab.conda-lock.yml
