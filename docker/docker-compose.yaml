@@ -1,0 +1,49 @@
+services:
+
+  base:
+    image: pranavmishra90/facsimilab-base:$IMAGE_VERSION
+    build:
+      context: base
+      dockerfile: Dockerfile
+      args:
+        IMAGE_VERSION: $IMAGE_VERSION
+      cache_from:
+        - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache
+      cache_to:
+        - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache
+      tags:
+        - "pranavmishra90/facsimilab-base:dev-gamma"
+
+  # main-env:
+  #   image: pranavmishra90/facsimilab-main-env:$IMAGE_VERSION
+  #   build:
+  #     context: main-env
+  #     dockerfile: main-env.Dockerfile
+  #     no_cache: true
+  #     args:
+  #       IMAGE_VERSION: $IMAGE_VERSION
+  #       IMAGE_REPO_PREFIX: "pranavmishra90/"
+  #     # cache_from:
+  #     #   - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache
+  #     # cache_to:
+  #     #   - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache
+  #     tags:
+  #       - "pranavmishra90/facsimilab-main-env:dev-gamma"
+  #       - "facsimilab-main-env:$IMAGE_VERSION"
+
+  main:
+    image: pranavmishra90/facsimilab-main:$IMAGE_VERSION
+    build:
+      context: main-env
+      dockerfile: stage2.Dockerfile
+      no_cache: true
+      args:
+        IMAGE_VERSION: $IMAGE_VERSION
+        IMAGE_REPO_PREFIX: $IMAGE_REPO_PREFIX
+      # cache_from:
+      #   - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache
+      # cache_to:
+      #   - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache
+      tags:
+        - "pranavmishra90/facsimilab-main:dev-gamma"
+        - "facsimilab-main:$IMAGE_VERSION"

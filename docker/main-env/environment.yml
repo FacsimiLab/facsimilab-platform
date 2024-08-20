@@ -1,4 +1,5 @@
-name: facsimilab
+# name: facsimilab
+# version: 1
 channels:
   - conda-forge
   - pytorch
