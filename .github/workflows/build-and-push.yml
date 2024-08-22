@@ -28,10 +28,18 @@ jobs:
         with:
           path: ./docker/image_version.txt
 
+
+      - name: Notify Starting on Matrix
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.MATRIX_WEBHOOK_URL }}
+          headers: '{"contentType": "application/json"}'
+          body: '{"plain": "Starting FacsimiLab image build for tag ${{ steps.package.outputs.content }}"}'
+
       - name: Build Docker images
         run: bash docker/build-all.sh
 
-      - name: Notify on Matrix
+      - name: Notify Completed on Matrix
         uses: joelwmale/webhook-action@master
         with:
           url: ${{ secrets.MATRIX_WEBHOOK_URL }}
