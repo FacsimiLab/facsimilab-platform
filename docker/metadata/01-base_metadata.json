@@ -1,6 +1,6 @@
 {
-  "buildx.build.ref": "cuda/cuda/urelhxnlorsk1yjdmg3npp932",
-  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:997eb18b88e669f7a3ce1a0328b884e22f7c6fa7dac05eb1e030033cc7670b08\",\"size\":6482}",
+  "buildx.build.ref": "cuda/cuda/le7buvnkcv445tj9tcbhajmw4",
+  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:c6f6a4066a7ca099756ce1e3323f5817d1348aae811ce62c424a51f79296a122\",\"size\":8268}",
   "containerimage.buildinfo": {
     "frontend": "dockerfile.v0",
     "attrs": {

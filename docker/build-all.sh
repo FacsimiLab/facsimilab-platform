@@ -64,17 +64,15 @@ echo "-----------------------------------------"
 # #----------------------
 cd base
 
-bash build.sh
+# bash build.sh
 
-echo "Pushing pranavmishra90/facsimilab-base:$facsimilab_version_num"
-docker push pranavmishra90/facsimilab-base:$facsimilab_version_num
 
-# # Main container
-# #----------------------
-cd ../main-env
+# # # Main container
+# # #----------------------
+# cd ../main-env
 
-bash build.sh
-docker push pranavmishra90/facsimilab-main:$facsimilab_version_num
+# bash build.sh
+
 
 # # Full container
 # #----------------------

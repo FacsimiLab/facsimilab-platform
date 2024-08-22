@@ -6,7 +6,7 @@ ARG IMAGE_REPO_PREFIX=""
 ############################
 
 FROM ${IMAGE_REPO_PREFIX}facsimilab-full-env:${IMAGE_VERSION} AS pythonenv
-
+# FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS pythonenv
 ARG IMAGE_VERSION="dev"
 
 LABEL org.opencontainers.image.title="FacsimiLab-Full"

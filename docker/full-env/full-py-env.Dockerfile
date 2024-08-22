@@ -5,8 +5,8 @@ ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
 ############################
 
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
-
+# FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:dev AS pythonenv
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000

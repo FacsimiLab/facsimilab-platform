@@ -1,0 +1,27 @@
+{
+  "buildx.build.ref": "cuda/cuda/dst8ecr2uykgol5opmqgxeg17",
+  "containerimage.buildinfo": {
+    "frontend": "dockerfile.v0",
+    "attrs": {
+      "build-arg:IMAGE_REPO_PREFIX": "pranavmishra90/",
+      "build-arg:IMAGE_VERSION": "v0.2.5-delta",
+      "filename": "full-stage2.Dockerfile",
+      "source": "docker/dockerfile:1"
+    },
+    "sources": [
+      {
+        "type": "docker-image",
+        "ref": "docker.io/pranavmishra90/facsimilab-main-env:dev@sha256:65c654575c62ebdc5901782a550959ade23a9232b8169424bc473f9581855117",
+        "pin": "sha256:65c654575c62ebdc5901782a550959ade23a9232b8169424bc473f9581855117"
+      }
+    ]
+  },
+  "containerimage.config.digest": "sha256:b690a1df943fe7426ef34f7684dd4f3ed2ec8aeb955f3bdd51c4278a0233ca46",
+  "containerimage.descriptor": {
+    "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
+    "digest": "sha256:3883cfca1877e6f9233109be34723f3e519dd11a4794a29639a32510075e97cf",
+    "size": 6571
+  },
+  "containerimage.digest": "sha256:3883cfca1877e6f9233109be34723f3e519dd11a4794a29639a32510075e97cf",
+  "image.name": "pranavmishra90/facsimilab-full:dev,pranavmishra90/facsimilab-full:v0.2.5-delta"
+}

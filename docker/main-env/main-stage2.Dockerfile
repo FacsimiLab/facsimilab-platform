@@ -10,8 +10,8 @@ ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
 ############################
 FROM rclone/rclone:1.67 AS rclone
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:${IMAGE_VERSION} AS main-python-builder
-
+# FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:${IMAGE_VERSION} AS main-python-builder
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS main-python-builder
 ARG IMAGE_VERSION="dev"
 
 LABEL org.opencontainers.image.title="FacsimiLab-Main"
@@ -49,11 +49,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
 	apt clean && \
 	rm -rf /var/lib/apt/lists/* 
 
-RUN	/usr/bin/pipx install conda-lock 
-
 # Set login username and work directory
 USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
+
+RUN	/usr/bin/pipx install conda-lock 
 
 RUN echo "Facsimilab-Main $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 COPY --chown=$MAMBA_USER:$MAMBA_USER /home /home/${MAMBA_USER}/
