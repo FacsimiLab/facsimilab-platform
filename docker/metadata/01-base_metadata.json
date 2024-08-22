@@ -1,6 +1,6 @@
 {
-  "buildx.build.ref": "cuda/cuda/s571ib3j21haauoelvcdzw6xq",
-  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:9d4bb3a8e6f738465738355933bf6344491bb82f6f910fc0972603be554e7242\",\"size\":6481}",
+  "buildx.build.ref": "cuda/cuda/urelhxnlorsk1yjdmg3npp932",
+  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:997eb18b88e669f7a3ce1a0328b884e22f7c6fa7dac05eb1e030033cc7670b08\",\"size\":6482}",
   "containerimage.buildinfo": {
     "frontend": "dockerfile.v0",
     "attrs": {
@@ -10,8 +10,8 @@
     "sources": [
       {
         "type": "docker-image",
-        "ref": "docker.io/mambaorg/micromamba:1.5@sha256:e37ec9f3f7dea01ef9958d3d924d46077911f7e29c4faed40cd6b37a9ac239fc",
-        "pin": "sha256:e37ec9f3f7dea01ef9958d3d924d46077911f7e29c4faed40cd6b37a9ac239fc"
+        "ref": "docker.io/mambaorg/micromamba:1.5@sha256:475730daef12ff9c0733e70092aeeefdf4c373a584c952dac3f7bdb739601990",
+        "pin": "sha256:475730daef12ff9c0733e70092aeeefdf4c373a584c952dac3f7bdb739601990"
       },
       {
         "type": "docker-image",
@@ -20,12 +20,12 @@
       }
     ]
   },
-  "containerimage.config.digest": "sha256:66ba7d0d49ada6a01e59a2b1422e2575e300687d9a8c029e376525ef05ceb786",
+  "containerimage.config.digest": "sha256:b638b4acef0cd9d937285a886e55418aa124dc06c660835029f2811aed5a7db3",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:ccbc0d8b4d6e9c0b4f95570b737e259386174ec7e58d1e29e1727bacea98d3ac",
+    "digest": "sha256:5ad4f20b1c655c514824cec4d94132aace1309eb11aa4974e2d835e67fd84fb9",
     "size": 4282
   },
-  "containerimage.digest": "sha256:ccbc0d8b4d6e9c0b4f95570b737e259386174ec7e58d1e29e1727bacea98d3ac",
-  "image.name": "pranavmishra90/facsimilab-base:v0.2.5-beta10"
+  "containerimage.digest": "sha256:5ad4f20b1c655c514824cec4d94132aace1309eb11aa4974e2d835e67fd84fb9",
+  "image.name": "pranavmishra90/facsimilab-base:dev"
 }

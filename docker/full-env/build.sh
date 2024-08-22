@@ -81,7 +81,18 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "FacsimiLab Docker images: $facsimilab_version_num"
+echo "FacsimiLab-Full Docker images: $facsimilab_version_num"
 echo ""
 
-docker image ls | grep facsimilab | grep $facsimilab_version_num
+docker image ls | grep facsimilab-full | grep $facsimilab_version_num
+
+echo ""
+echo ""
+echo "FacsimiLab-Full Docker images: dev"
+echo ""
+
+docker image ls | grep facsimilab-full | grep dev
+
+echo "#######################################################################"
+echo "                      End of base image build                          "
+echo "#######################################################################"

@@ -30,11 +30,12 @@ docker buildx build \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
 	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	-t pranavmishra90/facsimilab-base:dev \
 	--metadata-file ../metadata/01-base_metadata.json \
 	. --file Dockerfile
 
 # Add additional tags
-docker tag pranavmishra90/$CONTAINER_NAME $CONTAINER_NAME
+docker tag pranavmishra90/facsimilab-base:dev $CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
@@ -52,7 +53,18 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "FacsimiLab Docker images: $facsimilab_version_num"
+echo "FacsimiLab-Base Docker images: $facsimilab_version_num"
 echo ""
 
-docker image ls | grep facsimilab | grep $facsimilab_version_num
+docker image ls | grep facsimilab-base | grep $facsimilab_version_num
+
+echo ""
+echo ""
+echo "FacsimiLab-Base Docker images: dev"
+echo ""
+
+docker image ls | grep facsimilab-base | grep dev
+
+echo "#######################################################################"
+echo "                      End of base image build                          "
+echo "#######################################################################"

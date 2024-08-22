@@ -34,8 +34,10 @@ docker build --progress=auto \
 	--cache-from=pranavmishra90/facsimilab-main-env:dev \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--metadata-file ../metadata/02-main-env_metadata.json \
+	-t pranavmishra90/facsimilab-main-env:dev \
 	-t $CONTAINER_NAME . -f main-py-env.Dockerfile
 
+docker tag pranavmishra90/facsimilab-main-env:dev $CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main-env:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
@@ -54,11 +56,13 @@ docker buildx build --progress=auto \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--metadata-file ../metadata/02-main_metadata.json \
+	-t pranavmishra90/facsimilab-main:dev \
 	-t $CONTAINER_NAME . -f main-stage2.Dockerfile
 
 
 
 # Add additional tags
+docker tag pranavmishra90/facsimilab-main:dev $CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
@@ -78,7 +82,18 @@ echo "Completed: $formatted_date"
 echo "Total time taken: $minutes minutes and $seconds seconds"
 echo ""
 echo ""
-echo "FacsimiLab Docker images: $facsimilab_version_num"
+echo "FacsimiLab-Main Docker images: $facsimilab_version_num"
 echo ""
 
-docker image ls | grep facsimilab | grep $facsimilab_version_num
+docker image ls | grep facsimilab-main | grep $facsimilab_version_num
+
+echo ""
+echo ""
+echo "FacsimiLab-Main Docker images: dev"
+echo ""
+
+docker image ls | grep facsimilab-main | grep dev
+
+echo "#######################################################################"
+echo "                      End of base image build                          "
+echo "#######################################################################"
