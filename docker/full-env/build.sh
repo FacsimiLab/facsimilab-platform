@@ -35,17 +35,25 @@ docker build --progress=auto \
 	--cache-from=pranavmishra90/facsimilab-full-env:latest \
 	--cache-from=pranavmishra90/facsimilab-full-env:dev \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
+	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/03-full-env_metadata.json \
+	-t docker.io/pranavmishra90/facsimilab-full-env:dev \
 	-t $CONTAINER_NAME . -f full-py-env.Dockerfile
 
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
+docker tag docker.io/pranavmishra90/facsimilab-full-env:dev $CONTAINER_NAME
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full-env:$facsimilab_version_num
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full-env:dev
-docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
+
 
 docker push docker.io/pranavmishra90/facsimilab-full-env:dev
 #####################################################################
 
 CONTAINER_NAME="facsimilab-full":$facsimilab_version_num
+
+printf "\n\n\n\n\n"
+echo "-----------------------------------------"
+echo "Building the following container:"
+echo "$CONTAINER_NAME"
 
 docker buildx build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
@@ -57,11 +65,14 @@ docker buildx build --progress=auto \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--metadata-file ../metadata/03-full_metadata.json \
+	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	-t docker.io/pranavmishra90/facsimilab-full:dev \
 	-t $CONTAINER_NAME . -f full-stage2.Dockerfile
 
 
 
 # Add additional tags
+docker tag docker.io/pranavmishra90/facsimilab-full:dev $CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
@@ -94,5 +105,5 @@ echo ""
 docker image ls | grep facsimilab-full | grep dev
 
 echo "#######################################################################"
-echo "                      End of base image build                          "
+echo "                      End of Full image build                          "
 echo "#######################################################################"

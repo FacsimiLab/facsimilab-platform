@@ -32,7 +32,7 @@ jobs:
         with:
             room_id: ${{ secrets.MATRIX_ROOM_ID }}
             access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+            message: "Starting FacsimiLab image build for tag ${{ steps.package.outputs.content }} <br><br> ${{ github.workflow }}-${{ github.ref }}"
             server: "matrix.drpranavmishra.com"
 
       - name: Build Docker images
@@ -43,7 +43,7 @@ jobs:
         with:
             room_id: ${{ secrets.MATRIX_ROOM_ID }}
             access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+            message: "# Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
             server: "matrix.drpranavmishra.com"
 
       - name: Run Facsmilab-Main container and execute script
