@@ -80,6 +80,7 @@ jobs:
           cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
   notify-completed:
+    runs-on: ubuntu-latest
     steps:
       - name: Matrix Message - Completed GitHub Action
         uses: s3krit/matrix-message-action@v0.0.3
