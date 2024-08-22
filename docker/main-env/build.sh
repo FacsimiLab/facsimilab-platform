@@ -52,6 +52,7 @@ echo "-----------------------------------------"
 echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
+# Cache export
 docker buildx build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
@@ -60,6 +61,18 @@ docker buildx build --progress=auto \
 	--cache-from=pranavmishra90/facsimilab-main:dev \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+	--metadata-file ../metadata/02-main_metadata.json \
+	-t pranavmishra90/facsimilab-main:dev \
+	-t $CONTAINER_NAME . -f main-stage2.Dockerfile
+
+# Image export
+docker buildx build --progress=auto \
+	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg BUILDKIT_INLINE_CACHE=1 \
+	--cache-from=pranavmishra90/facsimilab-main:latest \
+	--cache-from=pranavmishra90/facsimilab-main:dev \
+	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-t pranavmishra90/facsimilab-main:dev \
@@ -74,6 +87,7 @@ docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 docker push docker.io/pranavmishra90/facsimilab-main:dev
+docker push docker.io/pranavmishra90/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)
