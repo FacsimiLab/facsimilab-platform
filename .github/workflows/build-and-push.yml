@@ -29,23 +29,24 @@ jobs:
           path: ./docker/image_version.txt
 
 
-      - name: Send Matrix Message
+      - name: Matrix Message - Starting Build
         uses: s3krit/matrix-message-action@v0.0.3
         with:
             room_id: ${{ secrets.MATRIX_ROOM_ID }}
             access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Hello, world"
+            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
             server: "matrix.drpranavmishra.com"
 
       - name: Build Docker images
         run: bash docker/build-all.sh
 
-      - name: Notify Completed on Matrix
-        uses: joelwmale/webhook-action@master
+      - name: Matrix Message - Completed Build
+        uses: s3krit/matrix-message-action@v0.0.3
         with:
-          url: ${{ secrets.MATRIX_WEBHOOK_URL }}
-          headers: '{"contentType": "application/json"}'
-          body: '{"plain": "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"}'
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+            server: "matrix.drpranavmishra.com"
 
       - name: Run Facsmilab-Main container and execute script
         run: |
@@ -78,3 +79,12 @@ jobs:
           cat testing/results/main-image.txt >> testing/results/job_summary.md
           cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
+  notify-completed:
+    steps:
+      - name: Matrix Message - Completed GitHub Action
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
+            server: "matrix.drpranavmishra.com"
