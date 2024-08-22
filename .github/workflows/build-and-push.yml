@@ -31,6 +31,13 @@ jobs:
       - name: Build Docker images
         run: bash docker/build-all.sh
 
+      - name: Notify on Matrix
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.MATRIX_WEBHOOK_URL }}
+          headers: '{"contentType": "application/json"}'
+          body: '{"plain": "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"}'
+
       - name: Run Facsmilab-Main container and execute script
         run: |
           docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
