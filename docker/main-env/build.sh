@@ -33,6 +33,19 @@ docker build --progress=auto \
 	--cache-from=pranavmishra90/facsimilab-main-env:latest \
 	--cache-from=pranavmishra90/facsimilab-main-env:dev \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache \
+	--metadata-file ../metadata/02-main-env_metadata.json \
+	-t pranavmishra90/facsimilab-main-env:dev \
+	-t $CONTAINER_NAME . -f main-py-env.Dockerfile
+
+docker build --progress=auto \
+	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg BUILDKIT_INLINE_CACHE=1 \
+	--cache-from=pranavmishra90/facsimilab-main-env:latest \
+	--cache-from=pranavmishra90/facsimilab-main-env:dev \
+	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache \
+	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/02-main-env_metadata.json \
 	-t pranavmishra90/facsimilab-main-env:dev \
 	-t $CONTAINER_NAME . -f main-py-env.Dockerfile
