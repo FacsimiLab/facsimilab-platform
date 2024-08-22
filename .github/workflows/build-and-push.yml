@@ -22,7 +22,7 @@ jobs:
           clean: false
           submodules: true
 
-      - name: Read package.json
+      - name: Read the image version
         id: package
         uses: juliangruber/read-file-action@v1
         with:

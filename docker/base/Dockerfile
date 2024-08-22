@@ -62,6 +62,7 @@ RUN apt-get update && \
     pipx \
     sudo \
     tini \
+    tree \
     unzip \
     zoxide \
     zsh && \

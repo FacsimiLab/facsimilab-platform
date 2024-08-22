@@ -65,18 +65,18 @@ echo "-----------------------------------------"
 cd base
 
 bash build.sh
-
 docker push pranavmishra90/facsimilab-base:$facsimilab_version_num
 
-# Main container
-#----------------------
-cd ../main && bash build.sh
+# # Main container
+# #----------------------
+cd ../main-env
 
+bash build.sh
 docker push pranavmishra90/facsimilab-main:$facsimilab_version_num
 
 # # Full container
 # #----------------------
-cd ../full
+cd ../full-env
 
 # Generate the lock file from the conda environment.yml
 # bash generate-lock.sh

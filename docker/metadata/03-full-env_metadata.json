@@ -1,0 +1,1647 @@
+{
+  "buildx.build.provenance": {
+    "buildType": "https://mobyproject.org/buildkit@v1",
+    "materials": [
+      {
+        "uri": "pkg:docker/docker/dockerfile@1",
+        "digest": {
+          "sha256": "fe40cf4e92cd0c467be2cfc30657a680ae2398318afd50b0c80585784c604f28"
+        }
+      },
+      {
+        "uri": "pkg:docker/pranavmishra90/facsimilab-main@v0.2.5-beta10?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "9424643870f7d3ee4d2bd671477d1d25d88b2aab7afe457fafaabbe9f6951ac4"
+        }
+      }
+    ],
+    "invocation": {
+      "configSource": {
+        "entryPoint": "full-py-env.Dockerfile"
+      },
+      "parameters": {
+        "frontend": "gateway.v0",
+        "args": {
+          "build-arg:BUILDKIT_INLINE_CACHE": "1",
+          "build-arg:CONDA_FILE": "facsimilab-conda-lock.yml",
+          "build-arg:IMAGE_REPO_PREFIX": "pranavmishra90/",
+          "build-arg:IMAGE_VERSION": "v0.2.5-beta10",
+          "cmdline": "docker/dockerfile:1",
+          "source": "docker/dockerfile:1"
+        },
+        "locals": [
+          {
+            "name": "context"
+          },
+          {
+            "name": "dockerfile"
+          }
+        ]
+      },
+      "environment": {
+        "platform": "linux/amd64"
+      }
+    },
+    "buildConfig": {
+      "llbDefinition": [
+        {
+          "id": "step0",
+          "op": {
+            "Op": {
+              "source": {
+                "identifier": "docker-image://docker.io/pranavmishra90/facsimilab-main:v0.2.5-beta10",
+                "attrs": {
+                  "image.resolvemode": "local"
+                }
+              }
+            },
+            "platform": {
+              "Architecture": "amd64",
+              "OS": "linux"
+            },
+            "constraints": {}
+          }
+        },
+        {
+          "id": "step1",
+          "op": {
+            "Op": {
+              "source": {
+                "identifier": "local://context",
+                "attrs": {
+                  "local.followpaths": "[\"home\",\"tmp\"]",
+                  "local.sharedkeyhint": "context"
+                }
+              }
+            },
+            "constraints": {}
+          }
+        },
+        {
+          "id": "step2",
+          "op": {
+            "Op": {
+              "file": {
+                "actions": [
+                  {
+                    "input": 0,
+                    "secondaryInput": 1,
+                    "output": 0,
+                    "Action": {
+                      "copy": {
+                        "src": "/home",
+                        "dest": "/root/",
+                        "owner": {
+                          "user": {
+                            "User": {
+                              "byName": {
+                                "name": "coder",
+                                "input": 0
+                              }
+                            }
+                          },
+                          "group": {
+                            "User": {
+                              "byName": {
+                                "name": "coder",
+                                "input": 0
+                              }
+                            }
+                          }
+                        },
+                        "mode": -1,
+                        "followSymlink": true,
+                        "dirCopyContents": true,
+                        "createDestPath": true,
+                        "allowWildcard": true,
+                        "allowEmptyWildcard": true,
+                        "timestamp": -1
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step0:0",
+            "step1:0"
+          ]
+        },
+        {
+          "id": "step3",
+          "op": {
+            "Op": {
+              "file": {
+                "actions": [
+                  {
+                    "input": 0,
+                    "secondaryInput": 1,
+                    "output": 0,
+                    "Action": {
+                      "copy": {
+                        "src": "/tmp",
+                        "dest": "/tmp",
+                        "owner": {
+                          "user": {
+                            "User": {
+                              "byName": {
+                                "name": "coder",
+                                "input": 0
+                              }
+                            }
+                          },
+                          "group": {
+                            "User": {
+                              "byName": {
+                                "name": "coder",
+                                "input": 0
+                              }
+                            }
+                          }
+                        },
+                        "mode": -1,
+                        "followSymlink": true,
+                        "dirCopyContents": true,
+                        "createDestPath": true,
+                        "allowWildcard": true,
+                        "allowEmptyWildcard": true,
+                        "timestamp": -1
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step2:0",
+            "step1:0"
+          ]
+        },
+        {
+          "id": "step4",
+          "op": {
+            "Op": {
+              "exec": {
+                "meta": {
+                  "args": [
+                    "/usr/local/bin/_dockerfile_shell.sh",
+                    "micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE}     \u0026\u0026 micromamba clean --all --yes"
+                  ],
+                  "env": [
+                    "PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    "NVARCH=x86_64",
+                    "NVIDIA_REQUIRE_CUDA=cuda\u003e=12.4 brand=tesla,driver\u003e=470,driver\u003c471 brand=unknown,driver\u003e=470,driver\u003c471 brand=nvidia,driver\u003e=470,driver\u003c471 brand=nvidiartx,driver\u003e=470,driver\u003c471 brand=geforce,driver\u003e=470,driver\u003c471 brand=geforcertx,driver\u003e=470,driver\u003c471 brand=quadro,driver\u003e=470,driver\u003c471 brand=quadrortx,driver\u003e=470,driver\u003c471 brand=titan,driver\u003e=470,driver\u003c471 brand=titanrtx,driver\u003e=470,driver\u003c471 brand=tesla,driver\u003e=525,driver\u003c526 brand=unknown,driver\u003e=525,driver\u003c526 brand=nvidia,driver\u003e=525,driver\u003c526 brand=nvidiartx,driver\u003e=525,driver\u003c526 brand=geforce,driver\u003e=525,driver\u003c526 brand=geforcertx,driver\u003e=525,driver\u003c526 brand=quadro,driver\u003e=525,driver\u003c526 brand=quadrortx,driver\u003e=525,driver\u003c526 brand=titan,driver\u003e=525,driver\u003c526 brand=titanrtx,driver\u003e=525,driver\u003c526 brand=tesla,driver\u003e=535,driver\u003c536 brand=unknown,driver\u003e=535,driver\u003c536 brand=nvidia,driver\u003e=535,driver\u003c536 brand=nvidiartx,driver\u003e=535,driver\u003c536 brand=geforce,driver\u003e=535,driver\u003c536 brand=geforcertx,driver\u003e=535,driver\u003c536 brand=quadro,driver\u003e=535,driver\u003c536 brand=quadrortx,driver\u003e=535,driver\u003c536 brand=titan,driver\u003e=535,driver\u003c536 brand=titanrtx,driver\u003e=535,driver\u003c536",
+                    "NV_CUDA_CUDART_VERSION=12.4.127-1",
+                    "NV_CUDA_COMPAT_PACKAGE=cuda-compat-12-4",
+                    "CUDA_VERSION=12.4.1",
+                    "LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64",
+                    "NVIDIA_VISIBLE_DEVICES=all",
+                    "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
+                    "MAMBA_USER_WORK_DIR=/home/coder/work",
+                    "MAMBA_USER_ID=1000",
+                    "MAMBA_USER_GID=1000",
+                    "CONDA_FILE=facsimilab-conda-lock.yml",
+                    "MAMBA_USER=coder",
+                    "MAMBA_ROOT_PREFIX=/opt/conda",
+                    "MAMBA_EXE=/bin/micromamba",
+                    "DEBIAN_FRONTEND=noninteractive",
+                    "TZ=America/Chicago",
+                    "LC_ALL=C.UTF-8",
+                    "LANG=C.UTF-8"
+                  ],
+                  "cwd": "/home/coder/work",
+                  "user": "root",
+                  "removeMountStubsRecursive": true
+                },
+                "mounts": [
+                  {
+                    "input": 0,
+                    "dest": "/",
+                    "output": 0
+                  },
+                  {
+                    "input": -1,
+                    "dest": "/opt/conda/pkgs",
+                    "output": -1,
+                    "mountType": 3,
+                    "cacheOpt": {
+                      "ID": "//opt/conda/pkgs"
+                    }
+                  }
+                ]
+              }
+            },
+            "platform": {
+              "Architecture": "amd64",
+              "OS": "linux"
+            },
+            "constraints": {}
+          },
+          "inputs": [
+            "step3:0"
+          ],
+          "resourceUsage": {
+            "samples": [
+              {
+                "timestamp": "2024-08-20T03:53:17.984113129-05:00",
+                "pidsStat": {},
+                "netStat": {}
+              },
+              {
+                "timestamp": "2024-08-20T03:54:28.005861035-05:00",
+                "pidsStat": {},
+                "netStat": {}
+              },
+              {
+                "timestamp": "2024-08-20T03:55:40.018816772-05:00",
+                "pidsStat": {},
+                "netStat": {}
+              },
+              {
+                "timestamp": "2024-08-20T03:57:00.040768055-05:00",
+                "pidsStat": {},
+                "netStat": {}
+              },
+              {
+                "timestamp": "2024-08-20T03:58:04.058214201-05:00",
+                "pidsStat": {},
+                "netStat": {}
+              },
+              {
+                "timestamp": "2024-08-20T03:59:36.624818459-05:00",
+                "pidsStat": {},
+                "netStat": {}
+              }
+            ],
+            "sysCPUStat": {
+              "user": 417.91,
+              "nice": 0,
+              "system": 261.89,
+              "idle": 11329.31,
+              "iowait": 144.13,
+              "irq": 6.12,
+              "softirq": 12.08,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            }
+          }
+        },
+        {
+          "id": "step5",
+          "op": {
+            "Op": null
+          },
+          "inputs": [
+            "step4:0"
+          ]
+        }
+      ],
+      "digestMapping": {
+        "sha256:8ff23f9c43dc7476bac8afc87d33e5c68d2ea0cd91d4258ac4eab69d0b509410": "step3",
+        "sha256:c5add5e63a7a8e848498b5dfe93a7734aac7e390a4e01807b46928a86ee0addd": "step4",
+        "sha256:cb2eb72efce5cdf358d34e78ec404e4bb70d9e782cac43523df4b5f0cf256798": "step1",
+        "sha256:cf78348c23f42d4ef1c55c09fceb460d3fddcc4a56cd26ec14bfd10cf3db020c": "step2",
+        "sha256:f2b7e9405d6e3c6f5714ae3eb6c0b92f4e9956429094a0ae3eefb7126b0f6f07": "step5",
+        "sha256:f443bd965b1bc3fa6f7a2978bf09d3b573c87ec93ba7f4ab96dc8f023e796611": "step0"
+      }
+    },
+    "metadata": {
+      "buildInvocationID": "ha7zo6s70tm4wnnu8apfw7qr8",
+      "buildStartedOn": "2024-08-20T03:53:15.039477183-05:00",
+      "buildFinishedOn": "2024-08-20T04:02:14.091469035-05:00",
+      "completeness": {
+        "parameters": true,
+        "environment": true,
+        "materials": false
+      },
+      "reproducible": false,
+      "https://mobyproject.org/buildkit@v1#metadata": {
+        "vcs": {
+          "localdir:context": "docker/full-env",
+          "localdir:dockerfile": "docker/full-env",
+          "revision": "f64e11e6eb8dacd9d490e5581139e7fb5b0e87d0",
+          "source": "git@github.com:pranavmishra90/facsimilab-platform.git"
+        },
+        "source": {
+          "locations": {
+            "step0": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 8
+                      },
+                      "end": {
+                        "line": 8
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step1": {},
+            "step2": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 28
+                      },
+                      "end": {
+                        "line": 28
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step3": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 29
+                      },
+                      "end": {
+                        "line": 29
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "step4": {
+              "locations": [
+                {
+                  "ranges": [
+                    {
+                      "start": {
+                        "line": 32
+                      },
+                      "end": {
+                        "line": 32
+                      }
+                    },
+                    {
+                      "start": {
+                        "line": 33
+                      },
+                      "end": {
+                        "line": 33
+                      }
+                    },
+                    {
+                      "start": {
+                        "line": 34
+                      },
+                      "end": {
+                        "line": 34
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "infos": [
+            {
+              "filename": "full-py-env.Dockerfile",
+              "language": "Dockerfile",
+              "data": "IyBzeW50YXg9ZG9ja2VyL2RvY2tlcmZpbGU6MQoKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwpBUkcgSU1BR0VfVkVSU0lPTj0iZGV2IgpBUkcgSU1BR0VfUkVQT19QUkVGSVg9IiIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoKRlJPTSAke0lNQUdFX1JFUE9fUFJFRklYfWZhY3NpbWlsYWItbWFpbjoke0lNQUdFX1ZFUlNJT059IEFTIHB5dGhvbmVudgoKCkFSRyBNQU1CQV9VU0VSPWNvZGVyCkFSRyBNQU1CQV9VU0VSX0lEPTEwMDAKQVJHIE1BTUJBX1VTRVJfR0lEPTEwMDAKCkFSRyBDT05EQV9GSUxFPWZhY3NpbWlsYWItZW52aXJvbm1lbnQueW1sCkVOViBDT05EQV9GSUxFPSR7Q09OREFfRklMRX0KCkVOViBNQU1CQV9VU0VSPSRNQU1CQV9VU0VSCkVOViBNQU1CQV9ST09UX1BSRUZJWD0iL29wdC9jb25kYSIKRU5WIE1BTUJBX0VYRT0iL2Jpbi9taWNyb21hbWJhIgpFTlYgREVCSUFOX0ZST05URU5EPSJub25pbnRlcmFjdGl2ZSIKRU5WIFRaPSJBbWVyaWNhL0NoaWNhZ28iCkVOViBMQ19BTEw9Qy5VVEYtOApFTlYgTEFORz1DLlVURi04CgpVU0VSIHJvb3QKCkNPUFkgLS1jaG93bj0kTUFNQkFfVVNFUjokTUFNQkFfVVNFUiAvaG9tZS8gL3Jvb3QvCkNPUFkgLS1jaG93bj0kTUFNQkFfVVNFUjokTUFNQkFfVVNFUiAvdG1wIC90bXAKCgpSVU4gLS1tb3VudD10eXBlPWNhY2hlLHRhcmdldD0ke01BTUJBX1JPT1RfUFJFRklYfS9wa2dzIFwKICAgIG1pY3JvbWFtYmEgY3JlYXRlIC15IC12IC0tbmFtZSBmYWNzaW1pbGFiIC1mIC90bXAvJHtDT05EQV9GSUxFfSBcCiAgICAmJiBtaWNyb21hbWJhIGNsZWFuIC0tYWxsIC0teWVz",
+              "llbDefinition": [
+                {
+                  "id": "step0",
+                  "op": {
+                    "Op": {
+                      "source": {
+                        "identifier": "local://dockerfile",
+                        "attrs": {
+                          "local.differ": "none",
+                          "local.followpaths": "[\"full-py-env.Dockerfile\",\"full-py-env.Dockerfile.dockerignore\"]",
+                          "local.sharedkeyhint": "dockerfile"
+                        }
+                      }
+                    },
+                    "constraints": {}
+                  }
+                },
+                {
+                  "id": "step1",
+                  "op": {
+                    "Op": null
+                  },
+                  "inputs": [
+                    "step0:0"
+                  ]
+                }
+              ],
+              "digestMapping": {
+                "sha256:8f1f9ce20fb92a6a1b0144b48c618446897e7e7eb6e43eb5ad99d8d950a1cfd1": "step1",
+                "sha256:f882c273e6ba54e3345df06470b8c055cf7aea583574fff6c7c8d3a939e141aa": "step0"
+              }
+            }
+          ]
+        },
+        "layers": {
+          "step0:0": [
+            [
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:1b9b7346fee7abbc7f5538eaa23548bd05a45abe8daf6794024be0c8ad7d60bb",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:d8b7166a5f9272242e5b5dd166c2eac3d04ad270ccfee8023815ee5127f4dffd",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0321893ee9c6a07137130cddc6803682a7c782e2a18cf4bd08ac5901f449ded6",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:a21a0c24b68601412bf8b9675fb358908446daa47759f8acd30313e19bc44326",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:722e0c9e620bf9a060c45a313aa778f594c6aef5770a2cc4d63be4b686a0d0c4",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:49e15f31f231322642e3e5454323bb1ef3afdb36eb5f2ea327d11a96c9cfba55",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:6742aee3b99d11a5ce50ac826a6ace6bc6d5d99c633509fae7ebd99b00e4b049",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c33fc4a445df089eb6606973a0c87ca093369410ccd06725c1d03af7ac04bb07",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c82b79643796dc20821e2ba2b5f4c502f0433ec57b28661ec5c6f402d8132577",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:61886806a78b6df8f2b82808da002a0b74a54de408aff1be58bfd902f43d6b09",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:9e8c1086aeb68a022a7e8ad2a3792bba54cd1f9188a257e4256096745ee9ab7f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0a2f1aa0b88c758dba56dd3f3f2ea11c36a0cc23b6d34fc34ec8fe0df41f6332",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c6290bc46a6519761a37e31f517b8b5712864d706d06202d112a168cca360f36",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:eeb5935928dda50f7e012da75a22e222c6cf3aac5df68b14be8df92022dea800",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c9f4e769f7268f99cbda443c86eb461f3b8450658d6e8bff029784601f44540f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7e369357b0d0cbb591f702e95a8c06866090485ce116a6c217866903f620259e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:ea3c50c543ca40dc8c6252f06b0cda0dc7a5c9ec2efd4b575a955a63c2bd5de3",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:f9c29b2299a54b21dbb72917b8411c7b198346e8e3968846ea733d34344a099f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fd7a00f20c04a4a8f6d8ef02ecbca816fde55ab94fc2f0b41e9943e1d6e8de0e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fecfa45ac59a0867b2d234ba1daee1efdccfdafe7751b6c1026856ffd9b284b0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:8cf4adf37c7de651782a55eb425373b4bbb1a715887b66295d92321cd73d2b59",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:b24ec38e8a2729f74feed68d13bfa7e5dc95bed07f53f96f60e915839bb53095",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5a889527e0d889ee797b8c8241a326946f1da8c8c4cfee32769dd8553b92be14",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:742b4671f233c29e7768f4db5d6638120da4c20199d4581fe83aeb35d3dafff0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7f58f4d79d77209618cab0bdf18c86140b13deb4cfcc09b035f0a54a484c6d48",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:38c6f9944f576904d40791260f2b5b32b52dd9722ac83b22c01d32c1c952c0c9",
+                "size": -1
+              }
+            ]
+          ],
+          "step1:0": [
+            []
+          ],
+          "step2:0": [
+            [
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:1b9b7346fee7abbc7f5538eaa23548bd05a45abe8daf6794024be0c8ad7d60bb",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:d8b7166a5f9272242e5b5dd166c2eac3d04ad270ccfee8023815ee5127f4dffd",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0321893ee9c6a07137130cddc6803682a7c782e2a18cf4bd08ac5901f449ded6",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:a21a0c24b68601412bf8b9675fb358908446daa47759f8acd30313e19bc44326",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:722e0c9e620bf9a060c45a313aa778f594c6aef5770a2cc4d63be4b686a0d0c4",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:49e15f31f231322642e3e5454323bb1ef3afdb36eb5f2ea327d11a96c9cfba55",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:6742aee3b99d11a5ce50ac826a6ace6bc6d5d99c633509fae7ebd99b00e4b049",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c33fc4a445df089eb6606973a0c87ca093369410ccd06725c1d03af7ac04bb07",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c82b79643796dc20821e2ba2b5f4c502f0433ec57b28661ec5c6f402d8132577",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:61886806a78b6df8f2b82808da002a0b74a54de408aff1be58bfd902f43d6b09",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:9e8c1086aeb68a022a7e8ad2a3792bba54cd1f9188a257e4256096745ee9ab7f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0a2f1aa0b88c758dba56dd3f3f2ea11c36a0cc23b6d34fc34ec8fe0df41f6332",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c6290bc46a6519761a37e31f517b8b5712864d706d06202d112a168cca360f36",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:eeb5935928dda50f7e012da75a22e222c6cf3aac5df68b14be8df92022dea800",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c9f4e769f7268f99cbda443c86eb461f3b8450658d6e8bff029784601f44540f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7e369357b0d0cbb591f702e95a8c06866090485ce116a6c217866903f620259e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:ea3c50c543ca40dc8c6252f06b0cda0dc7a5c9ec2efd4b575a955a63c2bd5de3",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:f9c29b2299a54b21dbb72917b8411c7b198346e8e3968846ea733d34344a099f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fd7a00f20c04a4a8f6d8ef02ecbca816fde55ab94fc2f0b41e9943e1d6e8de0e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fecfa45ac59a0867b2d234ba1daee1efdccfdafe7751b6c1026856ffd9b284b0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:8cf4adf37c7de651782a55eb425373b4bbb1a715887b66295d92321cd73d2b59",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:b24ec38e8a2729f74feed68d13bfa7e5dc95bed07f53f96f60e915839bb53095",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5a889527e0d889ee797b8c8241a326946f1da8c8c4cfee32769dd8553b92be14",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:742b4671f233c29e7768f4db5d6638120da4c20199d4581fe83aeb35d3dafff0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7f58f4d79d77209618cab0bdf18c86140b13deb4cfcc09b035f0a54a484c6d48",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:38c6f9944f576904d40791260f2b5b32b52dd9722ac83b22c01d32c1c952c0c9",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5b4b216e7d8ff875d892bab1b6fcb6ec235eea8a66c10e136117f5c1bd152dac",
+                "size": -1
+              }
+            ]
+          ],
+          "step3:0": [
+            [
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:1b9b7346fee7abbc7f5538eaa23548bd05a45abe8daf6794024be0c8ad7d60bb",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:d8b7166a5f9272242e5b5dd166c2eac3d04ad270ccfee8023815ee5127f4dffd",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0321893ee9c6a07137130cddc6803682a7c782e2a18cf4bd08ac5901f449ded6",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:a21a0c24b68601412bf8b9675fb358908446daa47759f8acd30313e19bc44326",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:722e0c9e620bf9a060c45a313aa778f594c6aef5770a2cc4d63be4b686a0d0c4",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:49e15f31f231322642e3e5454323bb1ef3afdb36eb5f2ea327d11a96c9cfba55",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:6742aee3b99d11a5ce50ac826a6ace6bc6d5d99c633509fae7ebd99b00e4b049",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c33fc4a445df089eb6606973a0c87ca093369410ccd06725c1d03af7ac04bb07",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c82b79643796dc20821e2ba2b5f4c502f0433ec57b28661ec5c6f402d8132577",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:61886806a78b6df8f2b82808da002a0b74a54de408aff1be58bfd902f43d6b09",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:9e8c1086aeb68a022a7e8ad2a3792bba54cd1f9188a257e4256096745ee9ab7f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0a2f1aa0b88c758dba56dd3f3f2ea11c36a0cc23b6d34fc34ec8fe0df41f6332",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c6290bc46a6519761a37e31f517b8b5712864d706d06202d112a168cca360f36",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:eeb5935928dda50f7e012da75a22e222c6cf3aac5df68b14be8df92022dea800",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c9f4e769f7268f99cbda443c86eb461f3b8450658d6e8bff029784601f44540f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7e369357b0d0cbb591f702e95a8c06866090485ce116a6c217866903f620259e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:ea3c50c543ca40dc8c6252f06b0cda0dc7a5c9ec2efd4b575a955a63c2bd5de3",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:f9c29b2299a54b21dbb72917b8411c7b198346e8e3968846ea733d34344a099f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fd7a00f20c04a4a8f6d8ef02ecbca816fde55ab94fc2f0b41e9943e1d6e8de0e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fecfa45ac59a0867b2d234ba1daee1efdccfdafe7751b6c1026856ffd9b284b0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:8cf4adf37c7de651782a55eb425373b4bbb1a715887b66295d92321cd73d2b59",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:b24ec38e8a2729f74feed68d13bfa7e5dc95bed07f53f96f60e915839bb53095",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5a889527e0d889ee797b8c8241a326946f1da8c8c4cfee32769dd8553b92be14",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:742b4671f233c29e7768f4db5d6638120da4c20199d4581fe83aeb35d3dafff0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7f58f4d79d77209618cab0bdf18c86140b13deb4cfcc09b035f0a54a484c6d48",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:38c6f9944f576904d40791260f2b5b32b52dd9722ac83b22c01d32c1c952c0c9",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5b4b216e7d8ff875d892bab1b6fcb6ec235eea8a66c10e136117f5c1bd152dac",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:2cd089403b3f1c8f607ef314012eefff23a4b9a95e8397d8509231e62274d400",
+                "size": -1
+              }
+            ]
+          ],
+          "step4:0": [
+            [
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:1b9b7346fee7abbc7f5538eaa23548bd05a45abe8daf6794024be0c8ad7d60bb",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:d8b7166a5f9272242e5b5dd166c2eac3d04ad270ccfee8023815ee5127f4dffd",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0321893ee9c6a07137130cddc6803682a7c782e2a18cf4bd08ac5901f449ded6",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:a21a0c24b68601412bf8b9675fb358908446daa47759f8acd30313e19bc44326",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:722e0c9e620bf9a060c45a313aa778f594c6aef5770a2cc4d63be4b686a0d0c4",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:49e15f31f231322642e3e5454323bb1ef3afdb36eb5f2ea327d11a96c9cfba55",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:6742aee3b99d11a5ce50ac826a6ace6bc6d5d99c633509fae7ebd99b00e4b049",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c33fc4a445df089eb6606973a0c87ca093369410ccd06725c1d03af7ac04bb07",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c82b79643796dc20821e2ba2b5f4c502f0433ec57b28661ec5c6f402d8132577",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:61886806a78b6df8f2b82808da002a0b74a54de408aff1be58bfd902f43d6b09",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:9e8c1086aeb68a022a7e8ad2a3792bba54cd1f9188a257e4256096745ee9ab7f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:0a2f1aa0b88c758dba56dd3f3f2ea11c36a0cc23b6d34fc34ec8fe0df41f6332",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c6290bc46a6519761a37e31f517b8b5712864d706d06202d112a168cca360f36",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:eeb5935928dda50f7e012da75a22e222c6cf3aac5df68b14be8df92022dea800",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:c9f4e769f7268f99cbda443c86eb461f3b8450658d6e8bff029784601f44540f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7e369357b0d0cbb591f702e95a8c06866090485ce116a6c217866903f620259e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:ea3c50c543ca40dc8c6252f06b0cda0dc7a5c9ec2efd4b575a955a63c2bd5de3",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:f9c29b2299a54b21dbb72917b8411c7b198346e8e3968846ea733d34344a099f",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fd7a00f20c04a4a8f6d8ef02ecbca816fde55ab94fc2f0b41e9943e1d6e8de0e",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:fecfa45ac59a0867b2d234ba1daee1efdccfdafe7751b6c1026856ffd9b284b0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:8cf4adf37c7de651782a55eb425373b4bbb1a715887b66295d92321cd73d2b59",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:b24ec38e8a2729f74feed68d13bfa7e5dc95bed07f53f96f60e915839bb53095",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5a889527e0d889ee797b8c8241a326946f1da8c8c4cfee32769dd8553b92be14",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:742b4671f233c29e7768f4db5d6638120da4c20199d4581fe83aeb35d3dafff0",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:7f58f4d79d77209618cab0bdf18c86140b13deb4cfcc09b035f0a54a484c6d48",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:38c6f9944f576904d40791260f2b5b32b52dd9722ac83b22c01d32c1c952c0c9",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:5b4b216e7d8ff875d892bab1b6fcb6ec235eea8a66c10e136117f5c1bd152dac",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:2cd089403b3f1c8f607ef314012eefff23a4b9a95e8397d8509231e62274d400",
+                "size": -1
+              },
+              {
+                "mediaType": "application/vnd.docker.image.rootfs.diff.tar",
+                "digest": "sha256:31917dc86bdda96178648146bf8947c105fa2469c7fd6baba962293e95fd1d81",
+                "size": -1
+              }
+            ]
+          ]
+        },
+        "sysUsage": [
+          {
+            "timestamp": "2024-08-20T03:53:15.52526971-05:00",
+            "cpuStat": {
+              "user": 129061.07,
+              "nice": 591.82,
+              "system": 60995.23,
+              "idle": 24992410.58,
+              "iowait": 10552.79,
+              "irq": 3316.15,
+              "softirq": 2894.27,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3038716450,
+              "processCreated": 3550965,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 14429472,
+              "available": 120569696,
+              "buffers": 4736,
+              "cached": 101230468,
+              "active": 74498864,
+              "inactive": 30763776,
+              "swap": 4194300,
+              "dirty": 128,
+              "writeback": 0,
+              "slab": 8918356
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:53:47.533001698-05:00",
+            "cpuStat": {
+              "user": 129157.73,
+              "nice": 591.82,
+              "system": 61060.5,
+              "idle": 24993263.99,
+              "iowait": 10553.93,
+              "irq": 3317.32,
+              "softirq": 2900.02,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3039621916,
+              "processCreated": 3552430,
+              "processesRunning": 9
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 6095636,
+              "available": 120615148,
+              "buffers": 4736,
+              "cached": 109436264,
+              "active": 76065252,
+              "inactive": 37503012,
+              "swap": 4194300,
+              "dirty": 7646696,
+              "writeback": 0,
+              "slab": 8983500
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:54:19.545269918-05:00",
+            "cpuStat": {
+              "user": 129273.88,
+              "nice": 591.82,
+              "system": 61081.75,
+              "idle": 24994138.09,
+              "iowait": 10563.97,
+              "irq": 3317.93,
+              "softirq": 2901.59,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3040013359,
+              "processCreated": 3552768,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 2431716,
+              "available": 120334604,
+              "buffers": 4736,
+              "cached": 113054608,
+              "active": 77000464,
+              "inactive": 40139132,
+              "swap": 4194300,
+              "dirty": 9355824,
+              "writeback": 2780,
+              "slab": 9007288
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:54:51.562780922-05:00",
+            "cpuStat": {
+              "user": 129307.37,
+              "nice": 591.82,
+              "system": 61087.13,
+              "idle": 24995117.19,
+              "iowait": 10569.43,
+              "irq": 3318.33,
+              "softirq": 2901.94,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3040296631,
+              "processCreated": 3552965,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 1849160,
+              "available": 120381360,
+              "buffers": 4736,
+              "cached": 113683828,
+              "active": 77350452,
+              "inactive": 40386308,
+              "swap": 4194300,
+              "dirty": 749616,
+              "writeback": 71056,
+              "slab": 9007736
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:55:23.576220211-05:00",
+            "cpuStat": {
+              "user": 129340.33,
+              "nice": 591.82,
+              "system": 61090.33,
+              "idle": 24996103.67,
+              "iowait": 10570.37,
+              "irq": 3318.59,
+              "softirq": 2902.13,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3040442475,
+              "processCreated": 3553197,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 1177916,
+              "available": 120384592,
+              "buffers": 4736,
+              "cached": 114358240,
+              "active": 77713292,
+              "inactive": 40692884,
+              "swap": 4194300,
+              "dirty": 657216,
+              "writeback": 0,
+              "slab": 9006544
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:55:55.591228864-05:00",
+            "cpuStat": {
+              "user": 129374,
+              "nice": 591.82,
+              "system": 61095.03,
+              "idle": 24997083.41,
+              "iowait": 10575.93,
+              "irq": 3318.86,
+              "softirq": 2902.32,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3040624707,
+              "processCreated": 3554061,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 822144,
+              "available": 120428540,
+              "buffers": 4736,
+              "cached": 114737352,
+              "active": 78052636,
+              "inactive": 40732484,
+              "swap": 4194300,
+              "dirty": 539604,
+              "writeback": 48632,
+              "slab": 9006540
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:56:27.602475489-05:00",
+            "cpuStat": {
+              "user": 129387.82,
+              "nice": 591.82,
+              "system": 61124.89,
+              "idle": 24998056.83,
+              "iowait": 10581.18,
+              "irq": 3319.26,
+              "softirq": 2902.91,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3041219033,
+              "processCreated": 3554287,
+              "processesRunning": 1
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 1316900,
+              "available": 120844000,
+              "buffers": 4732,
+              "cached": 114397180,
+              "active": 74559688,
+              "inactive": 43888260,
+              "swap": 4194300,
+              "dirty": 4993424,
+              "writeback": 0,
+              "slab": 9021316
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:56:59.617526314-05:00",
+            "cpuStat": {
+              "user": 129401.39,
+              "nice": 591.82,
+              "system": 61137.78,
+              "idle": 24999032.71,
+              "iowait": 10601.8,
+              "irq": 3319.68,
+              "softirq": 2903.38,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3041550703,
+              "processCreated": 3554590,
+              "processesRunning": 1
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 946384,
+              "available": 120239336,
+              "buffers": 4732,
+              "cached": 114399376,
+              "active": 73999408,
+              "inactive": 44767096,
+              "swap": 4194300,
+              "dirty": 3911956,
+              "writeback": 21980,
+              "slab": 9024940
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:57:31.628467766-05:00",
+            "cpuStat": {
+              "user": 129421.74,
+              "nice": 591.82,
+              "system": 61177.71,
+              "idle": 24999971.89,
+              "iowait": 10623.67,
+              "irq": 3320.45,
+              "softirq": 2904.18,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3042459063,
+              "processCreated": 3554861,
+              "processesRunning": 1
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 1216924,
+              "available": 119889640,
+              "buffers": 4732,
+              "cached": 114007916,
+              "active": 73903284,
+              "inactive": 44570632,
+              "swap": 4194300,
+              "dirty": 888928,
+              "writeback": 8408,
+              "slab": 9036712
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:58:03.643009728-05:00",
+            "cpuStat": {
+              "user": 129439.48,
+              "nice": 591.82,
+              "system": 61193.68,
+              "idle": 25000936.38,
+              "iowait": 10648.28,
+              "irq": 3320.89,
+              "softirq": 2904.72,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3042786678,
+              "processCreated": 3555084,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 938568,
+              "available": 119978732,
+              "buffers": 4732,
+              "cached": 114126796,
+              "active": 73603180,
+              "inactive": 45131624,
+              "swap": 4194300,
+              "dirty": 1498048,
+              "writeback": 356,
+              "slab": 9034660
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:58:35.659640986-05:00",
+            "cpuStat": {
+              "user": 129443.16,
+              "nice": 591.82,
+              "system": 61199.74,
+              "idle": 25001929.96,
+              "iowait": 10668.21,
+              "irq": 3321.18,
+              "softirq": 2905.08,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3043020000,
+              "processCreated": 3555671,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 796184,
+              "available": 119963456,
+              "buffers": 4732,
+              "cached": 114251168,
+              "active": 73733164,
+              "inactive": 45130564,
+              "swap": 4194300,
+              "dirty": 178608,
+              "writeback": 0,
+              "slab": 9038328
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:59:07.671938383-05:00",
+            "cpuStat": {
+              "user": 129466.22,
+              "nice": 591.82,
+              "system": 61240.4,
+              "idle": 25002882.64,
+              "iowait": 10673.6,
+              "irq": 3321.82,
+              "softirq": 2905.79,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3043970523,
+              "processCreated": 3556844,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 1024648,
+              "available": 120253088,
+              "buffers": 4732,
+              "cached": 114016156,
+              "active": 72449276,
+              "inactive": 46256544,
+              "swap": 4194300,
+              "dirty": 2773864,
+              "writeback": 2536,
+              "slab": 9074064
+            }
+          },
+          {
+            "timestamp": "2024-08-20T03:59:39.684504513-05:00",
+            "cpuStat": {
+              "user": 129479.38,
+              "nice": 591.82,
+              "system": 61258.84,
+              "idle": 25003848.66,
+              "iowait": 10698.27,
+              "irq": 3322.32,
+              "softirq": 2906.52,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3044389420,
+              "processCreated": 3557786,
+              "processesRunning": 2
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 5974884,
+              "available": 120709944,
+              "buffers": 4732,
+              "cached": 109927352,
+              "active": 68213636,
+              "inactive": 45597960,
+              "swap": 4194300,
+              "dirty": 3604340,
+              "writeback": 9928,
+              "slab": 8952864
+            }
+          },
+          {
+            "timestamp": "2024-08-20T04:00:11.701223829-05:00",
+            "cpuStat": {
+              "user": 129481.04,
+              "nice": 591.82,
+              "system": 61262.91,
+              "idle": 25004851.63,
+              "iowait": 10713.22,
+              "irq": 3322.52,
+              "softirq": 2906.79,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3044525071,
+              "processCreated": 3558001,
+              "processesRunning": 1
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 5991376,
+              "available": 120726720,
+              "buffers": 4732,
+              "cached": 109927532,
+              "active": 68213736,
+              "inactive": 45596140,
+              "swap": 4194300,
+              "dirty": 2468640,
+              "writeback": 110044,
+              "slab": 8952368
+            }
+          },
+          {
+            "timestamp": "2024-08-20T04:00:43.706623098-05:00",
+            "cpuStat": {
+              "user": 129507.54,
+              "nice": 591.82,
+              "system": 61277.17,
+              "idle": 25005828.33,
+              "iowait": 10717.83,
+              "irq": 3323.16,
+              "softirq": 2907.19,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3045355103,
+              "processCreated": 3558565,
+              "processesRunning": 9
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 5698928,
+              "available": 120503872,
+              "buffers": 4732,
+              "cached": 109996652,
+              "active": 68902592,
+              "inactive": 45220116,
+              "swap": 4194300,
+              "dirty": 60364,
+              "writeback": 0,
+              "slab": 8954008
+            }
+          },
+          {
+            "timestamp": "2024-08-20T04:01:15.708609721-05:00",
+            "cpuStat": {
+              "user": 129550.94,
+              "nice": 591.82,
+              "system": 61315.61,
+              "idle": 25006750.49,
+              "iowait": 10734.69,
+              "irq": 3324.12,
+              "softirq": 2907.88,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3046944116,
+              "processCreated": 3559041,
+              "processesRunning": 5
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 5275328,
+              "available": 120518780,
+              "buffers": 4732,
+              "cached": 110434936,
+              "active": 70180244,
+              "inactive": 44273260,
+              "swap": 4194300,
+              "dirty": 3304,
+              "writeback": 0,
+              "slab": 8962508
+            }
+          },
+          {
+            "timestamp": "2024-08-20T04:01:47.71090281-05:00",
+            "cpuStat": {
+              "user": 129585.62,
+              "nice": 591.82,
+              "system": 61331.15,
+              "idle": 25007718.79,
+              "iowait": 10737.36,
+              "irq": 3324.96,
+              "softirq": 2908.29,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3048282194,
+              "processCreated": 3559654,
+              "processesRunning": 3
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 5178256,
+              "available": 120428760,
+              "buffers": 4732,
+              "cached": 110442068,
+              "active": 71547580,
+              "inactive": 43029956,
+              "swap": 4194300,
+              "dirty": 128,
+              "writeback": 0,
+              "slab": 8953424
+            }
+          },
+          {
+            "timestamp": "2024-08-20T04:02:14.091966984-05:00",
+            "cpuStat": {
+              "user": 129613.27,
+              "nice": 591.82,
+              "system": 61339.73,
+              "idle": 25008524.86,
+              "iowait": 10737.58,
+              "irq": 3325.46,
+              "softirq": 2908.51,
+              "steal": 0,
+              "guest": 0,
+              "guestNice": 0
+            },
+            "procStat": {
+              "contextSwitches": 3049125495,
+              "processCreated": 3560227,
+              "processesRunning": 3
+            },
+            "memoryStat": {
+              "total": 131402220,
+              "free": 5265720,
+              "available": 120518712,
+              "buffers": 4732,
+              "cached": 110444476,
+              "active": 72543808,
+              "inactive": 41947576,
+              "swap": 4194300,
+              "dirty": 616,
+              "writeback": 0,
+              "slab": 8950016
+            }
+          }
+        ]
+      }
+    }
+  },
+  "buildx.build.ref": "default/default/tzdqwknaepr93yvig9lvpjfzi",
+  "containerimage.config.digest": "sha256:058acfe20dafeff216359b7a4e28fb5c9f08c9e8b3c60fa2d9cd0d6102d271c2",
+  "containerimage.digest": "sha256:058acfe20dafeff216359b7a4e28fb5c9f08c9e8b3c60fa2d9cd0d6102d271c2",
+  "image.name": "docker.io/library/facsimilab-full-env:v0.2.5-beta10"
+}

@@ -47,9 +47,7 @@ docker run -it --rm --name Facsimilab-Jupyter \
 
 ```sh
 docker run -it --rm --name Facsimilab-Main \
-    --gpus 0 \
     -v $(pwd):/home/coder/work \
-    -p 8888:8888 \
-    pranavmishra90/facsimilab-main:latest \
+    pranavmishra90/facsimilab-main:v0.2.5-gamma  \
     bash
 ```

@@ -1,6 +1,6 @@
 {
-  "buildx.build.ref": "cuda/cuda/ieb4qoyu1361g51myfzsio778",
-  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:d3b15f87056c3c988e7ae392de5e4c7888dec01a12adb9dace1d69fcddbe74a8\",\"size\":6481}",
+  "buildx.build.ref": "cuda/cuda/s571ib3j21haauoelvcdzw6xq",
+  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:9d4bb3a8e6f738465738355933bf6344491bb82f6f910fc0972603be554e7242\",\"size\":6481}",
   "containerimage.buildinfo": {
     "frontend": "dockerfile.v0",
     "attrs": {
@@ -27,5 +27,5 @@
     "size": 4282
   },
   "containerimage.digest": "sha256:ccbc0d8b4d6e9c0b4f95570b737e259386174ec7e58d1e29e1727bacea98d3ac",
-  "image.name": "pranavmishra90/facsimilab-base:v0.2.5-beta7"
+  "image.name": "pranavmishra90/facsimilab-base:v0.2.5-beta10"
 }

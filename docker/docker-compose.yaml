@@ -40,10 +40,10 @@ services:
       args:
         IMAGE_VERSION: $IMAGE_VERSION
         IMAGE_REPO_PREFIX: $IMAGE_REPO_PREFIX
-      # cache_from:
-      #   - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache
-      # cache_to:
-      #   - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main-env:buildcache
+      cache_from:
+        - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache
+      cache_to:
+        - type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache
       tags:
         - "pranavmishra90/facsimilab-main:dev-gamma"
         - "facsimilab-main:$IMAGE_VERSION"
