@@ -1,0 +1,31 @@
+name: Build Dev Image of FacsimiLab-Full
+
+on:
+  push:
+    paths:
+      - "docker/facsimilab-conda-lock.yml"
+  workflow_dispatch:
+jobs:
+  full-image-devevelopment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: bash docker/dev-test-full.sh
+
+      - name: Run Facsmilab-Full:Dev container and execute script
+        run: |
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0  pranavmishra90/facsimilab-full:dev /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+
+      - name: Push Docker images
+        run: docker push pranavmishra90/facsimilab-full:dev
+
+      - name: Write to workflow job summary
+        run: |
+          build_version=$(cat docker/image_version.txt)
+          builder_header="# $build_version - Development Image"
+          echo "$builder_header" > testing/results/job_summary.md
+          cat testing/results/full-image.txt >> testing/results/job_summary.md
+          cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
