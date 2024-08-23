@@ -35,6 +35,7 @@ jobs:
           find /workspace -type d -name '.git' -prune -o -type f -print
 
 
+
       - name: Pull Docker image
         run: |
           echo "Pulling image pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}"
