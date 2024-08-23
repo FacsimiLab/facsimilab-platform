@@ -1,11 +1,11 @@
 name: Check Python Packages
 
 on:
-  # push:
-  #   branches:
-  #     - gitea
-  #     - develop
-  #     - main
+  push:
+    branches:
+      - gitea
+      - develop
+      - main
   workflow_dispatch:
 
 # concurrency:
@@ -14,8 +14,17 @@ on:
 
 jobs:
   test-containers:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: "ubuntu-latest"
     steps:
+
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 512
+          swap-size-mb: 1024
+          remove-dotnet: 'true'
+
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -33,13 +42,13 @@ jobs:
       - name: Run Facsmilab-Main container and execute script
         run: |
           docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > testing/results/main-image.txt
+          docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > ./testing/results/main-image.txt
           
 
       - name: Run Facsmilab-Full container and execute script
         run: |
           docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+          docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> ./testing/results/full-image.txt
 
       - name: Write to workflow job summary
         run: |
