@@ -22,8 +22,20 @@ jobs:
   build-test-and-push:
     runs-on: [self-hosted, linux, x64]
     steps:
+
+      - name: Forcefully remove previous repository files
+        run: |
+          sudo rm -rf /home/pranav/work/github/actions-runner/_work/
+
+
+
+
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          clean: true
+          show-progress: true
+          set-safe-directory: '/'
 
       - name: Read the image version
         id: package
