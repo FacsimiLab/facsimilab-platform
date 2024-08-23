@@ -25,21 +25,50 @@ jobs:
         with:
           path: ./docker/image_version.txt
 
+      - name: Workspace variable
+        run: echo "$GITHUB_WORKSPACE"
+
+      - name: Get the current working directory
+        run: |
+            pwd
+            ls -lahg $(pwd) 
+
       - name: Pull Docker image
         run: |
           echo "Pulling image pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}"
           docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
 
-      - name: Run Facsmilab-Main container and execute script
-        run: |
-          docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > testing/results/main-image.txt
-          
 
-      - name: Run Facsmilab-Full container and execute script
-        run: |
-          docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+      - name: Main Image
+        uses: addnab/docker-run-action@v3
+        env:
+          WORKSPACE_DIR: ${{ github.workspace }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        with:
+          image: pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
+          options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
+          run: |
+            cp -r ${{ github.workspace }} /home/coder/work
+            cd ${{ github.workspace }} && pwd && tree -I '.*'
+            echo "----------------------------------------------------"
+            cd /home/coder/work/facsimilab-platform && pwd && tree -I '.*'
+            /opt/conda/bin/python ${{ github.workspace }}/testing/main_image.py > testing/results/main-image.txt 
+
+      - name: Full Image
+        uses: addnab/docker-run-action@v3
+        env:
+          WORKSPACE_DIR: ${{ github.workspace }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        with:
+          image: pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+          options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
+          run: |
+            cp -r ${{ github.workspace }} /home/coder/work
+            cd ${{ github.workspace }} && pwd && tree -I '.*'
+            echo "----------------------------------------------------"
+            cd /home/coder/work/facsimilab-platform && pwd && tree -I '.*'
+            /opt/conda/bin/python ${{ github.workspace }}/testing/full_image.py > testing/results/full-image.txt 
+        
 
       - name: Write to workflow job summary
         run: |
