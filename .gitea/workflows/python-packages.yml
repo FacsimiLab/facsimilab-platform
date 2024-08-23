@@ -42,7 +42,7 @@ jobs:
 
       - name: List contents of main image
         run: |
-              docker run --rm --volumes-from=${{ env.JOB_CONTAINER_NAME }} -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev cp -r ${{ github.workspace }} /home/coder/work && find /home/coder -type d -name '.git' -prune -o -type f -print
+              docker run --rm --privilaged --volumes-from=${{ env.JOB_CONTAINER_NAME }} -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev cp -r ${{ github.workspace }} /home/coder/work && find /home/coder -type d -name '.git' -prune -o -type f -print
 
       # - name: Main Image
       #   run: |
