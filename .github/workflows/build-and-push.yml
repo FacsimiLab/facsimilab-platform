@@ -2,8 +2,9 @@ name: Build and Push Version
 
 on:
   push:
-    paths:
-      - "docker/full/**"
+    branches:
+      - develop
+      - main
   pull_request:
     types:
       - opened
