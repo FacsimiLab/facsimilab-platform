@@ -23,13 +23,13 @@ jobs:
       - name: create gitconfig
         run: |
             # Write the content to the file
-            FILE="${{ github.workspace }}/.gitconfig"
+            FILE="./.gitconfig"
             cat <<EOL > "$FILE"
             [user]
                     name = Pranav Kumar Mishra
                     email = 62562712+pranavmishra90@users.noreply.github.com
             EOL
-            
+
       - run: cp -r . /home/coder/work
         name: copy files
 
