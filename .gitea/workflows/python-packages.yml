@@ -40,12 +40,12 @@ jobs:
 
       - name: Main Image
         run: |
-              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev  /opt/conda/bin/python testing/main_image.py | tee output.txt
+              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev  /opt/conda/bin/python ${{ github.workspace }}/testing/main_image.py | tee output.txt
 
 
-      - name: Main Image
+      - name: Full Image
         run: |
-              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:dev  /opt/conda/envs/facsimilab/bin/python testing/full_image.py | tee output.txt
+              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:dev  /opt/conda/envs/facsimilab/bin/python ${{ github.workspace }}/testing/full_image.py | tee output.txt
 
       # - name: Main Image
       #   uses: addnab/docker-run-action@v3
