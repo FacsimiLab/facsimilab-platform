@@ -16,5 +16,6 @@ jobs:
       env:
         ENV_NAME: facsimilab
     steps:
-      - name: Check for dockerenv file
-        run: find . -type d -name '.git' -prune -o -type f -print
+      - name: List current directory
+        shell: bash
+        run: /usr/bin/find ../ -type d -name '.git' -prune -o -type f -print
