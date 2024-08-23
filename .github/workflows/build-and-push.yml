@@ -3,6 +3,7 @@ name: Build and Push Version
 on:
   push:
     branches:
+      - gitea
       - develop
       - main
   pull_request:
@@ -28,13 +29,9 @@ jobs:
           sudo rm -rf /home/pranav/work/github/actions-runner/_work/
           git init
 
-
-
-
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          clean: true
           show-progress: true
           set-safe-directory: '/'
 
