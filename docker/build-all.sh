@@ -64,14 +64,14 @@ echo "-----------------------------------------"
 # #----------------------
 cd base
 
-# bash build.sh
+bash build.sh
 
 
-# # # Main container
-# # #----------------------
-# cd ../main-env
+# # Main container
+# #----------------------
+cd ../main-env
 
-# bash build.sh
+bash build.sh
 
 
 # # Full container
