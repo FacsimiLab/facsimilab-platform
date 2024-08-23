@@ -20,11 +20,23 @@ jobs:
         shell: bash
         run: "/usr/bin/find ../ -type d -name '.git' -prune -o -type f -print0 | xargs -0 /usr/bin/realpath"
 
+      - name: create gitconfig
+        run: |
+            # Write the content to the file
+            FILE="${{ github.workspace }}/.gitconfig"
+            cat <<EOL > "$FILE"
+            [user]
+                    name = Pranav Kumar Mishra
+                    email = 62562712+pranavmishra90@users.noreply.github.com
+            EOL
+            
       - run: cp -r . /home/coder/work
         name: copy files
 
       - run: "/usr/bin/find /home/coder -type d -name '.git' -prune -o -type f -print"
         name: list home directory
+
+
 
       - run: /opt/conda/bin/python testing/main_image.py > /home/coder/work/testing/results/main-image.txt
         name: run the test
@@ -34,8 +46,8 @@ jobs:
           build_version=$(cat /home/coder/work/docker/image_version.txt)
           builder_header="# $build_version "
           echo "$builder_header" > /home/coder/work/testing/results/job_summary.md
-          cat "## Main Image" >> /home/coder/work/testing/results/job_summary.md
-          cat "   " >> /home/coder/work/testing/results/job_summary.md
-          cat /home/coder/work/testing/results/main-image.txt >> /home/coder/work/testing/results/job_summary.md
+          cat "## Main Image" > /home/coder/work/testing/results/job_summary.md
+          cat "   " > /home/coder/work/testing/results/job_summary.md
+          cat /home/coder/work/testing/results/main-image.txt > /home/coder/work/testing/results/job_summary.md
 
           cat /home/coder/work/testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
