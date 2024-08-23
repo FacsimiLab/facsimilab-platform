@@ -38,36 +38,44 @@ jobs:
           echo "Pulling image pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}"
           docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
 
+      - name: Main Image
+        run: |
+              docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-main:dev  /opt/conda/bin/python testing/main_image.py | tee output.txt
+
 
       - name: Main Image
-        uses: addnab/docker-run-action@v3
-        env:
-          WORKSPACE_DIR: ${{ github.workspace }}
-          GITHUB_WORKSPACE: ${{ github.workspace }}
-        with:
-          image: pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
-          options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
-          run: |
-            cp -r ${{ github.workspace }} /home/coder/work
-            cd ${{ github.workspace }} && pwd && ls -lahgR .
-            echo "----------------------------------------------------"
-            cd /home/coder/work/facsimilab-platform && pwd && ls -lahgR .
-            /opt/conda/bin/python ${{ github.workspace }}/testing/main_image.py > testing/results/main-image.txt 
+        run: |
+              docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:dev  /opt/conda/envs/facsimilab/bin/python testing/full_image.py | tee output.txt
 
-      - name: Full Image
-        uses: addnab/docker-run-action@v3
-        env:
-          WORKSPACE_DIR: ${{ github.workspace }}
-          GITHUB_WORKSPACE: ${{ github.workspace }}
-        with:
-          image: pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-          options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
-          run: |
-            cp -r ${{ github.workspace }} /home/coder/work
-            cd ${{ github.workspace }} && pwd && ls -lahgR .
-            echo "----------------------------------------------------"
-            cd /home/coder/work/facsimilab-platform && pwd && ls -lahgR .
-            /opt/conda/bin/python ${{ github.workspace }}/testing/full_image.py > testing/results/full-image.txt 
+      # - name: Main Image
+      #   uses: addnab/docker-run-action@v3
+      #   env:
+      #     WORKSPACE_DIR: ${{ github.workspace }}
+      #     GITHUB_WORKSPACE: ${{ github.workspace }}
+      #   with:
+      #     image: pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
+      #     options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
+      #     run: |
+      #       cp -r ${{ github.workspace }} /home/coder/work
+      #       cd ${{ github.workspace }} && pwd && ls -lahgR .
+      #       echo "----------------------------------------------------"
+      #       cd /home/coder/work/facsimilab-platform && pwd && ls -lahgR .
+      #       /opt/conda/bin/python ${{ github.workspace }}/testing/main_image.py > testing/results/main-image.txt 
+
+      # - name: Full Image
+      #   uses: addnab/docker-run-action@v3
+      #   env:
+      #     WORKSPACE_DIR: ${{ github.workspace }}
+      #     GITHUB_WORKSPACE: ${{ github.workspace }}
+      #   with:
+      #     image: pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+      #     options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
+      #     run: |
+      #       cp -r ${{ github.workspace }} /home/coder/work
+      #       cd ${{ github.workspace }} && pwd && ls -lahgR .
+      #       echo "----------------------------------------------------"
+      #       cd /home/coder/work/facsimilab-platform && pwd && ls -lahgR .
+      #       /opt/conda/bin/python ${{ github.workspace }}/testing/full_image.py > testing/results/full-image.txt 
         
 
       - name: Write to workflow job summary

@@ -1,10 +1,11 @@
 #!/opt/conda/envs/facsimilab/bin/python
+import sys
 
 print("## FacsimiLab Full - Python   ")
 print(sys.executable)
 
 import os
-import sys
+
 
 import scanpy as sc
 import scvi
