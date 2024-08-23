@@ -49,9 +49,9 @@ jobs:
           options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
           run: |
             cp -r ${{ github.workspace }} /home/coder/work
-            cd ${{ github.workspace }} && pwd && tree -I '.*'
+            cd ${{ github.workspace }} && pwd && ls -lahgR .
             echo "----------------------------------------------------"
-            cd /home/coder/work/facsimilab-platform && pwd && tree -I '.*'
+            cd /home/coder/work/facsimilab-platform && pwd && ls -lahgR .
             /opt/conda/bin/python ${{ github.workspace }}/testing/main_image.py > testing/results/main-image.txt 
 
       - name: Full Image
@@ -64,9 +64,9 @@ jobs:
           options: --rm --user 1000:1000 --volumes-from=${{ env.JOB_CONTAINER_NAME }} --entrypoint ${{ github.workspace }}
           run: |
             cp -r ${{ github.workspace }} /home/coder/work
-            cd ${{ github.workspace }} && pwd && tree -I '.*'
+            cd ${{ github.workspace }} && pwd && ls -lahgR .
             echo "----------------------------------------------------"
-            cd /home/coder/work/facsimilab-platform && pwd && tree -I '.*'
+            cd /home/coder/work/facsimilab-platform && pwd && ls -lahgR .
             /opt/conda/bin/python ${{ github.workspace }}/testing/full_image.py > testing/results/full-image.txt 
         
 
