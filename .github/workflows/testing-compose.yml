@@ -25,3 +25,17 @@ jobs:
 
       - run: "/usr/bin/find /home/coder -type d -name '.git' -prune -o -type f -print"
         name: list home directory
+
+      - run: /opt/conda/bin/python testing/main_image.py > /home/coder/work/testing/results/main-image.txt
+        name: run the test
+      # cat /home/coder/work/testing/results/full-image.txt >> /home/coder/work/testing/results/job_summary.md
+      - name: Write to workflow job summary
+        run: |
+          build_version=$(cat /home/coder/work/docker/image_version.txt)
+          builder_header="# $build_version "
+          echo "$builder_header" > /home/coder/work/testing/results/job_summary.md
+          cat "## Main Image" >> /home/coder/work/testing/results/job_summary.md
+          cat "   " >> /home/coder/work/testing/results/job_summary.md
+          cat /home/coder/work/testing/results/main-image.txt >> /home/coder/work/testing/results/job_summary.md
+
+          cat /home/coder/work/testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
