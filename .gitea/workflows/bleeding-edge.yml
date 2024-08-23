@@ -3,7 +3,7 @@ name: Bleeding Edge (Gitea)
 on:
   push:
     branches:
-      # - gitea
+      - gitea
       - develop
   workflow_dispatch:
 
@@ -63,10 +63,6 @@ jobs:
           build_version=$(cat docker/image_version.txt)
           builder_header="# $build_version "
           echo "$builder_header" > testing/results/job_summary.md
-          echo "## Main Image" >> testing/results/job_summary.md
-          echo "   " >> testing/results/job_summary.md
-          cat testing/results/main-image.txt >> testing/results/job_summary.md
-          cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
 
       - name: Matrix Message - Completed GitHub Action
@@ -74,5 +70,5 @@ jobs:
         with:
             room_id: ${{ secrets.MATRIX_ROOM_ID }}
             access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
+            message: "# Gitea: Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
             server: "matrix.drpranavmishra.com"

@@ -23,13 +23,13 @@ jobs:
       - name: create gitconfig
         run: |
             # Write the content to the file
-            FILE="${{ github.workspace }}/.gitconfig"
+            FILE="./.gitconfig"
             cat <<EOL > "$FILE"
             [user]
                     name = Pranav Kumar Mishra
                     email = 62562712+pranavmishra90@users.noreply.github.com
             EOL
-            
+
       - run: cp -r . /home/coder/work
         name: copy files
 
@@ -40,6 +40,10 @@ jobs:
 
       - run: /opt/conda/bin/python testing/main_image.py > /home/coder/work/testing/results/main-image.txt
         name: run the test
+
+      - run: /opt/conda/bin/python testing/main_image.py > ${{ github.workspace }}/results/main-image.txt
+        name: run the test in the home directory
+
       # cat /home/coder/work/testing/results/full-image.txt >> /home/coder/work/testing/results/job_summary.md
       - name: Write to workflow job summary
         run: |

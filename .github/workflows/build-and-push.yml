@@ -53,15 +53,15 @@ jobs:
             message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
             server: "matrix.drpranavmishra.com"
 
-      - name: Run Facsmilab-Main container and execute script
-        run: |
-          docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
+      # - name: Run Facsmilab-Main container and execute script
+      #   run: |
+      #     docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
+      #     docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
 
-      - name: Run Facsmilab-Full container and execute script
-        run: |
-          docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+      # - name: Run Facsmilab-Full container and execute script
+      #   run: |
+      #     docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+      #     docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
 
       - name: Push Docker images
         run: bash docker/push-all.sh
@@ -81,10 +81,6 @@ jobs:
           build_version=$(cat docker/image_version.txt)
           builder_header="# $build_version "
           echo "$builder_header" > testing/results/job_summary.md
-          echo "## Main Image" >> testing/results/job_summary.md
-          echo "   " >> testing/results/job_summary.md
-          cat testing/results/main-image.txt >> testing/results/job_summary.md
-          cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
   # # notify-completed:
   # #   runs-on: ubuntu-latest
