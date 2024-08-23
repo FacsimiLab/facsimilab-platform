@@ -8,9 +8,9 @@ on:
       - main
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: false
+# concurrency:
+#   group: ${{ github.ref }}
+#   cancel-in-progress: false
 
 jobs:
   test-containers:
