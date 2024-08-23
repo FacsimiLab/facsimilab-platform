@@ -1,5 +1,5 @@
 {
-  "buildx.build.ref": "cuda/cuda/dst8ecr2uykgol5opmqgxeg17",
+  "buildx.build.ref": "cuda/cuda/tmsw74wnspw2kg33nd15ehuom",
   "containerimage.buildinfo": {
     "frontend": "dockerfile.v0",
     "attrs": {
@@ -11,17 +11,17 @@
     "sources": [
       {
         "type": "docker-image",
-        "ref": "docker.io/pranavmishra90/facsimilab-main-env:dev@sha256:65c654575c62ebdc5901782a550959ade23a9232b8169424bc473f9581855117",
-        "pin": "sha256:65c654575c62ebdc5901782a550959ade23a9232b8169424bc473f9581855117"
+        "ref": "docker.io/pranavmishra90/facsimilab-full-env:v0.2.5-delta@sha256:c47e4a2096c721e516b485431f32e2013b9460dc249daa986940aafc2a52ec23",
+        "pin": "sha256:c47e4a2096c721e516b485431f32e2013b9460dc249daa986940aafc2a52ec23"
       }
     ]
   },
-  "containerimage.config.digest": "sha256:b690a1df943fe7426ef34f7684dd4f3ed2ec8aeb955f3bdd51c4278a0233ca46",
+  "containerimage.config.digest": "sha256:edd10d5c9d9c6ad40d588030f589ac15d6dbfd793e12cf9ea36be97976711a2d",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:3883cfca1877e6f9233109be34723f3e519dd11a4794a29639a32510075e97cf",
-    "size": 6571
+    "digest": "sha256:1f4d1ebe51cc973833fd2a9391e31357b24c71b89241acba34d1b51c17217848",
+    "size": 8036
   },
-  "containerimage.digest": "sha256:3883cfca1877e6f9233109be34723f3e519dd11a4794a29639a32510075e97cf",
+  "containerimage.digest": "sha256:1f4d1ebe51cc973833fd2a9391e31357b24c71b89241acba34d1b51c17217848",
   "image.name": "pranavmishra90/facsimilab-full:dev,pranavmishra90/facsimilab-full:v0.2.5-delta"
 }

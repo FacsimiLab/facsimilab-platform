@@ -6,17 +6,21 @@ ARG IMAGE_REPO_PREFIX=""
 ############################
 
 FROM ${IMAGE_REPO_PREFIX}facsimilab-full-env:${IMAGE_VERSION} AS pythonenv
-# FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS pythonenv
 ARG IMAGE_VERSION="dev"
+
+ARG ISO_DATETIME
+ARG FULL_ENV_SHA
 
 LABEL org.opencontainers.image.title="FacsimiLab-Full"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
-
+LABEL org.opencontainers.image.created=${ISO_DATETIME}
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/facsimilab-full-env:${IMAGE_VERSION}"
+LABEL org.opencontainers.image.base.digest=${FULL_ENV_SHA}
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000

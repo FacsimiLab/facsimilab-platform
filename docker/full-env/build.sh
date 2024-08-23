@@ -10,6 +10,7 @@ CONTAINER_NAME="facsimilab-full-env":$facsimilab_version_num
 
 # Initialize the build
 start_time=$(date +%s)
+iso_datetime=$(date +"%Y-%m-%dT%H:%M:%S%z")
 
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
@@ -49,17 +50,21 @@ echo "Building $CONTAINER_NAME for full image export"
 docker build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg ISO_DATETIME=$iso_datetime \
+	--build-arg MAIN_ENV_SHA=$main_env_sha \
 	--build-arg CONDA_FILE=$CONDA_FILE \
 	--build-arg BUILDKIT_INLINE_CACHE=1 \
-	--output type=image,registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/03-full-env_metadata.json \
 	-t pranavmishra90/$CONTAINER_NAME \
 	-t pranavmishra90/facsimilab-full-env:dev \
 	-f full-py-env.Dockerfile .
 
+full_env_sha=$(docker inspect pranavmishra90/facsimilab-full-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
-docker push pranavmishra90/facsimilab-full-env:dev
-docker push pranavmishra90/$CONTAINER_NAME
+
+echo "confirming push of all tags"
+docker push pranavmishra90/facsimilab-full-env --all-tags
 #####################################################################
 
 CONTAINER_NAME="facsimilab-full":$facsimilab_version_num
@@ -74,9 +79,11 @@ echo "$CONTAINER_NAME"
 echo "Building the cache container"
 echo ""
 
-docker buildx build --progress=plain \
+docker buildx build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg ISO_DATETIME=$iso_datetime \
+	--build-arg MAIN_ENV_SHA=$main_env_sha \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--metadata-file ../metadata/02-full_metadata.json \
 	-f full-stage2.Dockerfile .
@@ -89,6 +96,8 @@ echo ""
 docker buildx build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg ISO_DATETIME=$iso_datetime \
+	--build-arg MAIN_ENV_SHA=$main_env_sha \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/02-full_metadata.json \
@@ -100,15 +109,11 @@ docker buildx build --progress=auto \
 
 
 # Add additional tags
-docker tag pranavmishra90/facsimilab-full:dev $CONTAINER_NAME
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:dev
-docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
+docker tag pranavmishra90/$CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
-echo "pushing full-dev"
-docker push -q docker.io/pranavmishra90/facsimilab-full:dev
-echo "pushing $CONTAINER_NAME"
-docker push docker.io/pranavmishra90/$CONTAINER_NAME
+echo "pushing Facsimilab-Full all tags"
+docker push docker.io/pranavmishra90/facsimilab-full --all-tags
+
 
 # Calculate the total time
 end_time=$(date +%s)

@@ -14,13 +14,20 @@ FROM rclone/rclone:1.67 AS rclone
 FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS main-python-builder
 ARG IMAGE_VERSION="dev"
 
-LABEL org.opencontainers.image.title="FacsimiLab-Main"
+ARG ISO_DATETIME
+ARG MAIN_ENV_SHA
+
 LABEL version=${IMAGE_VERSION}
+LABEL org.opencontainers.image.title="FacsimiLab-Main"
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.created=${ISO_DATETIME}
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/facsimilab-main-env:${IMAGE_VERSION}"
+LABEL org.opencontainers.image.base.digest=${MAIN_ENV_SHA}
+
 
 # Add rclone
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/
