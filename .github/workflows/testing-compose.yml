@@ -19,3 +19,9 @@ jobs:
       - name:  List current directory
         shell: bash
         run: "/usr/bin/find ../ -type d -name '.git' -prune -o -type f -print0 | xargs -0 /usr/bin/realpath"
+
+      - run: cp -r . /home/coder/work
+        name: copy files
+
+      - run: "/usr/bin/find /home/coder -type d -name '.git' -prune -o -type f -print"
+        name: list home directory
