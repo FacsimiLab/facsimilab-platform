@@ -26,6 +26,7 @@ jobs:
       - name: Forcefully remove previous repository files
         run: |
           sudo rm -rf /home/pranav/work/github/actions-runner/_work/
+          git init
 
 
 
