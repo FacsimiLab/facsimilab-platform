@@ -33,7 +33,7 @@ jobs:
       - name: Run Facsmilab-Main container and execute script
         run: |
           docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > testing/results/main-image.txt
+          docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > testing/results/main-image.txt
           
 
       - name: Run Facsmilab-Full container and execute script
