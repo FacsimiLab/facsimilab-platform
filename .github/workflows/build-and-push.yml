@@ -66,16 +66,7 @@ jobs:
 
       - name: Push Docker images
         run: bash docker/push-all.sh
-
-      - name: Commit changes to git (docker image metadata)
-        uses: devops-infra/action-commit-push@master
-        with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
-          # add_timestamp: false
-          commit_prefix: "ci(docker): "
-          commit_message: "Docker images built and pushed [GH Action]"
-          force: false
-          # target_branch:
+#
 
       - name: Write to workflow job summary
         run: |
