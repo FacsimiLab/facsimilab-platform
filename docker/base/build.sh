@@ -9,6 +9,7 @@ CONTAINER_NAME=facsimilab-base:$facsimilab_version_num
 
 # Initialize the build
 start_time=$(date +%s)
+iso_datetime=$(date +"%Y-%m-%dT%H:%M:%S%z")
 
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
@@ -25,10 +26,10 @@ ubuntu_cuda_base_sha=$(docker inspect pranavmishra90/cuda:12.4.1-base-ubuntu22.0
 docker buildx build --progress=auto \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
-	--build-arg FULL_ENV_SHA=$full_env_sha \
+	--build-arg BASE_IMAGE_SHA=$ubuntu_cuda_base_sha \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
-	--output type=image,registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	--output type=registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	-t pranavmishra90/facsimilab-base:dev \
 	--metadata-file ../metadata/01-base_metadata.json \
 	. --file Dockerfile

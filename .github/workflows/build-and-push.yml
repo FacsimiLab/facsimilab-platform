@@ -24,11 +24,6 @@ jobs:
     runs-on: [self-hosted, linux, x64]
     steps:
 
-      # - name: Forcefully remove previous repository files
-      #   run: |
-      #     sudo rm -rf /home/pranav/work/github/actions-runner/_work/
-      #     git init
-
       - name: Checkout code
         uses: actions/checkout@v4
         with:
