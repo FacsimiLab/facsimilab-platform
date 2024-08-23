@@ -20,16 +20,20 @@ echo "$CONTAINER_NAME"
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
 
+docker pull pranavmishra90/cuda:12.4.1-base-ubuntu22.04
+
 ubuntu_cuda_base_sha=$(docker inspect pranavmishra90/cuda:12.4.1-base-ubuntu22.04 --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
+echo "SHA: $ubuntu_cuda_base_sha"
 
 docker buildx build --progress=auto \
+	--build-arg CACHE_BUST="1" \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg BASE_IMAGE_SHA=$ubuntu_cuda_base_sha \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
-	--output type=registry.insecure=false,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	-t pranavmishra90/facsimilab-base:dev \
 	--metadata-file ../metadata/01-base_metadata.json \
 	. --file Dockerfile
