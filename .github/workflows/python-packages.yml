@@ -3,18 +3,22 @@ name: Check Python Packages
 on:
   push:
     branches:
+      - gitea
       - develop
       - main
-      - gitea
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  facsimilab-packages:
-    runs-on: "ubuntu-latest"
+  test-containers:
+    runs-on: [self-hosted, linux, x64]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-        
       - name: Read the image version
         id: package
         uses: juliangruber/read-file-action@v1
@@ -22,14 +26,19 @@ jobs:
           path: ./docker/image_version.txt
 
       - name: Pull Docker image
-        run: docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+        run: |
+          echo "Pulling image pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}"
+          docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
 
       - name: Run Facsmilab-Main container and execute script
         run: |
-          docker run --rm -v $(pwd):/home/coder/work -v ~/.gitconfig:/home/coder/.gitconfig  --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
+          docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
+          docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > testing/results/main-image.txt
+          
 
       - name: Run Facsmilab-Full container and execute script
         run: |
+          docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
           docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
 
       - name: Write to workflow job summary
