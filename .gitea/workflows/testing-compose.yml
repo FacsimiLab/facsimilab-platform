@@ -8,19 +8,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  
-  
-  
+
   container-test-job:
-    defaults:
-      run: bash
-    runs-on: ubuntu-latest
+    runs-on: "ubuntu-latest"
     container:
       image: pranavmishra90/facsimilab-full:dev
       env:
         ENV_NAME: facsimilab
-      volumes:
-        - my_docker_volume:/volume_mount
     steps:
       - name: Check for dockerenv file
-        run: find /workspace -type d -name '.git' -prune -o -type f -print
+        run: find . -type d -name '.git' -prune -o -type f -print

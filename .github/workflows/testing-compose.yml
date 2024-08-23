@@ -1,0 +1,20 @@
+name: testing compose
+on:
+  push:
+    branches:
+      - gitea
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+
+  container-test-job:
+    runs-on: "ubuntu-latest"
+    container:
+      image: pranavmishra90/facsimilab-full:dev
+      env:
+        ENV_NAME: facsimilab
+    steps:
+      - name: Check for dockerenv file
+        run: find . -type d -name '.git' -prune -o -type f -print
