@@ -34,3 +34,39 @@
    
    
 Python starts numbering from '0'. Therefore, the `Active CUDA device` name/number is expected to be `0` above.
+## FacsimiLab Full - Python Packages   
+   
+   
+- JAX version: 0.4.31
+- JAXlib version: 0.4.31
+- Flax version: 0.8.5
+- PyTorch version: 2.4.0
+- PyTorch CUDA version: 12.4
+- scVI version: 1.1.5
+- Scanpy version: 1.10.2
+   
+   
+## Facsimilab: Nvidia CUDA GPU Detected
+   
+   
+- GPU Name: NVIDIA GeForce RTX 3060
+- GPU Available: True
+   
+   
+### System Information
+   
+   
+- Python version: `3.11.9 | packaged by conda-forge | (main, Apr 19 2024, 18:36:13) [GCC 12.3.0]` 
+- PyTorch version: `2.4.0`
+- CUDNN version: `90100`
+- Number CUDA Devices: `1`
+   
+   
+### Devices
+   
+   
+- Available devices `1`
+- Active CUDA device: `0`
+   
+   
+Python starts numbering from '0'. Therefore, the `Active CUDA device` name/number is expected to be `0` above.

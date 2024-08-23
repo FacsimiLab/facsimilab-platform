@@ -12,9 +12,14 @@ on:
     paths:
       - "docker/image_version.txt"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-test-and-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-linux
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,15 +33,34 @@ jobs:
         with:
           path: ./docker/image_version.txt
 
+
+      - name: Matrix Message - Starting Build
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+            server: "matrix.drpranavmishra.com"
+
       - name: Build Docker images
         run: bash docker/build-all.sh
 
+      - name: Matrix Message - Completed Build
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+            server: "matrix.drpranavmishra.com"
+
       - name: Run Facsmilab-Main container and execute script
         run: |
+          docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
           docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
 
       - name: Run Facsmilab-Full container and execute script
         run: |
+          docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
           docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
 
       - name: Push Docker images
@@ -62,3 +86,13 @@ jobs:
           cat testing/results/main-image.txt >> testing/results/job_summary.md
           cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
+  # # notify-completed:
+  # #   runs-on: ubuntu-latest
+  #   steps:
+      - name: Matrix Message - Completed GitHub Action
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
+            server: "matrix.drpranavmishra.com"
