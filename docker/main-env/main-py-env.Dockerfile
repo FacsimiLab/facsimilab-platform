@@ -9,11 +9,11 @@ FROM ${IMAGE_REPO_PREFIX}facsimilab-base:${IMAGE_VERSION} AS main-python-builder
 ARG IMAGE_VERSION="dev"
 ARG ISO_DATETIME
 
-LABEL org.opencontainers.image.title="FacsimiLab-Full-Environment"
+LABEL org.opencontainers.image.title="FacsimiLab-Main-Environment"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL org.opencontainers.image.description="Full image python environment builder || FacsimiLab - A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.description="Main image python environment builder || FacsimiLab - A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.created=${ISO_DATETIME}

@@ -28,30 +28,13 @@ export BUILDX_METADATA_PROVENANCE=max
 export IMAGE_REPO_PREFIX="pranavmishra90/"
 export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
 
-# we cannot cache the first stage due to the hardlink issue, which is preventing us from using the proper docker buildx build function
-
-# echo "Building $CONTAINER_NAME for cache export"
-# docker build --progress=auto \
-# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
-# 	--build-arg CONDA_FILE=$CONDA_FILE \
-# 	--build-arg BUILDKIT_INLINE_CACHE=1 \
-# 	--cache-from=pranavmishra90/facsimilab-full-env:latest \
-# 	--cache-from=pranavmishra90/facsimilab-full-env:dev \
-# 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
-# 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
-# 	--metadata-file ../metadata/03-full-env_metadata.json \
-# 	-t docker.io/pranavmishra90/facsimilab-full-env:dev \
-# 	-t $CONTAINER_NAME . -f full-py-env.Dockerfile
-
-
 echo "Building $CONTAINER_NAME for full image export"
 
 docker build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
-	--build-arg MAIN_ENV_SHA=$main_env_sha \
+	--build-arg FULL_ENV_SHA=$full_env_sha \
 	--build-arg CONDA_FILE=$CONDA_FILE \
 	--build-arg BUILDKIT_INLINE_CACHE=1 \
 	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
@@ -83,7 +66,7 @@ docker buildx build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
-	--build-arg MAIN_ENV_SHA=$main_env_sha \
+	--build-arg FULL_ENV_SHA=$full_env_sha \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--metadata-file ../metadata/02-full_metadata.json \
 	-f full-stage2.Dockerfile .
@@ -97,7 +80,7 @@ docker buildx build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
-	--build-arg MAIN_ENV_SHA=$main_env_sha \
+	--build-arg FULL_ENV_SHA=$full_env_sha \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
 	--metadata-file ../metadata/02-full_metadata.json \
