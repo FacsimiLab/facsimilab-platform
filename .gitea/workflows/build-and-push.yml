@@ -1,4 +1,4 @@
-name: Build and Push Version
+name: Build and Push (Gitea)
 
 on:
   push:
