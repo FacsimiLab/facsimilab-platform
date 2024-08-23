@@ -22,7 +22,7 @@ export BUILDX_METADATA_PROVENANCE=max
 ubuntu_cuda_base_sha=$(docker inspect pranavmishra90/cuda:12.4.1-base-ubuntu22.04 --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
 
-docker buildx build \
+docker buildx build --progress=auto \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg FULL_ENV_SHA=$full_env_sha \
