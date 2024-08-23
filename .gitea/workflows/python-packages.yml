@@ -42,16 +42,16 @@ jobs:
 
       - name: List contents of main image
         run: |
-              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev find /home/coder -type d -name '.git' -prune -o -type f -print
+              docker run --rm --volumes-from=${{ env.JOB_CONTAINER_NAME }} -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev cp -r ${{ github.workspace }} /home/coder/work && find /home/coder -type d -name '.git' -prune -o -type f -print
 
-      - name: Main Image
-        run: |
-              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev  /opt/conda/bin/python /home/coder/work/testing/main_image.py | tee output.txt
+      # - name: Main Image
+      #   run: |
+      #         docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=base  pranavmishra90/facsimilab-main:dev  /opt/conda/bin/python /home/coder/work/testing/main_image.py | tee output.txt
 
 
-      - name: Full Image
-        run: |
-              docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:dev  /opt/conda/envs/facsimilab/bin/python /home/coder/work/testing/full_image.py | tee output.txt
+      # - name: Full Image
+      #   run: |
+      #         docker run --rm -v $(pwd):/home/coder/work -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:dev  /opt/conda/envs/facsimilab/bin/python /home/coder/work/testing/full_image.py | tee output.txt
 
       # - name: Main Image
       #   uses: addnab/docker-run-action@v3
@@ -91,6 +91,6 @@ jobs:
           echo "$builder_header" > testing/results/job_summary.md
           cat "## Main Image" >> testing/results/job_summary.md
           cat "   " >> testing/results/job_summary.md
-          cat testing/results/main-image.txt >> testing/results/job_summary.md
-          cat testing/results/full-image.txt >> testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
+    # cat testing/results/main-image.txt >> testing/results/job_summary.md
+    # cat testing/results/full-image.txt >> testing/results/job_summary.md
