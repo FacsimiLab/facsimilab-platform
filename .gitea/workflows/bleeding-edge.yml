@@ -3,7 +3,7 @@ name: Bleeding Edge (Gitea)
 on:
   push:
     branches:
-      - gitea
+      # - gitea
       - develop
   workflow_dispatch:
 

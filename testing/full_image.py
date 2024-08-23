@@ -1,5 +1,8 @@
 #!/opt/conda/envs/facsimilab/bin/python
 
+print("## FacsimiLab Full - Python   ")
+print(sys.executable)
+
 import os
 import sys
 
