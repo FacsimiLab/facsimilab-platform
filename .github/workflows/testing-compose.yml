@@ -12,7 +12,7 @@ jobs:
   container-test-job:
     runs-on: "ubuntu-latest"
     container:
-      image: pranavmishra90/facsimilab-full:dev
+      image: pranavmishra90/facsimilab-main:dev
       env:
         ENV_NAME: facsimilab
     steps:

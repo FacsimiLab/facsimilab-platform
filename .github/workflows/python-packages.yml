@@ -1,11 +1,11 @@
 name: Check Python Packages
 
 on:
-  push:
-    branches:
-      - gitea
-      - develop
-      - main
+  # push:
+  #   branches:
+  #     - gitea
+  #     - develop
+  #     - main
   workflow_dispatch:
 
 # concurrency:
