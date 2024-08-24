@@ -41,7 +41,8 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 
-RUN apt-get update -y \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update -y \
     && apt-get install -y tzdata git ninja-build gnupg2 wget yadm && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -54,7 +55,8 @@ RUN mkdir -p /etc/apt/keyrings && \
     wget -O- http://neuro.debian.net/lists/jammy.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
     apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9
 
-RUN apt-get update && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && \
     apt-get --no-install-recommends install -y \
     # Additional dependences
     bzip2 \
@@ -81,7 +83,8 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-RUN install -m 0755 -d /etc/apt/keyrings && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
     chmod a+r /etc/apt/keyrings/docker.asc  && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
@@ -105,7 +108,8 @@ COPY --from=micromamba /usr/local/bin/_entrypoint.sh /usr/local/bin/_entrypoint.
 COPY --from=micromamba /usr/local/bin/_dockerfile_initialize_user_accounts.sh /usr/local/bin/_dockerfile_initialize_user_accounts.sh
 COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/local/bin/_dockerfile_setup_root_prefix.sh
 
-RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
     /usr/local/bin/_dockerfile_setup_root_prefix.sh \
     && usermod -aG sudo $MAMBA_USER \
     && echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
