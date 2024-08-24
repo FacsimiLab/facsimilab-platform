@@ -51,3 +51,11 @@ jobs:
           echo "   " >> $GITHUB_STEP_SUMMARY
           cat testing/results/main-image.txt >> $GITHUB_STEP_SUMMARY
           cat testing/results/full-image.txt >> $GITHUB_STEP_SUMMARY
+
+      - name: Matrix Message - Completed GitHub Action
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "FacsimiLab ${{ steps.package.outputs.content }} - Build tests completed"
+            server: "matrix.drpranavmishra.com"
