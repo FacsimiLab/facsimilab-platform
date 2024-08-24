@@ -9,7 +9,6 @@ on:
   pull_request:
     types:
       - opened
-      - ready_for_review
       - assigned
     paths:
       - "docker/image_version.txt"
