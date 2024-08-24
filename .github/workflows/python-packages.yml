@@ -30,17 +30,16 @@ jobs:
         run: |
           echo "Pulling image pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}"
           docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+          docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
 
       - name: Run Facsmilab-Main container and execute script
         run: |
-          docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
           docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > ./testing/results/main-image.txt
           
 
       - name: Run Facsmilab-Full container and execute script
         run: |
-          docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-          docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py > ./testing/results/full-image.txt
+          docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py > ./testing/results/full-image.txt
 
       - name: Write to workflow job summary
         run: |
