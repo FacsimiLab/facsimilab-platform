@@ -4,16 +4,14 @@
 
 FROM mambaorg/micromamba:1.5 AS micromamba
 
-# FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 ARG BASE_IMAGE_SHA
 ENV BASE_IMAGE_SHA=${BASE_IMAGE_SHA}
 
-# ARG CACHE_BUST="1"
-
 FROM docker.io/pranavmishra90/cuda:12.4.1-base-ubuntu22.04@sha256:50b0f0658af6b419a0a8110eff0569617d75413ebf27abd1f99a85b49d4d466f
-# this base image was created with #@
+
+# This base image was created with
 # ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4 --os ubuntu --os-version 22.04 --arch x86_64
-# taken from https://gitlab.com/nvidia/container-images/cuda
+# taken from https://gitlab.com/nvidia/container-images/cuda || alternative: FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
 ############################
 ARG IMAGE_VERSION="dev"
@@ -40,6 +38,7 @@ ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
+ARG CACHE_BUST="1"
 
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update -y \
@@ -80,18 +79,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     unzip \
     zoxide \
     zsh && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
-RUN --mount=type=cache,target=/var/cache/apt \
-    install -m 0755 -d /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
-    chmod a+r /etc/apt/keyrings/docker.asc  && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-        tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-    apt-get update && \
-    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ARG MAMBA_USER=coder

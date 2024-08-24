@@ -42,11 +42,11 @@ docker build --progress=auto \
 	-t pranavmishra90/facsimilab-main-env:dev \
 	-f main-py-env.Dockerfile .
 
-main_env_sha=$(docker inspect pranavmishra90/facsimilab-main-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
-
-
 docker push pranavmishra90/facsimilab-main-env:dev
 docker push pranavmishra90/$CONTAINER_NAME
+
+main_env_sha=$(docker inspect pranavmishra90/facsimilab-main-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
+
 #####################################################################
 
 CONTAINER_NAME="facsimilab-main":$facsimilab_version_num
@@ -57,7 +57,7 @@ echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
 # Cache export
-docker buildx build --progress=plain \
+docker buildx build --progress=auto \
 	--pull \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
@@ -80,24 +80,25 @@ docker buildx build --progress=auto \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg MAIN_ENV_SHA=$main_env_sha \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
-	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=registry,push=true,name=pranavmishra90/facsimilab-main:dev \
+	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=docker,name=pranavmishra90/facsimilab-main:dev \
 	--metadata-file ../metadata/02-main_metadata.json \
-	-t pranavmishra90/facsimilab-main:dev \
-	-t pranavmishra90/$CONTAINER_NAME \
 	-f main-stage2.Dockerfile . 
 
 
 
-# Add additional tags
-docker tag pranavmishra90/facsimilab-main:dev $CONTAINER_NAME
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
-docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
+# # Add additional tags
+# docker tag pranavmishra90/facsimilab-main:dev $CONTAINER_NAME
+# docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
+# docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
+# docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
-echo "pushing main-dev"
-docker push -q docker.io/pranavmishra90/facsimilab-main:dev
-echo "pushing $CONTAINER_NAME"
-docker push -q docker.io/pranavmishra90/$CONTAINER_NAME
+# echo "pushing main-dev"
+# docker push -q docker.io/pranavmishra90/facsimilab-main:dev
+# echo "pushing $CONTAINER_NAME"
+# docker push -q docker.io/pranavmishra90/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)

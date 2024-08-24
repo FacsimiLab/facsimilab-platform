@@ -36,17 +36,17 @@ docker build --progress=auto \
 	--build-arg FULL_ENV_SHA=$full_env_sha \
 	--build-arg CONDA_FILE=$CONDA_FILE \
 	--build-arg BUILDKIT_INLINE_CACHE=1 \
-	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
 	--metadata-file ../metadata/03-full-env_metadata.json \
 	-t pranavmishra90/$CONTAINER_NAME \
 	-t pranavmishra90/facsimilab-full-env:dev \
 	-f full-py-env.Dockerfile .
 
-full_env_sha=$(docker inspect pranavmishra90/facsimilab-full-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
-
-
 echo "confirming push of all tags"
 docker push pranavmishra90/facsimilab-full-env --all-tags
+
+full_env_sha=$(docker inspect pranavmishra90/facsimilab-full-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
+
 #####################################################################
 
 CONTAINER_NAME="facsimilab-full":$facsimilab_version_num
@@ -83,10 +83,11 @@ docker buildx build --progress=auto \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg FULL_ENV_SHA=$full_env_sha \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
-	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
+	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=registry,push=true,name=pranavmishra90/facsimilab-full:dev \
+	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=docker,name=pranavmishra90/facsimilab-full:dev \
 	--metadata-file ../metadata/02-full_metadata.json \
-	-t pranavmishra90/facsimilab-full:dev \
-	-t pranavmishra90/$CONTAINER_NAME \
 	-f full-stage2.Dockerfile . 
 
 

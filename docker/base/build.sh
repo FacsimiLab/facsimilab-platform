@@ -26,24 +26,23 @@ ubuntu_cuda_base_sha=$(docker inspect pranavmishra90/cuda:12.4.1-base-ubuntu22.0
 
 echo "SHA: $ubuntu_cuda_base_sha"
 
+
+	# --build-arg CACHE_BUST=$(date) \
+	# -t gitea.mishracloud.com/pranav/$CONTAINER_NAME \
 docker buildx build --progress=auto \
 	--pull \
-	--build-arg CACHE_BUST="1" \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg BASE_IMAGE_SHA=$ubuntu_cuda_base_sha \
+	--cache-from pranavmishra90/facsimilab-base:dev \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
-	--output type=registry,name=pranavmishra90/$CONTAINER_NAME,push=true \
-	-t pranavmishra90/facsimilab-base:dev \
+	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=registry,push=true,name=pranavmishra90/facsimilab-base:dev \
+	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=docker,name=pranavmishra90/facsimilab-base:dev \
 	--metadata-file ../metadata/01-base_metadata.json \
 	. --file Dockerfile
-
-# Add additional tags
-docker tag pranavmishra90/facsimilab-base:dev $CONTAINER_NAME
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:dev
-docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 # Calculate the total time
 end_time=$(date +%s)

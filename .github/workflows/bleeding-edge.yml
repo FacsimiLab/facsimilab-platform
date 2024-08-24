@@ -1,9 +1,6 @@
 name: Bleeding Edge
 
 on:
-  # push:
-  #   branches:
-  #     - gitea
   workflow_dispatch:
 
 concurrency:
@@ -61,7 +58,9 @@ jobs:
       - name: Run Facsmilab-Full container and execute script
         run: |
           docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-          docker run --rm -v ${{ GITHUB_WORKSPACE }}:/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+          docker run --rm -v ${{ GITHUB_WORKSPACE }}:/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py > testing/results/full-image.txt
+
+      # docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:dev /opt/conda/envs/facsimilab/bin/python testing/full_image.py > testing/results/full-image.txt
 
       - name: Push Docker images
         run: bash docker/push-all.sh

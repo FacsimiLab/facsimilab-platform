@@ -5,7 +5,10 @@ print("## FacsimiLab Full - Python   ")
 print(sys.executable)
 
 import os
+import datetime as date
 
+print(f"Tested on {date.datetime.now().isoformat(timespec='seconds')}")
+print("")
 
 import scanpy as sc
 import scvi

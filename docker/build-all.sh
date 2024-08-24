@@ -67,15 +67,15 @@ cd base
 bash build.sh
 
 
-# # Main container
-# #----------------------
+# Main container
+#----------------------
 cd ../main-env
 
 bash build.sh
 
 
-# # Full container
-# #----------------------
+# Full container
+#----------------------
 cd ../full-env
 
 # Generate the lock file from the conda environment.yml
