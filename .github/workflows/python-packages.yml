@@ -1,16 +1,15 @@
 name: Check Python Packages
 
 on:
-  push:
-    branches:
-      - gitea
-      - develop
-      - main
+  workflow_run:
+    workflows: ["Build and Push Version"]
+    types:
+      - completed
   workflow_dispatch:
 
-# concurrency:
-#   group: ${{ github.ref }}
-#   cancel-in-progress: false
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 
 jobs:
   test-containers:
