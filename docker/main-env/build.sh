@@ -19,6 +19,8 @@ echo "$CONTAINER_NAME"
 
 # Download necessary files
 wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
+# wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.5.56/quarto-1.5.56-linux-amd64.deb -O quarto.deb
+
 
 ######################################################################
 # Build the docker container
@@ -26,6 +28,8 @@ wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
 export IMAGE_REPO_PREFIX="pranavmishra90/"
+
+docker pull pranavmishra90/facsimilab-base:$facsimilab_version_num 
 
 echo "Building $CONTAINER_NAME for image export"
 docker build --progress=auto \
@@ -54,6 +58,7 @@ echo "$CONTAINER_NAME"
 
 # Cache export
 docker buildx build --progress=plain \
+	--pull \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
@@ -69,6 +74,7 @@ docker buildx build --progress=plain \
 
 # Image export
 docker buildx build --progress=auto \
+	--pull \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \

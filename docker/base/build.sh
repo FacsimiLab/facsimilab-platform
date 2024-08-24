@@ -27,6 +27,7 @@ ubuntu_cuda_base_sha=$(docker inspect pranavmishra90/cuda:12.4.1-base-ubuntu22.0
 echo "SHA: $ubuntu_cuda_base_sha"
 
 docker buildx build --progress=auto \
+	--pull \
 	--build-arg CACHE_BUST="1" \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \

@@ -17,9 +17,6 @@ echo "-----------------------------------------"
 echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
-# Download necessary files
-wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
-
 ######################################################################
 # Build the docker container
 
@@ -29,6 +26,8 @@ export IMAGE_REPO_PREFIX="pranavmishra90/"
 export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
 
 echo "Building $CONTAINER_NAME for full image export"
+
+docker pull pranavmishra90/facsimilab-main:$facsimilab_version_num 
 
 docker build --progress=auto \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
@@ -63,6 +62,7 @@ echo "Building the cache container"
 echo ""
 
 docker buildx build --progress=auto \
+	--pull \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
@@ -77,6 +77,7 @@ echo "Building the full container"
 echo ""
 
 docker buildx build --progress=auto \
+	--pull \
 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
