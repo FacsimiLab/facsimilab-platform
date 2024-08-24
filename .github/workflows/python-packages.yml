@@ -46,9 +46,8 @@ jobs:
           builder_header="# $build_version "
           ls -lahg
           touch testing/results/job_summary.md
-          echo "$builder_header" > testing/results/job_summary.md
-          cat "## Main Image" > testing/results/job_summary.md
-          cat "   " > testing/results/job_summary.md
-          cat testing/results/main-image.txt >> testing/results/job_summary.md
-          cat testing/results/full-image.txt >> testing/results/job_summary.md
-          cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
+          echo "$builder_header" >> $GITHUB_STEP_SUMMARY
+          cat "## Main Image" >> $GITHUB_STEP_SUMMARY
+          cat "   " >> $GITHUB_STEP_SUMMARY
+          cat testing/results/main-image.txt >> $GITHUB_STEP_SUMMARY
+          cat testing/results/full-image.txt >> $GITHUB_STEP_SUMMARY

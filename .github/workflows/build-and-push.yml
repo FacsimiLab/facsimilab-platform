@@ -2,10 +2,8 @@ name: Build and Push Version
 
 on:
   push:
-    branches:
-      - gitea
-      - develop
-      - main
+    paths:
+      - "docker/image_version.txt"
   pull_request:
     types:
       - opened
