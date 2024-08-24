@@ -47,7 +47,7 @@ jobs:
           ls -lahg
           touch testing/results/job_summary.md
           echo "$builder_header" >> $GITHUB_STEP_SUMMARY
-          cat "## Main Image" >> $GITHUB_STEP_SUMMARY
-          cat "   " >> $GITHUB_STEP_SUMMARY
+          echo "## Main Image" >> $GITHUB_STEP_SUMMARY
+          echo "   " >> $GITHUB_STEP_SUMMARY
           cat testing/results/main-image.txt >> $GITHUB_STEP_SUMMARY
           cat testing/results/full-image.txt >> $GITHUB_STEP_SUMMARY
