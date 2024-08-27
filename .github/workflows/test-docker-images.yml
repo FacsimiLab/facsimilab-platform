@@ -43,14 +43,14 @@ jobs:
           docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > ./testing/results/main-image.txt
           
 
-      - name: Commit changes to git (docker image metadata)
-        uses: devops-infra/action-commit-push@master
-        with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
-          # add_timestamp: false
-          commit_prefix: "ci(docker): "
-          commit_message: "Docker images built and pushed [GH Action]"
-          force: false
+      # - name: Commit changes to git (docker image metadata)
+      #   uses: devops-infra/action-commit-push@master
+      #   with:
+      #     github_token: "${{ secrets.GITHUB_TOKEN }}"
+      #     # add_timestamp: false
+      #     commit_prefix: "ci(docker): "
+      #     commit_message: "Docker images built and pushed [GH Action]"
+      #     force: false
 
       - name: Write to workflow job summary
         run: |
