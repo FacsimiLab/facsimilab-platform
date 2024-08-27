@@ -20,6 +20,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          show-progress: true
+          set-safe-directory: '/'
 
       - name: Read the image version
         id: package
