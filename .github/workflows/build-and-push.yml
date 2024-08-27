@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-test-and-push:
+  build-and-push:
     runs-on: [self-hosted, linux, x64]
     steps:
 
