@@ -77,6 +77,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     tini \
     tree \
     unzip \
+    yadm \
     zoxide \
     zsh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
