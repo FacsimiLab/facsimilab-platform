@@ -93,7 +93,7 @@
                     "TZ=America/Chicago",
                     "LC_ALL=C.UTF-8",
                     "LANG=C.UTF-8",
-                    "ENV_NAME=facsmilab"
+                    "ENV_NAME=facsimilab"
                   ],
                   "cwd": "/home/coder/work",
                   "user": "root",
@@ -340,7 +340,7 @@
                     "TZ=America/Chicago",
                     "LC_ALL=C.UTF-8",
                     "LANG=C.UTF-8",
-                    "ENV_NAME=facsmilab"
+                    "ENV_NAME=facsimilab"
                   ],
                   "cwd": "/home/coder/work",
                   "user": "root",
@@ -456,7 +456,7 @@
                     "TZ=America/Chicago",
                     "LC_ALL=C.UTF-8",
                     "LANG=C.UTF-8",
-                    "ENV_NAME=facsmilab"
+                    "ENV_NAME=facsimilab"
                   ],
                   "cwd": "/home/coder/work",
                   "user": "coder",

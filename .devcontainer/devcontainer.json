@@ -8,6 +8,10 @@
     "runArgs": ["--gpus", 0],
     "forwardPorts": [3334, 8888],
     "postCreateCommand": ["/bin/bash"],
+    "containerEnv": {
+        "ENV_NAME": "facsimilab"
+    },
+    "shutdownAction": "none",
     "customizations": {
         "vscode": {
             "extensions": [

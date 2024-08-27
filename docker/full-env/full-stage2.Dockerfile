@@ -36,7 +36,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
-ENV ENV_NAME=facsmilab
+ENV ENV_NAME=facsimilab
 
 # Install additional packages
 USER root

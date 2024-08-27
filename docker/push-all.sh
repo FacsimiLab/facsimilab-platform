@@ -35,6 +35,8 @@ fi
 
 echo "FacsimiLab version: $facsimilab_version_num"
 
+IMAGE_REPO_PREFIX="pranavmishra90/"
+$IMAGE_REPO_PREFIX
 # ----------------------------------------------------------------------------------------------------------
 
 # Check if facsimilab_version_num is 'dev'
@@ -43,32 +45,32 @@ if [ "$facsimilab_version_num" == "dev" ]; then
 	# Put your development actions here
 
 	CONTAINER_NAME="facsimilab-base:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:dev
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:dev
 
 	CONTAINER_NAME="facsimilab-main:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:dev
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:dev
 
 	CONTAINER_NAME="facsimilab-full:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:dev
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:dev
 
 else
 
 	# Base image
 	CONTAINER_NAME="facsimilab-base:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:latest
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:latest
 
 	# Main image
 	CONTAINER_NAME="facsimilab-main:$facsimilab_version_num"
 
-	docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:latest
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:latest
 
 	# Full image
 	CONTAINER_NAME="facsimilab-full:$facsimilab_version_num"
 
-	docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:latest
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:latest
 
 	echo "--------------------------------------------------------------------------------"
 	docker image ls | grep -e pranavmishra90/facsimilab -e gitea.mishracloud.com
