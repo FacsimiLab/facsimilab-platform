@@ -59,6 +59,7 @@ dependencies:
   # Documentation
   - markdown=3
   - pandoc=3.1
+  - python-pptx=0.6
 
   # Machine Learning
   - lightning=2
