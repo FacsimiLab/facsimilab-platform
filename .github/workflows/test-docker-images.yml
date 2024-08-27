@@ -1,4 +1,4 @@
-name: Check Python Packages
+name: Test Docker Images
 
 on:
   workflow_run:
@@ -6,13 +6,16 @@ on:
     types:
       - completed
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/test-docker-images.yml
 
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
-  test-containers:
+  test-images:
     runs-on: [self-hosted, linux, x64]
     steps:
 
@@ -31,14 +34,14 @@ jobs:
           docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
           docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
 
+      - name: Run Facsmilab-Full container and execute script
+        run: |
+          docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py > ./testing/results/full-image.txt
+
       - name: Run Facsmilab-Main container and execute script
         run: |
           docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig -e ENV_NAME=base  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py > ./testing/results/main-image.txt
           
-
-      - name: Run Facsmilab-Full container and execute script
-        run: |
-          docker run --rm -v $(pwd):/home/coder/work --user $(id -u):$(id -g) -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py > ./testing/results/full-image.txt
 
       - name: Commit changes to git (docker image metadata)
         uses: devops-infra/action-commit-push@master

@@ -1,13 +1,13 @@
 #!/opt/conda/envs/facsimilab/bin/python
 import sys
-
-print("## FacsimiLab Full - Python   ")
-print(sys.executable)
-
 import os
 import datetime as date
 
+print("## FacsimiLab Full Image Tests")
+
 print(f"Tested on {date.datetime.now().isoformat(timespec='seconds')}")
+
+print(f"Python path: {sys.executable}")
 print("")
 
 import scanpy as sc
@@ -24,7 +24,7 @@ import flax
 
 
 # Print library versions
-print("## FacsimiLab Full - Python Packages   ")
+print("### FacsimiLab Full - Python Packages   ")
 print("   ")
 print("   ")
 print("- JAX version:", jax.__version__)
