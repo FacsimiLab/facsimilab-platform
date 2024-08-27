@@ -22,7 +22,7 @@ jobs:
         id: package
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./docker/image_version.txt
+          path: ${{ github.workspace }}/docker/image_version.txt
 
       - name: Pull Docker image
         run: |
