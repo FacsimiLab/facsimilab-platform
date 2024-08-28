@@ -1,0 +1,44 @@
+name: Check Python Packages - By Label
+
+on:
+  workflow_dispatch:
+  push: 
+    paths:
+      - "docker/image_version.txt"
+jobs:
+  facsimilab-packages:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read package.json
+        id: package
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./docker/image_version.txt
+      
+      - name: Pull Docker Main Image
+        run: docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
+
+      - name: Pull Docker Full Image
+        run: docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+
+      - name: Run Facsmilab-Main container and execute script
+        run: |
+          docker run --rm -v $(pwd):/home/coder/work -v ~/.gitconfig:/home/coder/.gitconfig  --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
+
+      - name: Run Facsmilab-Full container and execute script
+        run: |
+          docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
+
+      - name: Write to workflow job summary
+        run: |
+          build_version=$(cat docker/image_version.txt)
+          builder_header="# $build_version "
+          echo "$builder_header" > testing/results/job_summary.md
+          cat "## Main Image" >> testing/results/job_summary.md
+          cat "   " >> testing/results/job_summary.md
+          cat testing/results/main-image.txt >> testing/results/job_summary.md
+          cat testing/results/full-image.txt >> testing/results/job_summary.md
+          cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
