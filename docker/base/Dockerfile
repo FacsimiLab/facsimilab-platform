@@ -1,34 +1,48 @@
+# syntax=docker/dockerfile:1
+
 # Facsimilab Base Image
 
 FROM mambaorg/micromamba:1.5 AS micromamba
 
-# FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+ARG BASE_IMAGE_SHA
+ENV BASE_IMAGE_SHA=${BASE_IMAGE_SHA}
 
-FROM pranavmishra90/cuda:12.4.1-base-ubuntu22.04
-# this base image was created with 
+FROM docker.io/pranavmishra90/cuda:12.4.1-base-ubuntu22.04@sha256:50b0f0658af6b419a0a8110eff0569617d75413ebf27abd1f99a85b49d4d466f
+
+# This base image was created with
 # ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4 --os ubuntu --os-version 22.04 --arch x86_64
-# taken from https://gitlab.com/nvidia/container-images/cuda
+# taken from https://gitlab.com/nvidia/container-images/cuda || alternative: FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
 ############################
 ARG IMAGE_VERSION="dev"
 ############################
 
+ARG IMAGE_VERSION="dev"
+ARG ISO_DATETIME
+ARG BASE_IMAGE_SHA
+
+
 LABEL org.opencontainers.image.title="FacsimiLab-Base"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.description="Base image || FacsimiLab - A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.created=${ISO_DATETIME}
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/cuda:12.4.1-base-ubuntu22.04"
+LABEL org.opencontainers.image.base.digest=${BASE_IMAGE_SHA}
 
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
+ARG CACHE_BUST="1"
 
-RUN apt-get update -y \
-    && apt-get install -y tzdata git ninja-build gnupg2 wget && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update -y \
+    && apt-get install -y tzdata git ninja-build gnupg2 wget yadm && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings && \
@@ -40,14 +54,15 @@ RUN mkdir -p /etc/apt/keyrings && \
     wget -O- http://neuro.debian.net/lists/jammy.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
     apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9
 
-RUN apt-get update && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && \
     apt-get --no-install-recommends install -y \
     # Additional dependences
     bzip2 \
     ca-certificates \
     curl \
     # datalad \
-    # git-annex \
+    git-annex \
     eza \
     fonts-liberation \
     less \
@@ -60,6 +75,7 @@ RUN apt-get update && \
     pipx \
     sudo \
     tini \
+    tree \
     unzip \
     zoxide \
     zsh && \
@@ -79,7 +95,8 @@ COPY --from=micromamba /usr/local/bin/_entrypoint.sh /usr/local/bin/_entrypoint.
 COPY --from=micromamba /usr/local/bin/_dockerfile_initialize_user_accounts.sh /usr/local/bin/_dockerfile_initialize_user_accounts.sh
 COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/local/bin/_dockerfile_setup_root_prefix.sh
 
-RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
     /usr/local/bin/_dockerfile_setup_root_prefix.sh \
     && usermod -aG sudo $MAMBA_USER \
     && echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \

@@ -1,6 +1,8 @@
 {
     "files.eol": "\n",
     "conventionalCommits.scopes": [
-        "docker"
-    ]
+        "docker",
+        "dependencies"
+    ],
+    "python.defaultInterpreterPath": "/opt/conda/envs/facsimilab/bin/python"
 }

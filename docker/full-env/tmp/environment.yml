@@ -1,0 +1,130 @@
+name: facsimilab
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+
+dependencies:
+  # Python and interactive python
+  - python=3.11
+  - IPython=8.26
+  - ipykernel=6.29
+  - ipywidgets=8.1
+  - jupyter=1.0
+  - jupyter-cache=1
+  - nbformat=5.9
+  - nbclient>0.7
+  - six=1.16
+  - mamba
+
+  # General
+  - tqdm=4.65
+  - black=24
+  - black-jupyter=24
+  - click>8.1
+  - dask-core=2024
+
+  # Version control
+  - datalad=1.1
+
+  # Web
+  - requests>=2.32.0
+  - urllib3
+
+  # Data structures and analysis
+  - pandas=2.2
+  - numpy>1.23
+  - scipy=1
+  - pingouin=0.5
+  - h5py=3
+  - arrow=1.3
+  - fastparquet=2024.5
+  - python-igraph=0.11
+  - xlsxwriter=3.1
+  - openpyxl=3.1
+  - pyreadstat=1.2
+
+  # Visualization
+  - matplotlib=3.8
+  - seaborn>0.12
+  - plotly=5.15
+  - tabulate=0.9
+  - pygraphviz=1.11
+  - adjusttext=1.2
+
+  # Automation
+  - nbconvert=7.6
+  - papermill=2.6
+
+  # Documentation
+  - markdown=3
+  - pandoc=3.1
+  - python-pptx=0.6
+
+  # Machine Learning
+  - lightning=2
+  - leidenalg=0.10
+  - louvain=0.8
+  - bbknn=1.6
+  - fa2=0.3
+  - hnswlib=0.7
+  - scikit-learn=1
+  - scikit-image=0.22
+  - scikit-misc=0.1
+  - igraph=0.10
+  - hnswlib=0.7
+  - sklearn-pandas
+  - imbalanced-learn
+  - dtreeviz
+
+  # Next-generation -omics
+  - scanpy=1.10
+  - scvi-tools=1.1
+  - muon=0.1
+  - squidpy=1.5
+  # - scirpy=0.17
+  # - scvelo=0.3
+  - bioconda::pydeseq2=0.4
+  - bioconda::gseapy=1.1
+  - bioconda::celltypist=1.6
+  - bioconda::scanorama=1.7
+
+  # # GPU
+  - nvidia::cuda-nvcc
+  - conda-forge::jaxlib=*=*cuda120py311*
+  - conda-forge::jax=0.4
+  - conda-forge::flax=0.8
+  # ML Base
+  - pytorch::pytorch=2
+  - pytorch::pytorch-cuda=12
+  - pytorch::torchvision
+  # GPU Accelerated Packages
+  - conda-forge::cupy-core=13.2
+  - rapidsai::rmm=24.*=*cuda12*
+  - faiss-gpu=1.8
+
+  # Data Sources
+  - conda-forge::pooch=1.8
+
+  # # C  / C++
+  - cython=3.0
+  - pybind11>2.10
+  - cytoolz>0.10
+
+  # Primer design
+  - bioconda::primer3-py
+
+  # CVE Dependency Pinning
+  # - lightning>=2.3.3
+  # - fastapi>=0.109.1
+  # - starlette>=0.25.0
+  # - aiohttp>=3.10.2
+
+  # pip - Packages not available through conda
+  - pip
+  - pip:
+      - PyCap==2.6
+      # - pyscenic==0.12
+  #     - velocyto
+  #     - pybind11
+  #     - pyvis

@@ -4,7 +4,7 @@
 cd $(git rev-parse --show-toplevel)
 cd docker
 
-version_file="build_version.txt"
+version_file="image_version.txt"
 
 if [ -f "$version_file" ]; then
 	set_version=$(cat "$version_file" | tr -d '[:space:]')
@@ -18,7 +18,7 @@ docker image ls | grep pranavmishra90/facsimilab
 printf "\n\n"
 echo "--------------------------------------------------------------------------------"
 # Prompt the user for the version number
-read -t 30 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./build_version.txt)]: " user_input
+read -t 15 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./image_version.txt)]: " user_input
 
 # Remove any whitespace from the user input
 user_input=$(echo "$user_input" | tr -d '[:space:]')
@@ -46,16 +46,63 @@ facsimilab_username="coder"
 export facsimilab_version_num
 export facsimilab_username
 
-# # # # Base container
-# cd base
+# Initialize the build
+start_time=$(date +%s)
 
-# bash build.sh
+printf "\n\n\n\n\n"
+echo "-----------------------------------------"
 
-# # # Main container
-# cd ../main && bash build.sh
+# CUDA container
+#----------------------
+# cd cuda
 
-# # Full container
-# cd ../full && bash build.sh
+# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
 
-# # Play an alert tone in the terminal to mark completion
-# echo -e '\a'
+# cd ..
+
+# # Base container
+# #----------------------
+cd base
+
+bash build.sh
+
+
+# Main container
+#----------------------
+cd ../main-env
+
+bash build.sh
+
+
+# Full container
+#----------------------
+cd ../full-env
+
+# Generate the lock file from the conda environment.yml
+# bash generate-lock.sh
+
+# Build the docker container
+bash build.sh
+
+# Finished
+#----------------------
+# Calculate the total time
+end_time=$(date +%s)
+total_time=$((end_time - start_time))
+minutes=$((total_time / 60))
+seconds=$((total_time % 60))
+
+# Print the completion statement
+formatted_date=$(date "+%m/%d/%Y at %I:%M %p")
+
+echo "Completed: $formatted_date"
+echo "Total time taken: $minutes minutes and $seconds seconds"
+echo ""
+echo ""
+echo "FacsimiLab Docker images: $facsimilab_version_num"
+echo ""
+
+docker image ls | grep facsimilab | grep $facsimilab_version_num
+
+# Play an alert tone in the terminal to mark completion'
+echo -e '\a'

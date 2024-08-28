@@ -5,9 +5,13 @@
         "source=${localWorkspaceFolder},target=/home/coder/work,type=bind,consistency=cached"
     ],
     "updateRemoteUserUID": true,
-    "runArgs": ["--gpus", "all"],
-    "forwardPorts": [3334],
+    "runArgs": ["--gpus", 0],
+    "forwardPorts": [3334, 8888],
     "postCreateCommand": ["/bin/bash"],
+    "containerEnv": {
+        "ENV_NAME": "facsimilab"
+    },
+    "shutdownAction": "none",
     "customizations": {
         "vscode": {
             "extensions": [

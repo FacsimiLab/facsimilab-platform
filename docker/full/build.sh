@@ -19,16 +19,30 @@ echo "$CONTAINER_NAME"
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
 export CONDA_FILE="facsimilab-conda-lock.yml" #environment.yml
-export IMAGE_REPO_PREFIX=""
-export CACHEBUST="100"
+export IMAGE_REPO_PREFIX="pranavmishra90/"
 
-# docker buildx build --progress=auto --load --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/full_metadata.json -t gitea.mishracloud.com/pranav/$CONTAINER_NAME .
+docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg CONDA_FILE=$CONDA_FILE \
+	--cache-from=pranavmishra90/facsimilab-full:latest \
+	--cache-from=pranavmishra90/facsimilab-full:dev \
+	--cache-from type=registry,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
+	--metadata-file ../metadata/03-full_metadata.json \
+	-t $CONTAINER_NAME . -f Dockerfile
 
-docker build --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg CONDA_FILE=$CONDA_FILE --metadata-file ../metadata/03-full_metadata.json -t $CONTAINER_NAME .
+# docker buildx build --progress=auto --pull \
+# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--build-arg CONDA_FILE=$CONDA_FILE \
+# 	--cache-from=pranavmishra90/facsimilab-full:latest \
+# 	--cache-from=pranavmishra90/facsimilab-full:dev \
+# 	--cache-to type=registry,mode=max,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
+# 	--metadata-file ../metadata/03-full_metadata.json \
+# 	--output type=image,name=pranavmishra90/$CONTAINER_NAME,push=true .
 
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:dev
 
 # Calculate the total time
 end_time=$(date +%s)

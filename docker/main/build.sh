@@ -17,23 +17,42 @@ echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
 # Download necessary files
-wget -nc https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
+wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
 
 ######################################################################
 # Build the docker container
 
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
-export IMAGE_REPO_PREFIX="gitea.mishracloud.com/pranav/"
-export CACHEBUST="100"
+export IMAGE_REPO_PREFIX="pranavmishra90/"
 
-# docker buildx build --load --progress=auto --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num -t $CONTAINER_NAME --metadata-file ../metadata/main_metadata.json .
+docker build --progress=auto \
+	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg BUILDKIT_INLINE_CACHE=1 \
+	--cache-from=pranavmishra90/facsimilab-main:latest \
+	--cache-from=pranavmishra90/facsimilab-main:dev \
+	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+	--metadata-file ../metadata/02-main_metadata.json \
+	-t $CONTAINER_NAME .
 
-docker build --progress=auto --build-arg CACHEBUST="$CACHEBUST" --build-arg IMAGE_VERSION=$facsimilab_version_num --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX --metadata-file ../metadata/02-main_metadata.json -t $CONTAINER_NAME -t $IMAGE_REPO_PREFIX$CONTAINER_NAME .
+### Buildx is not working due to a hardlink error with packages such as git-annex
+
+# docker buildx build --progress=plain \
+# 	--pull --push \
+# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--cache-from=pranavmishra90/facsimilab-main:latest \
+# 	--cache-from=pranavmishra90/facsimilab-main:dev \
+# 	--cache-from type=registry,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+# 	--cache-to type=registry,mode=max,registry.insecure=false,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+# 	--metadata-file ../metadata/02-main_metadata.json \
+# 	-t pranavmishra90/$CONTAINER_NAME . -f Dockerfile.buildx
 
 #######################################################################
 # Add additional tags
 docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
 docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
 # Calculate the total time

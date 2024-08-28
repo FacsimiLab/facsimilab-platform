@@ -1,0 +1,7 @@
+channels:
+    - conda-forge
+
+always_yes: false
+add_pip_as_python_dependency: true
+allow_softlinks: false
+always_copy: true

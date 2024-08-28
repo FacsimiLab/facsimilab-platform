@@ -4,7 +4,7 @@
 cd $(git rev-parse --show-toplevel)
 cd docker
 
-version_file="build_version.txt"
+version_file="image_version.txt"
 
 if [ -f "$version_file" ]; then
 	set_version=$(cat "$version_file" | tr -d '[:space:]')
@@ -18,7 +18,7 @@ docker image ls | grep pranavmishra90/facsimilab
 printf "\n\n"
 echo "--------------------------------------------------------------------------------"
 # Prompt the user for the version number
-read -t 10 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./build_version.txt)]: " user_input
+read -t 10 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./image_version.txt)]: " user_input
 
 # Remove any whitespace from the user input
 user_input=$(echo "$user_input" | tr -d '[:space:]')
@@ -35,6 +35,8 @@ fi
 
 echo "FacsimiLab version: $facsimilab_version_num"
 
+IMAGE_REPO_PREFIX="pranavmishra90/"
+$IMAGE_REPO_PREFIX
 # ----------------------------------------------------------------------------------------------------------
 
 # Check if facsimilab_version_num is 'dev'
@@ -43,32 +45,32 @@ if [ "$facsimilab_version_num" == "dev" ]; then
 	# Put your development actions here
 
 	CONTAINER_NAME="facsimilab-base:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:dev
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:dev
 
 	CONTAINER_NAME="facsimilab-main:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:dev
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:dev
 
 	CONTAINER_NAME="facsimilab-full:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:dev
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:dev
 
 else
 
 	# Base image
 	CONTAINER_NAME="facsimilab-base:$facsimilab_version_num"
-	docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:latest
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:latest
 
 	# Main image
 	CONTAINER_NAME="facsimilab-main:$facsimilab_version_num"
 
-	docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:latest
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:latest
 
 	# Full image
 	CONTAINER_NAME="facsimilab-full:$facsimilab_version_num"
 
-	docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:latest
-	docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:latest
+	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:latest
 
 	echo "--------------------------------------------------------------------------------"
 	docker image ls | grep -e pranavmishra90/facsimilab -e gitea.mishracloud.com
@@ -79,32 +81,26 @@ else
 
 	echo "Starting to push images to Gitea and DockerHub"
 
-	rm ./log/*.log
+	# rm ./log/*_push.log
+
 
 	# DockerHub section
-	(
-		echo "Pushing to DockerHub..."
-		docker push gitea.mishracloud.com/pranav/facsimilab-base:$facsimilab_version_num
-		docker push gitea.mishracloud.com/pranav/facsimilab-main:$facsimilab_version_num
-		docker push gitea.mishracloud.com/pranav/facsimilab-full:$facsimilab_version_num
-		docker push gitea.mishracloud.com/pranav/facsimilab-base:latest
-		docker push gitea.mishracloud.com/pranav/facsimilab-main:latest
-		docker push gitea.mishracloud.com/pranav/facsimilab-full:latest
-	) 2>&1 | tee -a log/dockerhub_push.log &
 
-	# Gitea section
-	(
-		echo "Pushing to Gitea..."
-		docker push docker.io/pranavmishra90/facsimilab-base:$facsimilab_version_num
-		docker push docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
-		docker push docker.io/pranavmishra90/facsimilab-full:$facsimilab_version_num
-		docker push docker.io/pranavmishra90/facsimilab-base:latest
-		docker push docker.io/pranavmishra90/facsimilab-main:latest
-		docker push docker.io/pranavmishra90/facsimilab-full:latest
-	) 2>&1 | tee -a log/gitea_push.log &
+	docker push docker.io/pranavmishra90/facsimilab-base:$facsimilab_version_num
+	docker push docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
+	docker push docker.io/pranavmishra90/facsimilab-full:$facsimilab_version_num
+	docker push docker.io/pranavmishra90/facsimilab-base:latest
+	docker push docker.io/pranavmishra90/facsimilab-main:latest
+	docker push docker.io/pranavmishra90/facsimilab-full:latest
 
-	# Wait for all background jobs to complete
-	wait
+	# # Gitea section
+	# docker push gitea.mishracloud.com/pranav/facsimilab-base:$facsimilab_version_num
+	# docker push gitea.mishracloud.com/pranav/facsimilab-main:$facsimilab_version_num
+	# docker push gitea.mishracloud.com/pranav/facsimilab-full:$facsimilab_version_num
+	# docker push gitea.mishracloud.com/pranav/facsimilab-base:latest
+	# docker push gitea.mishracloud.com/pranav/facsimilab-main:latest
+	# docker push gitea.mishracloud.com/pranav/facsimilab-full:latest
+
 
 	echo "All Docker push operations completed."
 

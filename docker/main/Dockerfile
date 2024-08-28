@@ -23,7 +23,7 @@ ENV LANG=C.UTF-8
 
 # Install python base environment for the image
 COPY environment.yml /tmp/base-environment.yml
-COPY --chown=$MAMBA_USER:$MAMBA_USER .mambarc ${MAMBA_ROOT_PREFIX}/.mambarc
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home ${MAMBA_ROOT_PREFIX}/
 USER root
 
 RUN	--mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
@@ -50,7 +50,7 @@ LABEL org.opencontainers.image.title="FacsimiLab-Main"
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
 
@@ -74,9 +74,12 @@ ENV LANG=C.UTF-8
 
 # Install packages
 USER root
-COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
+# COPY --chown=$MAMBA_USER:$MAMBA_USER quarto.deb /tmp/
 RUN --mount=type=cache,target=/var/cache/apt \
-	apt install -y /tmp/quarto.deb && rm /tmp/quarto.deb && \
+	--mount=type=bind,source=quarto.deb,target=/tmp/quarto.deb \
+	apt install -y /tmp/quarto.deb && \
+	/usr/bin/pipx install conda-lock && \
+	quarto install tinytex && \
 	mkdir -p /config/rclone && \
 	apt clean && \
 	rm -rf /var/lib/apt/lists/* 
@@ -88,7 +91,7 @@ USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
 
 RUN echo "Facsimilab-Main $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
-COPY --chown=$MAMBA_USER:$MAMBA_USER .profile /home/${MAMBA_USER}/.profile
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home /home/${MAMBA_USER}/
 RUN cat /home/${MAMBA_USER}/.profile > /home/${MAMBA_USER}/.bash_aliases
 
 

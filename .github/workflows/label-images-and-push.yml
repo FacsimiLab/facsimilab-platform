@@ -1,0 +1,48 @@
+name: Label Images and Push
+
+on:
+  workflow_run:
+    workflows: ["Test Docker Images"]
+    types:
+      - completed
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/label-images-and-push.yml
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  label-images-and-push:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: true
+          set-safe-directory: '/'
+
+      - name: Read the image version
+        id: package
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ${{ github.workspace }}/docker/image_version.txt
+
+      - name: Pull Docker image
+        run: |
+              echo "Pulling image pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}"
+              docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
+              docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
+
+      - name: Label the docker containers and then push the labels
+        run: bash docker/push-all.sh
+
+      - name: Matrix Message - Completed GitHub Action
+        uses: s3krit/matrix-message-action@v0.0.3
+        with:
+            room_id: ${{ secrets.MATRIX_ROOM_ID }}
+            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+            message: "FacsimiLab ${{ steps.package.outputs.content }} - Applied the image version tags and pushed"
+            server: "matrix.drpranavmishra.com"
