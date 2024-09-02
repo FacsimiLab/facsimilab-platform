@@ -2,8 +2,8 @@ name: Build and Push Version
 
 on:
   push:
-    paths:
-      - "docker/image_version.txt"
+    branches:
+      - main
   pull_request:
     types:
       - opened
@@ -16,9 +16,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   build-and-push:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: [self-hosted, linux, gpu]
     steps:
 
       - name: Checkout code
@@ -53,19 +56,10 @@ jobs:
             message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
             server: "matrix.drpranavmishra.com"
 
-      # - name: Run Facsmilab-Main container and execute script
-      #   run: |
-      #     docker pull pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }}
-      #     docker run --rm -v $(pwd):/home/coder/work  -v ~/.gitconfig:/home/coder/.gitconfig --gpus 0  pranavmishra90/facsimilab-main:${{ steps.package.outputs.content }} /opt/conda/bin/python testing/main_image.py >> testing/results/main-image.txt
-
-      # - name: Run Facsmilab-Full container and execute script
-      #   run: |
-      #     docker pull pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }}
-      #     docker run --rm -v $(pwd):/home/coder/work --gpus 0 -e ENV_NAME=facsimilab  pranavmishra90/facsimilab-full:${{ steps.package.outputs.content }} /opt/conda/envs/facsimilab/bin/python testing/full_image.py >> testing/results/full-image.txt
 
       - name: Push Docker images
         run: bash docker/push-all.sh
-#
+
 
       - name: Write to workflow job summary
         run: |
@@ -73,9 +67,7 @@ jobs:
           builder_header="# $build_version "
           echo "$builder_header" > testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
-  # # notify-completed:
-  # #   runs-on: ubuntu-latest
-  #   steps:
+
       - name: Matrix Message - Completed GitHub Action
         uses: s3krit/matrix-message-action@v0.0.3
         with:
