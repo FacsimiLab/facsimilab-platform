@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   build-and-push:
-    runs-on: [self-hosted, linux]
+    runs-on: [self-hosted, linux, gpu]
     steps:
 
       - name: Checkout code
