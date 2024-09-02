@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   test-images:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: [self-hosted, linux, docker]
     steps:
 
       - name: Checkout code
