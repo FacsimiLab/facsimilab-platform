@@ -2,8 +2,8 @@ name: Build and Push Version
 
 on:
   push:
-    paths:
-      - "docker/image_version.txt"
+    branches:
+      - main
   pull_request:
     types:
       - opened
