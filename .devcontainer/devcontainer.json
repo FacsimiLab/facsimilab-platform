@@ -2,7 +2,8 @@
     "image": "pranavmishra90/facsimilab-full:latest",
     "containerUser": "coder",
     "mounts": [
-        "source=${localWorkspaceFolder},target=/home/coder/work,type=bind,consistency=cached"
+        "source=${localWorkspaceFolder},target=/home/coder/work,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/coder/.gitconfig,type=bind,consistency=cached"
     ],
     "updateRemoteUserUID": true,
     "runArgs": ["--gpus", 0],
