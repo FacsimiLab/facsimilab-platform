@@ -40,7 +40,7 @@ ENV LANG=C.UTF-8
 USER root
 
 COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
-COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
+COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
 
 
 RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
