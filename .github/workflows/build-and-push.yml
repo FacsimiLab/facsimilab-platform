@@ -1,15 +1,15 @@
 name: Build and Push Version
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types:
-      - opened
-      - assigned
-    paths:
-      - "docker/image_version.txt"
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   types:
+  #     - opened
+  #     - assigned
+  #   paths:
+  #     - "docker/image_version.txt"
   workflow_dispatch:
 
 concurrency:

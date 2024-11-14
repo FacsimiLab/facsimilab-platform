@@ -1,14 +1,16 @@
 name: Label Images and Push
 
 on:
-  workflow_run:
-    workflows: ["Test Docker Images"]
-    types:
-      - completed
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/label-images-and-push.yml
+
+  # workflow_run:
+  #   workflows: ["Test Docker Images"]
+  #   types:
+  #     - completed
+
+  # push:
+  #   paths:
+  #     - .github/workflows/label-images-and-push.yml
 
 concurrency:
   group: ${{ github.workflow }}
