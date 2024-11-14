@@ -2,9 +2,9 @@ name: Check Python Packages - By Label
 
 on:
   workflow_dispatch:
-  push: 
-    paths:
-      - "docker/image_version.txt"
+  # push: 
+  #   paths:
+  #     - "docker/image_version.txt"
 jobs:
   facsimilab-packages:
     runs-on: [self-hosted, linux, x64]

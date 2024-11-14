@@ -1,14 +1,15 @@
 name: Test Docker Images
 
 on:
-  workflow_run:
-    workflows: ["Build and Push Version"]
-    types:
-      - completed
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/test-docker-images.yml
+
+  # workflow_run:
+  #   workflows: ["Build and Push Version"]
+  #   types:
+  #     - completed
+  # push:
+  #   paths:
+  #     - .github/workflows/test-docker-images.yml
 
 concurrency:
   group: ${{ github.workflow }}
