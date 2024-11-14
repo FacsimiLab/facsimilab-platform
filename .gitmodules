@@ -1,1 +1,5 @@
 
+[submodule "docker/cuda"]
+	path = docker/cuda
+	url = git@github.com:pranavmishra90/nvidia-container-images-cuda.git
+	datalad-url = git@github.com:pranavmishra90/nvidia-container-images-cuda.git

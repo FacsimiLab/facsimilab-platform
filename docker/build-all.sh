@@ -1,42 +1,77 @@
 #!/bin/bash
 
+
+# Report errors and exit if detected
+trap 'echo "Error on line $LINENO: $BASH_COMMAND"; exit 1' ERR
+set -e
+
+
+if [ -f ~/miniforge3/etc/profile.d/conda.sh ]; then
+    source ~/miniforge3/etc/profile.d/conda.sh
+    conda activate base
+    echo "Conda environment: $(conda info --envs | grep '*' | awk '{print $1}')"
+else
+		echo "Conda environment not found. Using system Python."
+fi
+
+iso_datetime=$(date +"%Y-%m-%dT%H:%M:%S%z")
+
+
 # Choose a version number ---------------------------------------------------------------------------------
+
+# Detect the semantic release version number
 cd $(git rev-parse --show-toplevel)
+semvar_version=$(semantic-release version --print 2>/dev/null)
+
+
+# Go back into the docker directory
 cd docker
 
+# We may read the "image_version.txt" if we cannot get a semantic release version
 version_file="image_version.txt"
 
-if [ -f "$version_file" ]; then
-	set_version=$(cat "$version_file" | tr -d '[:space:]')
+if git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Semantic Release Auto Version: '$semvar_version'"
+
+    if [ -n "$semvar_version" ]; then
+        set_version="v$semvar_version"
+        echo "$set_version" > "$version_file"
+
+    else
+        if [ -f "$version_file" ]; then
+            set_version=$(<"$version_file" tr -d '[:space:]')
+        else
+            echo "Warning: $version_file not found. Using 'dev' as default."
+            set_version="dev"
+        fi
+    fi
 else
-	echo "Warning: $version_file not found. Using 'dev' as default."
-	set_version="dev"
+    echo "Not a Git repository. Using $version_file or 'dev' as default."
+    if [ -f "$version_file" ]; then
+        set_version=$(<"$version_file" tr -d '[:space:]')
+    else
+        echo "Warning: $version_file not found. Using 'dev' as default."
+        set_version="dev"
+    fi
 fi
+
+echo "building Version: $set_version"
+
 
 echo "--------------------------------------------------------------------------------"
 docker image ls | grep pranavmishra90/facsimilab
 printf "\n\n"
 echo "--------------------------------------------------------------------------------"
-# Prompt the user for the version number
-read -t 15 -p "Enter the facsimilab_version_num [default is '$set_version' (from ./image_version.txt)]: " user_input
-
-# Remove any whitespace from the user input
-user_input=$(echo "$user_input" | tr -d '[:space:]')
-
-# Determine the facsimilab_version_num to use
-if [ -n "$user_input" ]; then
-	facsimilab_version_num="$user_input"
-elif [ -n "$set_version" ]; then
-	facsimilab_version_num="$set_version"
-else
-	echo "Warning: No default version found. Using 'dev' as default."
-	facsimilab_version_num="dev"
-fi
+facsimilab_version_num=$set_version
 
 echo "FacsimiLab version: $facsimilab_version_num"
 
 # Write the chosen version number to the version file
 echo "$facsimilab_version_num" >"$version_file"
+
+# Write these values to the env file
+echo "ISO_DATETIME=$iso_datetime" > .env
+echo "IMAGE_VERSION=$facsimilab_version_num" >> .env
 
 # ----------------------------------------------------------------------------------------------------------
 facsimilab_username="coder"
@@ -54,11 +89,11 @@ echo "-----------------------------------------"
 
 # CUDA container
 #----------------------
-# cd cuda
+cd cuda
 
-# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
+./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
 
-# cd ..
+cd ..
 
 # # Base container
 # #----------------------
