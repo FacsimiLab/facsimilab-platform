@@ -78,7 +78,7 @@ dependencies:
   - imbalanced-learn
   - dtreeviz
 
-  # Next-generation -omics
+  # Next-generation Multiomics
   - scanpy=1.10
   - scvi-tools=1.1
   - muon=0.1
