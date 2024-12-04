@@ -23,6 +23,7 @@ dependencies:
   - black=24
   - black-jupyter=24
   - click>8.1
+  - argcomplete=3.5
 
   # Version control
   - datalad=1.1
