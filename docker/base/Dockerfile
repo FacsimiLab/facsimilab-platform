@@ -42,7 +42,7 @@ RUN mkdir -p /etc/apt/keyrings && \
     wget -O- http://neuro.debian.net/lists/jammy.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
     apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com 0xA5D32F012649A5A9
 
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get update && \
     apt-get --no-install-recommends install -y \
     # Additional dependences
@@ -63,6 +63,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     pipx \
     sudo \
     tini \
+    tmux \
     tree \
     unzip \
     yadm \
