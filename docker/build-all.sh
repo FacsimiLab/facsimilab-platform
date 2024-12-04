@@ -87,11 +87,21 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 
+# Buildx Builder
+
+
+
 # # CUDA container
 # #----------------------
-# cd cuda
+
+
+# if ! docker buildx inspect cuda; then
+#     docker buildx create --use --platform linux/x86_64 --driver-opt image=moby/buildkit:v0.18.1 --name cuda --node cuda
+# fi
 
 export base_image_name="pranavmishra90/cuda:12.6.1-base-ubuntu22.04"
+
+# cd cuda
 
 # ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
 
@@ -103,19 +113,19 @@ cd base
 
 bash build.sh
 
-# Main container
-#----------------------
-cd ../main
+# # Main container
+# #----------------------
+# cd ../main
 
-bash build.sh
+# bash build.sh
 
 
 # Full container
 #----------------------
-# cd ../full
+cd ../full
 
-# # Generate the lock file from the conda environment.yml
-# # bash generate-lock.sh
+# Generate the lock file from the conda environment.yml
+bash generate-lock.sh
 
 # # Build the docker container
 # bash build.sh
