@@ -5,7 +5,7 @@ if [ -z ${facsimilab_username+x} ]; then facsimilab_username="root"; else echo "
 
 # Adjust this according to the container name desired
 CONTAINER_NAME="facsimilab-main-env":$facsimilab_version_num
-
+cache_registry="localhost:5000" # "docker.io/pranavmishra90"
 ##################################################################
 
 # Initialize the build
@@ -42,13 +42,13 @@ docker pull pranavmishra90/facsimilab-base:$facsimilab_version_num
 # 	--metadata-file ../metadata/02-main-env_metadata.json \
 # 	-t pranavmishra90/$CONTAINER_NAME \
 # 	-t pranavmishra90/facsimilab-main-env:dev \
-# 	-t localhost:5000/facsimilab-main-env:$facsimilab_version_num \
+# 	-t $cache_registry/facsimilab-main-env:$facsimilab_version_num \
 # 	-f main-py-env.Dockerfile .
 
 # docker push pranavmishra90/facsimilab-main-env:dev
 # docker push pranavmishra90/$CONTAINER_NAME
 
-docker push localhost:5000/$CONTAINER_NAME
+docker push $cache_registry/$CONTAINER_NAME
 
 main_env_sha=$(docker inspect pranavmishra90/facsimilab-main-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
@@ -70,9 +70,9 @@ docker buildx build --progress=auto \
 	--build-arg MAIN_ENV_SHA=$main_env_sha \
 	--build-arg BUILDKIT_INLINE_CACHE=1 \
 	--cache-from=pranavmishra90/facsimilab-main:latest \
-	--cache-from=localhost:5000/$CONTAINER_NAME \
-	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
-	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+	--cache-from=$cache_registry/$CONTAINER_NAME \
+	--cache-from type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
+	--cache-to type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-t pranavmishra90/facsimilab-main:dev \
 	-t $CONTAINER_NAME . -f main-stage2.Dockerfile
@@ -84,11 +84,10 @@ docker buildx build --progress=auto \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg MAIN_ENV_SHA=$main_env_sha \
-	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
+	--cache-from type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
 	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
-	--output type=registry,push=true,name=pranavmishra90/facsimilab-main:dev \
+	--output type=registry,push=false,name=pranavmishra90/facsimilab-main:dev \
 	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
-	--output type=docker,name=pranavmishra90/facsimilab-main:dev \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-f main-stage2.Dockerfile . 
 
