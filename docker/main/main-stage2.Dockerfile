@@ -14,21 +14,6 @@ FROM rclone/rclone:1.67 AS rclone
 FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS main-python-builder
 ARG IMAGE_VERSION="dev"
 
-ARG ISO_DATETIME
-ARG MAIN_ENV_SHA
-
-LABEL version=${IMAGE_VERSION}
-LABEL org.opencontainers.image.title="FacsimiLab-Main"
-LABEL org.opencontainers.image.version=${IMAGE_VERSION}
-LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL org.opencontainers.image.description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
-LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.created=${ISO_DATETIME}
-LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/facsimilab-main-env:${IMAGE_VERSION}"
-LABEL org.opencontainers.image.base.digest=${MAIN_ENV_SHA}
-
-
 # Add rclone
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/
 
@@ -47,14 +32,15 @@ ENV LANG=C.UTF-8
 # Install packages
 USER root
 
-RUN --mount=type=cache,target=/var/cache/apt \
-	--mount=type=bind,source=quarto.deb,target=/tmp/quarto.deb \
-	apt install -y /tmp/quarto.deb && \
-	/usr/bin/pipx install conda-lock && \
-	quarto install tinytex && \
-	mkdir -p /config/rclone && \
-	apt clean && \
-	rm -rf /var/lib/apt/lists/* 
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+		--mount=type=bind,source=quarto.deb,target=/tmp/quarto.deb \
+		chmod 777 /tmp /opt && \
+		apt install -y /tmp/quarto.deb && \
+		/usr/bin/pipx install conda-lock && \
+		quarto install tinytex && \
+		mkdir -p /config/rclone && \
+		apt clean && \
+		rm -rf /var/lib/apt/lists/* 
 
 # Set login username and work directory
 USER $MAMBA_USER
@@ -75,3 +61,18 @@ ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
 # ENTRYPOINT ["/usr/local/bin/_entrypoint.sh", "my_entrypoint_program"]
 
 CMD ["/bin/bash"]
+
+############################################################################################################
+ARG ISO_DATETIME
+ARG MAIN_ENV_SHA
+
+LABEL version=${IMAGE_VERSION}
+LABEL org.opencontainers.image.title="FacsimiLab-Main"
+LABEL org.opencontainers.image.version=${IMAGE_VERSION}
+LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
+LABEL org.opencontainers.image.description="A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.created=${ISO_DATETIME}
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/facsimilab-main-env:${IMAGE_VERSION}"
+LABEL org.opencontainers.image.base.digest=${MAIN_ENV_SHA}

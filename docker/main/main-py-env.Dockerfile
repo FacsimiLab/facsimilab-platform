@@ -36,7 +36,7 @@ ENV LANG=C.UTF-8
 USER root
 
 # Install python base environment for the image
-COPY --chown=$MAMBA_USER:$MAMBA_USER base.conda-lock.yml /tmp/env.lock
+# COPY --chown=$MAMBA_USER:$MAMBA_USER base.conda-lock.yml /tmp/env.lock
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/base-environment.yml
 COPY --chown=$MAMBA_USER:$MAMBA_USER /home ${MAMBA_ROOT_PREFIX}/
 
