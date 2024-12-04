@@ -21,6 +21,7 @@ jobs:
         with:
           show-progress: true
           set-safe-directory: '/'
+          filter: 'main, develop'
 
       - name: Read the image version
         id: package
