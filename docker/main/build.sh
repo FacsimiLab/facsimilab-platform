@@ -21,8 +21,7 @@ echo "$CONTAINER_NAME"
 
 quarto_version="1.6.39"
 
-# wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
-wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v$quarto_version/quarto-$quarto_version-linux-arm64.deb -O quarto.deb
+wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v$quarto_version/quarto-$quarto_version-linux-amd64.deb -O quarto.deb
 
 
 ######################################################################
@@ -34,19 +33,22 @@ export IMAGE_REPO_PREFIX="pranavmishra90/"
 
 docker pull pranavmishra90/facsimilab-base:$facsimilab_version_num 
 
-echo "Building $CONTAINER_NAME for image export"
-docker build --progress=auto \
-	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-	--build-arg IMAGE_VERSION=$facsimilab_version_num \
-	--build-arg BUILDKIT_INLINE_CACHE=1 \
-	--build-arg ISO_DATETIME=$iso_datetime \
-	--metadata-file ../metadata/02-main-env_metadata.json \
-	-t pranavmishra90/$CONTAINER_NAME \
-	-t pranavmishra90/facsimilab-main-env:dev \
-	-f main-py-env.Dockerfile .
+# echo "Building $CONTAINER_NAME for image export"
+# docker build --progress=plain \
+# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--build-arg BUILDKIT_INLINE_CACHE=1 \
+# 	--build-arg ISO_DATETIME=$iso_datetime \
+# 	--metadata-file ../metadata/02-main-env_metadata.json \
+# 	-t pranavmishra90/$CONTAINER_NAME \
+# 	-t pranavmishra90/facsimilab-main-env:dev \
+# 	-t localhost:5000/facsimilab-main-env:$facsimilab_version_num \
+# 	-f main-py-env.Dockerfile .
 
-docker push pranavmishra90/facsimilab-main-env:dev
-docker push pranavmishra90/$CONTAINER_NAME
+# docker push pranavmishra90/facsimilab-main-env:dev
+# docker push pranavmishra90/$CONTAINER_NAME
+
+docker push localhost:5000/$CONTAINER_NAME
 
 main_env_sha=$(docker inspect pranavmishra90/facsimilab-main-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
@@ -68,7 +70,7 @@ docker buildx build --progress=auto \
 	--build-arg MAIN_ENV_SHA=$main_env_sha \
 	--build-arg BUILDKIT_INLINE_CACHE=1 \
 	--cache-from=pranavmishra90/facsimilab-main:latest \
-	--cache-from=pranavmishra90/facsimilab-main:dev \
+	--cache-from=localhost:5000/$CONTAINER_NAME \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-main:buildcache \
 	--metadata-file ../metadata/02-main_metadata.json \
