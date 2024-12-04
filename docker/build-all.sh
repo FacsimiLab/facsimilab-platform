@@ -113,11 +113,11 @@ cd base
 
 bash build.sh
 
-# # Main container
-# #----------------------
-# cd ../main
+# Main container
+#----------------------
+cd ../main
 
-# bash build.sh
+bash build.sh
 
 
 # Full container
@@ -125,7 +125,7 @@ bash build.sh
 cd ../full
 
 # Generate the lock file from the conda environment.yml
-bash generate-lock.sh
+# bash generate-lock.sh
 
 # # Build the docker container
 # bash build.sh

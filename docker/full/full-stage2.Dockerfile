@@ -46,13 +46,15 @@ RUN --mount=type=cache,target=/var/cache/apt \
     jq \
     zoxide \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
+    && rm -rf /var/lib/apt/lists/* \
+    && chown -R ${MAMBA_USER}:${MAMBA_USER} /opt /tmp
 
 COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /home/${MAMBA_USER}/
 COPY --chown=$MAMBA_USER:$MAMBA_USER /tmp /tmp
 
 # Confirm that $MAMBA_USER has sudo permissions
-RUN echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
+RUN usermod -aG sudo $MAMBA_USER && \
+    echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 

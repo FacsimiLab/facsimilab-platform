@@ -25,6 +25,7 @@
 /tmp
 
 **/datalad
+**/spaceranger
 
 /docker/main/quarto.deb
 
