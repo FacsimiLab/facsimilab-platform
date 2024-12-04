@@ -87,25 +87,27 @@ start_time=$(date +%s)
 printf "\n\n\n\n\n"
 echo "-----------------------------------------"
 
-# CUDA container
-#----------------------
-cd cuda
+# # CUDA container
+# #----------------------
+# cd cuda
 
-./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
+export base_image_name="pranavmishra90/cuda:12.6.1-base-ubuntu22.04"
 
-cd ..
+# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
+
+# cd ..
 
 # # Base container
 # #----------------------
 cd base
 
-# bash build.sh
+bash build.sh
 
-# # Main container
-# #----------------------
-# cd ../main
+# Main container
+#----------------------
+cd ../main
 
-# bash build.sh
+bash build.sh
 
 
 # Full container
