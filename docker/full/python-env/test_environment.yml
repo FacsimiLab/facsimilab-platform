@@ -76,8 +76,8 @@ dependencies:
   - igraph=0.10
   - hnswlib=0.7
   - sklearn-pandas
-  - imbalanced-learn
-  - dtreeviz
+  # - imbalanced-learn ####
+  # - dtreeviz ####
 
   # Next-generation Multiomics
   - scanpy=1.10

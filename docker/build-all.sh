@@ -128,7 +128,7 @@ cd ../full
 # bash generate-lock.sh
 
 # # Build the docker container
-# bash build.sh
+bash build.sh
 
 # Finished
 #----------------------
