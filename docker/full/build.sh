@@ -40,10 +40,13 @@ docker build --progress=auto \
 	--metadata-file ../metadata/03-full-env_metadata.json \
 	-t pranavmishra90/$CONTAINER_NAME \
 	-t pranavmishra90/facsimilab-full-env:dev \
+	-t localhost:5000/facsimilab-full-env:dev \
 	-f full-py-env.Dockerfile .
 
 echo "confirming push of all tags"
 docker push pranavmishra90/facsimilab-full-env --all-tags
+
+docker push localhost:5000/facsimilab-full-env:dev || echo "pushed to local registry"
 
 full_env_sha=$(docker inspect pranavmishra90/facsimilab-full-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 

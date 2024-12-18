@@ -43,10 +43,13 @@ docker build --progress=auto \
 	--metadata-file ../metadata/02-main-env_metadata.json \
 	-t pranavmishra90/$CONTAINER_NAME \
 	-t pranavmishra90/facsimilab-main-env:dev \
+	-t localhost:5000/facsimilab-main-env:dev \
 	-f main-py-env.Dockerfile .
 
 docker push pranavmishra90/facsimilab-main-env:dev
 docker push pranavmishra90/$CONTAINER_NAME
+
+docker push localhost:5000/facsimilab-main-env:dev || echo "pushed to local registry"
 
 main_env_sha=$(docker inspect pranavmishra90/facsimilab-main-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 

@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## v0.3.1 (2024-12-18)
+
+### Bug Fixes
+
+* fix: local docker registry and build full container ([`d7982c4`](https://github.com/pranavmishra90/facsimilab-platform/commit/d7982c4503522aeb9c6fb285f1b5bdf29b1a1fd8))
+
+
 ## v0.3.0 (2024-12-18)
 
 ### Bug Fixes
