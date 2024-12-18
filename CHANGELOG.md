@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* fix: local docker registry and build full container ([`d7982c4`](https://github.com/pranavmishra90/facsimilab-platform/commit/d7982c4503522aeb9c6fb285f1b5bdf29b1a1fd8))
+* fix: local docker registry and build full container ([`c46c3a0`](https://github.com/pranavmishra90/facsimilab-platform/commit/c46c3a0f2b8f6a609949eb52b92666090868ff8a))
 
 
 ## v0.3.0 (2024-12-18)
