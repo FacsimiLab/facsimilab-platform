@@ -22,6 +22,7 @@ dependencies:
   - black=24
   - black-jupyter=24
   - click>8.1
+  - argcomplete=3.5
   - dask-core=2024
 
   # Version control
@@ -78,7 +79,7 @@ dependencies:
   - imbalanced-learn
   - dtreeviz
 
-  # Next-generation -omics
+  # Next-generation Multiomics
   - scanpy=1.10
   - scvi-tools=1.1
   - muon=0.1

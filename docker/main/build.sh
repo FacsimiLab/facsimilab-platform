@@ -19,7 +19,7 @@ echo "$CONTAINER_NAME"
 
 # Download necessary files
 
-quarto_version="1.5.56"
+quarto_version="1.6.39"
 
 # wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v1.4.555/quarto-1.4.555-linux-amd64.deb -O quarto.deb
 wget -nc --no-verbose https://github.com/quarto-dev/quarto-cli/releases/download/v$quarto_version/quarto-$quarto_version-linux-arm64.deb -O quarto.deb

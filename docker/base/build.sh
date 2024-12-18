@@ -5,6 +5,8 @@ if [ -z ${facsimilab_version_num+x} ]; then facsimilab_version_num="dev"; else e
 # Adjust this according to the container name desired
 CONTAINER_NAME=facsimilab-base:$facsimilab_version_num
 
+if [ -z ${base_image_name+x} ]; then base_image_name="dev"; else echo "base_image_name is set to '$base_image_name'"; fi
+
 ##################################################################
 
 # Initialize the build
@@ -20,29 +22,27 @@ echo "$CONTAINER_NAME"
 export DOCKER_BUILDKIT=1 # use docker buildx caching
 export BUILDX_METADATA_PROVENANCE=max
 
-docker pull pranavmishra90/cuda:12.4.1-base-ubuntu22.04
+docker pull ${base_image_name}
 
-ubuntu_cuda_base_sha=$(docker inspect pranavmishra90/cuda:12.4.1-base-ubuntu22.04 --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
+ubuntu_cuda_base_sha=$(docker inspect ${base_image_name} --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
 echo "SHA: $ubuntu_cuda_base_sha"
 
+if [ -n "$base_image_name" ] && [ -n "$ubuntu_cuda_base_sha" ]; then
+  exact_base="${base_image_name}@${ubuntu_cuda_base_sha}"
+	echo "Base image: $exact_base"
+else
+  echo "Error: base_image_name or ubuntu_cuda_base_sha is not defined or empty."
+  exit 1
+fi
 
-	# --build-arg CACHE_BUST=$(date) \
-	# -t gitea.mishracloud.com/pranav/$CONTAINER_NAME \
-docker buildx build --progress=auto \
-	--pull \
+docker build -t pranavmishra90/$CONTAINER_NAME \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
+	--build-arg BASE_IMAGE_EXACT=$exact_base \
+	--build-arg BASE_IMAGE_NAME=$base_image_name \
 	--build-arg BASE_IMAGE_SHA=$ubuntu_cuda_base_sha \
-	--cache-from pranavmishra90/facsimilab-base:dev \
-	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
-	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-base:buildcache \
-	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
-	--output type=registry,push=true,name=pranavmishra90/facsimilab-base:dev \
-	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
-	--output type=docker,name=pranavmishra90/facsimilab-base:dev \
-	--metadata-file ../metadata/01-base_metadata.json \
-	. --file Dockerfile
+	. --file ./Dockerfile
 
 # Calculate the total time
 end_time=$(date +%s)
