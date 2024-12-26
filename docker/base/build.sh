@@ -36,7 +36,7 @@ else
   exit 1
 fi
 
-docker build -t pranavmishra90/$CONTAINER_NAME \
+docker buildx build -t pranavmishra90/$CONTAINER_NAME \
 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
 	--build-arg ISO_DATETIME=$iso_datetime \
 	--build-arg BASE_IMAGE_EXACT=$exact_base \
