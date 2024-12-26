@@ -16,32 +16,17 @@ FROM nvidia/cuda:12.6.3-base-ubuntu24.04
 ARG IMAGE_VERSION="dev"
 ############################
 
-ARG IMAGE_VERSION="dev"
-ARG ISO_DATETIME
-ARG BASE_IMAGE_SHA
-
-
-LABEL org.opencontainers.image.title="FacsimiLab-Base"
-LABEL version=${IMAGE_VERSION}
-LABEL org.opencontainers.image.version=${IMAGE_VERSION}
-LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
-LABEL org.opencontainers.image.description="Base image || FacsimiLab - A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
-LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.created=${ISO_DATETIME}
-LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/cuda:12.4.1-base-ubuntu22.04"
-LABEL org.opencontainers.image.base.digest=${BASE_IMAGE_SHA}
+# Building image as root
+USER root
 
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TZ="America/Chicago"
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-ARG CACHE_BUST="1"
-
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update -y \
-    && apt-get install -y tzdata git ninja-build gnupg2 wget yadm && \
+    && apt-get install -y tzdata git ninja-build gnupg2 wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /etc/apt/keyrings && \
@@ -95,7 +80,7 @@ COPY --from=micromamba /usr/local/bin/_entrypoint.sh /usr/local/bin/_entrypoint.
 COPY --from=micromamba /usr/local/bin/_dockerfile_initialize_user_accounts.sh /usr/local/bin/_dockerfile_initialize_user_accounts.sh
 COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/local/bin/_dockerfile_setup_root_prefix.sh
 
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN userdel ubuntu && \
     /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
     /usr/local/bin/_dockerfile_setup_root_prefix.sh \
     && usermod -aG sudo $MAMBA_USER \
@@ -124,3 +109,21 @@ ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
 
 CMD ["/bin/bash"]
 
+###############################################################################
+# Labels
+###############################################################################
+
+ARG IMAGE_VERSION="dev"
+ARG ISO_DATETIME="date"
+ARG BASE_IMAGE_SHA="SHA"
+
+LABEL org.opencontainers.image.title="FacsimiLab-Base"
+LABEL version=${IMAGE_VERSION}
+LABEL org.opencontainers.image.version=${IMAGE_VERSION}
+LABEL org.opencontainers.image.authors='Pranav Kumar Mishra'
+LABEL org.opencontainers.image.description="Base image || FacsimiLab - A docker image for reproducible science, leveraging Python, Nvidia CUDA, Datalad, Quarto, and more."
+LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.created=${ISO_DATETIME}
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/cuda:12.6.3-base-ubuntu22.04"
+LABEL org.opencontainers.image.base.digest=${BASE_IMAGE_SHA}
