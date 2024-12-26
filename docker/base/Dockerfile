@@ -2,16 +2,15 @@
 
 # Facsimilab Base Image
 
-FROM mambaorg/micromamba:1.5 AS micromamba
+FROM mambaorg/micromamba:2.0.5 AS micromamba
 
-ARG BASE_IMAGE_SHA
-ENV BASE_IMAGE_SHA=${BASE_IMAGE_SHA}
+# ARG BASE_IMAGE_SHA="SHA"
 
-FROM docker.io/pranavmishra90/cuda:12.4.1-base-ubuntu22.04@sha256:50b0f0658af6b419a0a8110eff0569617d75413ebf27abd1f99a85b49d4d466f
+FROM nvidia/cuda:12.6.3-base-ubuntu24.04
 
 # This base image was created with
-# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.4 --os ubuntu --os-version 22.04 --arch x86_64
-# taken from https://gitlab.com/nvidia/container-images/cuda || alternative: FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.3 --os ubuntu --os-version 24.04 --arch x86_64
+# taken from https://gitlab.com/nvidia/container-images/cuda || alternative: FROM nvidia/cuda:12.6.3-base-ubuntu24.04
 
 ############################
 ARG IMAGE_VERSION="dev"
