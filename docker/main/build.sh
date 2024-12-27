@@ -5,7 +5,7 @@ if [ -z ${facsimilab_username+x} ]; then facsimilab_username="root"; else echo "
 
 # Adjust this according to the container name desired
 CONTAINER_NAME="facsimilab-main-env":$facsimilab_version_num
-cache_registry="localhost:5000" # "docker.io/pranavmishra90"
+cache_registry="docker.io/pranavmishra90" #"localhost:5000" # "docker.io/pranavmishra90"
 ##################################################################
 
 # Initialize the build
