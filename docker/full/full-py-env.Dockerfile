@@ -5,8 +5,8 @@ ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX=""
 ############################
 
-# FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:dev AS pythonenv
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
+# FROM ${IMAGE_REPO_PREFIX}facsimilab-main:dev AS pythonenv
 
 ARG ISO_DATETIME
 ARG IMAGE_VERSION="dev"
@@ -39,10 +39,9 @@ ENV LANG=C.UTF-8
 
 USER root
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
-COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
-
-
 RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
     micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
     && micromamba clean --all --yes
+
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
+COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
