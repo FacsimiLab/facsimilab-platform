@@ -7,11 +7,12 @@
 
 ############################
 ARG IMAGE_VERSION="dev"
-ARG IMAGE_REPO_PREFIX=""
+ARG IMAGE_REPO_PREFIX="localhost:5000/"
 ############################
 FROM rclone/rclone:1.67 AS rclone
 # FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:${IMAGE_VERSION} AS main-python-builder
 FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS main-python-builder
+
 ARG IMAGE_VERSION="dev"
 
 # Add rclone
@@ -34,10 +35,8 @@ USER root
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		--mount=type=bind,source=quarto.deb,target=/tmp/quarto.deb \
-		chmod 777 /tmp /opt && \
-		chown -R ${MAMBA_USER}:${MAMBA_USER} /opt /tmp && \	
-		&& usermod -aG sudo $MAMBA_USER \
-		&& echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers \
+		usermod -aG sudo $MAMBA_USER && \
+		echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers && \
 		apt install -y /tmp/quarto.deb && \
 		/usr/bin/pipx install conda-lock && \
 		quarto install tinytex && \
@@ -45,11 +44,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		apt clean && \
 		rm -rf /var/lib/apt/lists/* 
 
+RUN chown -R $MAMBA_USER:$MAMBA_USER /opt /tmp
+
 # Set login username and work directory
 USER $MAMBA_USER
 WORKDIR /home/${MAMBA_USER}/work
 
-RUN	/usr/bin/pipx install conda-lock 
+RUN	/usr/bin/pipx install conda-lock
 
 RUN echo "Facsimilab-Main $facsimilab_version_num" > /home/${MAMBA_USER}/.server_name.txt
 COPY --chown=$MAMBA_USER:$MAMBA_USER /home /home/${MAMBA_USER}/
@@ -65,9 +66,11 @@ ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
 
 CMD ["/bin/bash"]
 
-############################################################################################################
-ARG ISO_DATETIME
-ARG MAIN_ENV_SHA
+###############################################################################
+# Labels
+###############################################################################
+ARG ISO_DATETIME="date"
+ARG MAIN_ENV_SHA="SHA"
 
 LABEL version=${IMAGE_VERSION}
 LABEL org.opencontainers.image.title="FacsimiLab-Main"
