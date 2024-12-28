@@ -25,8 +25,8 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 # Select either environment.yml or facsimilab-conda-lock.yml
-ARG MAIN_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"
-ENV CONDA_FILE=${CONDA_FILE}
+ARG FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"
+ENV CONDA_FILE=${FULL_IMAGE_CONDA_FILE}
 
 USER root
 

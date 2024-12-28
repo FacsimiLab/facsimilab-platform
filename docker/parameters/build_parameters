@@ -1,6 +1,6 @@
 #!/bin/bash
 
-build_base=false
+build_base=true
 build_main=false
 build_full=false
 
@@ -14,3 +14,6 @@ cache_registry="docker.io/pranavmishra90"
 facsimilab_username="coder"
 generate_conda_lock=false
 build_python_images=false
+
+MAIN_IMAGE_CONDA_FILE="base-conda-lock.yml"
+FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"

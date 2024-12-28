@@ -33,6 +33,9 @@ services:
         IMAGE_REPO_PREFIX: $IMAGE_REPO_PREFIX
         ISO_DATETIME: $ISO_DATETIME
         MAIN_ENV_SHA: $MAIN_ENV_SHA
+        MAIN_IMAGE_CONDA_FILE: $MAIN_IMAGE_CONDA_FILE
+        BASE_IMAGE_SHA: $BASE_IMAGE_SHA
+        
       cache_from:
         - type=registry,mode=max,ref=docker.io/pranavmishra90/facsimilab-main:buildcache
       cache_to:
@@ -53,6 +56,8 @@ services:
         IMAGE_VERSION: $IMAGE_VERSION
         IMAGE_REPO_PREFIX: $IMAGE_REPO_PREFIX
         ISO_DATETIME: $ISO_DATETIME
+        FULL_ENV_SHA: $FULL_ENV_SHA
+        FULL_IMAGE_CONDA_FILE: $FULL_IMAGE_CONDA_FILE
         BASE_IMAGE_SHA: $BASE_IMAGE_SHA
       cache_from:
         - type=registry,mode=max,ref=docker.io/pranavmishra90/facsimilab-full:buildcache

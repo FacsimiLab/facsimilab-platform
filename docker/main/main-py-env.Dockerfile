@@ -26,8 +26,8 @@ ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
 # Select either environment.yml or base-conda-lock.yml
-ARG MAIN_IMAGE_CONDA_FILE="environment.yml"
-ENV CONDA_FILE=${CONDA_FILE}
+ARG MAIN_IMAGE_CONDA_FILE="base-conda-lock.yml"
+ENV CONDA_FILE=${MAIN_IMAGE_CONDA_FILE}
 
 # Use the root user to deal with permissions
 USER root

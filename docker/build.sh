@@ -86,7 +86,10 @@ else
     generate_conda_lock=false
     build_python_images=false
     logger INFO "Building all images"
+    MAIN_IMAGE_CONDA_FILE="main-conda-lock.yml"
+    FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"
 fi
+
 logger INFO "ISO_DATETIME: $ISO_DATETIME"
 logger INFO "Build base: $build_base"
 logger INFO "Build main: $build_main"
@@ -100,6 +103,8 @@ logger INFO "cache_registry: $cache_registry"
 
 logger INFO "facsimilab_username: $facsimilab_username"
 logger INFO "generate conda lock files: $generate_conda_lock"
+logger INFO "main image conda file: $MAIN_IMAGE_CONDA_FILE"
+logger INFO "full image conda file: $FULL_IMAGE_CONDA_FILE"
 logger INFO "build python images: $build_python_images"
 
 if [ -f ./parameters/quarto_version ]; then
@@ -180,6 +185,25 @@ echo "IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX" >> .env
 # ----------------------------------------------------------------------------------------------------------
 
 
+# Generate conda lock files
+
+if [ "$generate_conda_lock" = true ]; then
+  bash ./main/generate-conda-lock.sh
+  logger INFO "Conda lock file generated for the base environment (main container)"
+
+  bash ./full/generate-conda-lock.sh
+  logger INFO "Conda lock file generated for the facsimilab environment (full container)"
+else
+  logger INFO "Skipping conda lock file generation for the base and facsimilab environments (main and full containers, respectively)"
+fi
+
+# Parse base-conda-lock.yml
+base_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./main/python-env/base-conda-lock.yml | awk '{print $2}')
+logger INFO "Base environment conda-lock hash: $base_env_conda_lock_hash"
+
+facsimilab_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./full/python-env/facsimilab-conda-lock.yml | awk '{print $2}')
+logger INFO "Facsimilab environment conda-lock hash: $facsimilab_env_conda_lock_hash"
+
 # Build containers
 #---------------------------------------------------------------------
 
@@ -248,7 +272,8 @@ else
 fi
 
 # Get the SHA of the base environment's python image
-BASE_IMAGE_SHA=$(docker inspect pranavmishra90/facsimilab-base:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
+docker pull pranavmishra90/$CONTAINER_NAME
+BASE_IMAGE_SHA=$(docker inspect pranavmishra90/$CONTAINER_NAME --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 echo "BASE_IMAGE_SHA=$BASE_IMAGE_SHA" >> .env
 logger INFO "Base image SHA: $BASE_IMAGE_SHA"
 
@@ -269,12 +294,7 @@ else
 fi
 
 
-if [ "$generate_conda_lock" = true ]; then
-  bash ./main/generate-conda-lock.sh
-  logger INFO "Conda lock file generated for the base environment (main container)"
-else
-  logger INFO "Skipping conda lock file generation for the base environment (main container)"
-fi
+
 
 
 # Build the python environment for the main container
@@ -284,6 +304,7 @@ if [ "$build_python_images" = true ]; then
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
     --build-arg ISO_DATETIME=$iso_datetime \
+    --build-arg MAIN_IMAGE_CONDA_FILE=$MAIN_IMAGE_CONDA_FILE \
     --metadata-file ./metadata/02-main-env_metadata.json \
     -t pranavmishra90/$CONTAINER_NAME \
     -t pranavmishra90/facsimilab-main-env:dev \
@@ -345,7 +366,7 @@ if [ "$build_python_images" = true ]; then
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
     --build-arg ISO_DATETIME=$ISO_DATETIME \
-    --build-arg CONDA_FILE=$CONDA_FILE \
+    --build-arg FULL_IMAGE_CONDA_FILE=$FULL_IMAGE_CONDA_FILE \
     --output type=registry,push=false,name=pranavmishra90/$CONTAINER_NAME \
     --metadata-file ../metadata/03-full-env_metadata.json \
     -t pranavmishra90/$CONTAINER_NAME \
@@ -360,10 +381,10 @@ else
 fi
 
 
-# Get the SHA of the main environment's python image
+# Get the SHA of the full environment's python image
 FULL_ENV_SHA=$(docker inspect pranavmishra90/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 echo "FULL_ENV_SHA=$FULL_ENV_SHA" >> .env
-logger INFO "Building the main image using the python environment: facsimilab-main-env:${PYTHON_ENV_IMAGE_VERSION}@${FULL_ENV_SHA}"
+logger INFO "Building the full image using the python environment: facsimilab-full-env:${PYTHON_ENV_IMAGE_VERSION}@${FULL_ENV_SHA}"
 
 
 
