@@ -10,7 +10,7 @@ ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX="pranavmishra90/"
 #########################################
 
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-python-builder
+FROM ${IMAGE_REPO_PREFIX}facsimilab-base:${IMAGE_VERSION} AS full-python-builder
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000

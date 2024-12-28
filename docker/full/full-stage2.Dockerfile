@@ -71,8 +71,8 @@ CMD ["/bin/bash"]
 # Labels
 ###############################################################################
 ARG IMAGE_VERSION="dev"
-ARG ISO_DATETIME
-ARG FULL_ENV_SHA
+ARG ISO_DATETIME="date"
+ARG FULL_ENV_SHA="SHA"
 
 LABEL org.opencontainers.image.title="FacsimiLab-Full"
 LABEL version=${IMAGE_VERSION}

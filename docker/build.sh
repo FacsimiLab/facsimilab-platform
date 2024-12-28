@@ -191,11 +191,18 @@ echo "IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX" >> .env
 # Generate conda lock files
 
 if [ "$generate_conda_lock" = true ]; then
-  bash ./main/generate-conda-lock.sh
-  logger INFO "Conda lock file generated for the base environment (main container)"
+  (
+    bash ./main/generate-base-conda-lock.sh
+    logger INFO "Conda lock file generated for the base environment (main container)"
+  ) &
 
-  bash ./full/generate-conda-lock.sh
-  logger INFO "Conda lock file generated for the facsimilab environment (full container)"
+  (
+    bash ./full/generate-facsimilab-conda-lock.sh
+    logger INFO "Conda lock file generated for the facsimilab environment (full container)"
+  ) &
+
+  wait
+fi
 else
   logger INFO "Skipping conda lock file generation for the base and facsimilab environments (main and full containers, respectively)"
 fi
@@ -286,22 +293,16 @@ echo "---------------------------------------------------------------"
 printf "\n\n\n\n\n"
 echo "---------------------------------------------------------------"
 
-logger INFO "Building the main container"
-logger INFO "Quarto version: ${quarto_version}"
+CONTAINER_NAME="facsimilab-main-env":$facsimilab_version_num
+CONDA_FILE=$MAIN_IMAGE_CONDA_FILE
 
-if [ -f ./main/quarto.deb ]; then
-  logger INFO "Quarto package already downloaded"
-else
-  logger INFO "Downloading Quarto version: ${quarto_version} - https://github.com/quarto-dev/quarto-cli/releases/download/v${quarto_version}/quarto-${quarto_version}-linux-amd64.deb"
-  wget "https://github.com/quarto-dev/quarto-cli/releases/download/v${quarto_version}/quarto-${quarto_version}-linux-amd64.deb" -O ./main/quarto.deb
-fi
-
-
-
+logger INFO "Building $CONTAINER_NAME"
+logger INFO "Conda file: $MAIN_IMAGE_CONDA_FILE"
 
 
 # Build the python environment for the main container
 if [ "$build_python_images" = true ]; then
+  
 
   docker build --progress=auto \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
@@ -314,16 +315,29 @@ if [ "$build_python_images" = true ]; then
     -t $cache_registry/facsimilab-main-env:$facsimilab_version_num \
     -f ./main/main-py-env.Dockerfile ./main
 
+    docker push pranavmishra90/$CONTAINER_NAME
+    docker push pranavmishra90/facsimilab-main-env:dev
+
   PYTHON_ENV_IMAGE_VERSION=$facsimilab_version_num
 else
   logger INFO "Skipping python environment build for the main image"
   PYTHON_ENV_IMAGE_VERSION="dev"
 fi
 
+logger INFO "Python environment image version: $PYTHON_ENV_IMAGE_VERSION"
+
 # Get the SHA of the main environment's python image
+docker pull pranavmishra90/facsimilab-main-env:$PYTHON_ENV_IMAGE_VERSION
 MAIN_ENV_SHA=$(docker inspect pranavmishra90/facsimilab-main-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 echo "MAIN_ENV_SHA=$MAIN_ENV_SHA" >> .env
 logger INFO "Building the main image using the python environment: facsimilab-main-env:${PYTHON_ENV_IMAGE_VERSION}@${MAIN_ENV_SHA}"
+
+if [ -f ./main/quarto.deb ]; then
+  logger INFO "Quarto package already downloaded"
+else
+  logger INFO "Downloading Quarto version: ${quarto_version} - https://github.com/quarto-dev/quarto-cli/releases/download/v${quarto_version}/quarto-${quarto_version}-linux-amd64.deb"
+  wget "https://github.com/quarto-dev/quarto-cli/releases/download/v${quarto_version}/quarto-${quarto_version}-linux-amd64.deb" -O ./main/quarto.deb
+fi
 
 if [ "$build_main" = true ]; then
 
@@ -358,13 +372,13 @@ printf "\n\n\n\n\n"
 echo "---------------------------------------------------------------"
 
 CONTAINER_NAME="facsimilab-full-env":$facsimilab_version_num
-CONDA_FILE="facsimilab-conda-lock.yml"
 
 logger INFO "Building $CONTAINER_NAME"
-logger INFO "Conda file: $CONDA_FILE"
+logger INFO "Conda file: $FULL_IMAGE_CONDA_FILE"
 
 # Build the python environment for the full container
 if [ "$build_python_images" = true ]; then
+  
 
   docker build --progress=auto \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
@@ -380,13 +394,19 @@ if [ "$build_python_images" = true ]; then
     -t localhost:5000/$CONTAINER_NAME \
     -f ./full/full-py-env.Dockerfile ./full
   PYTHON_ENV_IMAGE_VERSION=$facsimilab_version_num
+
+  docker push pranavmishra90/$CONTAINER_NAME
+  docker push pranavmishra90/facsimilab-full-env:dev
 else
   logger INFO "Skipping python environment build for the FULL image"
   PYTHON_ENV_IMAGE_VERSION="dev"
 fi
 
+logger INFO "Python environment image version: $PYTHON_ENV_IMAGE_VERSION"
+
 
 # Get the SHA of the full environment's python image
+docker pull pranavmishra90/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION
 FULL_ENV_SHA=$(docker inspect pranavmishra90/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 echo "FULL_ENV_SHA=$FULL_ENV_SHA" >> .env
 logger INFO "Building the full image using the python environment: facsimilab-full-env:${PYTHON_ENV_IMAGE_VERSION}@${FULL_ENV_SHA}"

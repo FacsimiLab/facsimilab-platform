@@ -38,7 +38,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER /home ${MAMBA_ROOT_PREFIX}/
 
 
 RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-	micromamba create -y -v --name base -f /tmp/${CONDA_FILE} \
+	micromamba env update -y -v -f /tmp/${CONDA_FILE} \
 	&& micromamba clean --all --yes
 
 ###############################################################################
