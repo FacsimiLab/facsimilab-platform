@@ -1,0 +1,16 @@
+#!/bin/bash
+
+build_base=false
+build_main=true
+build_full=false
+
+DOCKER_BUILDKIT=1 # use docker buildx caching
+BUILDX_METADATA_PROVENANCE=max
+
+base_image_name="nvidia/cuda:12.6.3-base-ubuntu22.04"
+IMAGE_REPO_PREFIX="docker.io/pranavmishra90/"
+cache_registry="docker.io/pranavmishra90"
+
+facsimilab_username="coder"
+generate_conda_lock=false
+build_python_images=false

@@ -42,7 +42,22 @@ docker buildx build -t pranavmishra90/$CONTAINER_NAME \
 	--build-arg BASE_IMAGE_EXACT=$exact_base \
 	--build-arg BASE_IMAGE_NAME=$base_image_name \
 	--build-arg BASE_IMAGE_SHA=$ubuntu_cuda_base_sha \
+	--cache-from type=registry,mode=max,ref=$cache_registry/facsimilab-base:buildcache \
+	--cache-to type=registry,mode=max,ref=$cache_registry/facsimilab-base:buildcache \
+	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=registry,push=true,name=pranavmishra90/facsimilab-base:dev \
+	--output type=docker,name=pranavmishra90/facsimilab-base:dev \
+	--metadata-file ../metadata/01-base_metadata.json \
 	. --file ./Dockerfile
+
+
+# docker build -t pranavmishra90/$CONTAINER_NAME \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--build-arg ISO_DATETIME=$iso_datetime \
+# 	--build-arg BASE_IMAGE_EXACT=$exact_base \
+# 	--build-arg BASE_IMAGE_NAME=$base_image_name \
+# 	--build-arg BASE_IMAGE_SHA=$ubuntu_cuda_base_sha \
+# 	. --file ./Dockerfile
 
 # Calculate the total time
 end_time=$(date +%s)

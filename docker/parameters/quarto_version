@@ -1,0 +1,3 @@
+#!/bin/bash
+
+quarto_version="1.6.39"

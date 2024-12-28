@@ -33,22 +33,22 @@ export IMAGE_REPO_PREFIX="pranavmishra90/"
 
 docker pull pranavmishra90/facsimilab-base:$facsimilab_version_num 
 
-echo "Building $CONTAINER_NAME for image export"
-docker build --progress=plain \
-	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-	--build-arg IMAGE_VERSION=$facsimilab_version_num \
-	--build-arg BUILDKIT_INLINE_CACHE=1 \
-	--build-arg ISO_DATETIME=$iso_datetime \
-	--metadata-file ../metadata/02-main-env_metadata.json \
-	-t pranavmishra90/$CONTAINER_NAME \
-	-t pranavmishra90/facsimilab-main-env:dev \
-	-t $cache_registry/facsimilab-main-env:$facsimilab_version_num \
-	-f main-py-env.Dockerfile .
+# echo "Building $CONTAINER_NAME for image export"
+# docker build --progress=plain \
+# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--build-arg BUILDKIT_INLINE_CACHE=1 \
+# 	--build-arg ISO_DATETIME=$iso_datetime \
+# 	--metadata-file ../metadata/02-main-env_metadata.json \
+# 	-t pranavmishra90/$CONTAINER_NAME \
+# 	-t pranavmishra90/facsimilab-main-env:dev \
+# 	-t $cache_registry/facsimilab-main-env:$facsimilab_version_num \
+# 	-f main-py-env.Dockerfile .
 
-# docker push pranavmishra90/facsimilab-main-env:dev
-# docker push pranavmishra90/$CONTAINER_NAME
+# # docker push pranavmishra90/facsimilab-main-env:dev
+# # docker push pranavmishra90/$CONTAINER_NAME
 
-docker push $cache_registry/$CONTAINER_NAME
+# docker push $cache_registry/$CONTAINER_NAME
 
 main_env_sha=$(docker inspect pranavmishra90/facsimilab-main-env:dev --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 
@@ -61,21 +61,23 @@ echo "-----------------------------------------"
 echo "Building the following container:"
 echo "$CONTAINER_NAME"
 
-# Cache export
-docker buildx build --progress=auto \
-	--pull \
-	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-	--build-arg IMAGE_VERSION=$facsimilab_version_num \
-	--build-arg ISO_DATETIME=$iso_datetime \
-	--build-arg MAIN_ENV_SHA=$main_env_sha \
-	--build-arg BUILDKIT_INLINE_CACHE=1 \
-	--cache-from=pranavmishra90/facsimilab-main:latest \
-	--cache-from=$cache_registry/$CONTAINER_NAME \
-	--cache-from type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
-	--cache-to type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
-	--metadata-file ../metadata/02-main_metadata.json \
-	-t pranavmishra90/facsimilab-main:dev \
-	-t $CONTAINER_NAME . -f main-stage2.Dockerfile
+# IMAGE_REPO_PREFIX="localhost:5000/"
+
+# # Cache export
+# docker buildx build --progress=auto \
+# 	--pull \
+# 	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+# 	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+# 	--build-arg ISO_DATETIME=$iso_datetime \
+# 	--build-arg MAIN_ENV_SHA=$main_env_sha \
+# 	--build-arg BUILDKIT_INLINE_CACHE=1 \
+# 	--cache-from=pranavmishra90/facsimilab-main:latest \
+# 	--cache-from=$cache_registry/$CONTAINER_NAME \
+# 	--cache-from type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
+# 	--cache-to type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
+# 	--metadata-file ../metadata/02-main_metadata.json \
+# 	-t pranavmishra90/facsimilab-main:dev \
+# 	-t $CONTAINER_NAME . -f main-stage2.Dockerfile
 
 # Image export
 docker buildx build --progress=auto \
@@ -88,6 +90,7 @@ docker buildx build --progress=auto \
 	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
 	--output type=registry,push=false,name=pranavmishra90/facsimilab-main:dev \
 	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
+	--output type=docker,name=pranavmishra90/facsimilab-main:dev \
 	--metadata-file ../metadata/02-main_metadata.json \
 	-f main-stage2.Dockerfile . 
 
@@ -96,11 +99,11 @@ docker buildx build --progress=auto \
 # # Add additional tags
 # docker tag pranavmishra90/facsimilab-main:dev $CONTAINER_NAME
 # docker tag $CONTAINER_NAME docker.io/pranavmishra90/$CONTAINER_NAME
-# docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
+docker tag $CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:dev
 # docker tag $CONTAINER_NAME gitea.mishracloud.com/pranav/$CONTAINER_NAME
 
-# echo "pushing main-dev"
-# docker push -q docker.io/pranavmishra90/facsimilab-main:dev
+echo "pushing main-dev"
+docker push -q docker.io/pranavmishra90/facsimilab-main:dev
 # echo "pushing $CONTAINER_NAME"
 # docker push -q docker.io/pranavmishra90/$CONTAINER_NAME
 
