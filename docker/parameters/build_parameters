@@ -4,6 +4,9 @@ build_base=true
 build_main=true
 build_full=true
 
+generate_conda_lock=false
+build_python_images=true
+
 DOCKER_BUILDKIT=1 # use docker buildx caching
 BUILDX_METADATA_PROVENANCE=max
 
@@ -12,8 +15,6 @@ IMAGE_REPO_PREFIX="docker.io/pranavmishra90/"
 cache_registry="docker.io/pranavmishra90"
 
 facsimilab_username="coder"
-generate_conda_lock=false
-build_python_images=false
 
 MAIN_IMAGE_CONDA_FILE="base-conda-lock.yml"
 FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"

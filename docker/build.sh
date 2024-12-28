@@ -331,6 +331,7 @@ if [ "$build_main" = true ]; then
     --pull \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
+    --build-arg PYTHON_ENV_IMAGE_VERSION=$PYTHON_ENV_IMAGE_VERSION \
     --build-arg ISO_DATETIME=$ISO_DATETIME \
     --build-arg MAIN_ENV_SHA=$MAIN_ENV_SHA \
     --cache-from type=registry,mode=max,ref=$cache_registry/facsimilab-main:buildcache \
@@ -369,6 +370,7 @@ if [ "$build_python_images" = true ]; then
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
     --build-arg ISO_DATETIME=$ISO_DATETIME \
+    --build-arg PYTHON_ENV_IMAGE_VERSION=$PYTHON_ENV_IMAGE_VERSION \
     --build-arg FULL_IMAGE_CONDA_FILE=$FULL_IMAGE_CONDA_FILE \
     --output type=registry,push=false,name=pranavmishra90/$CONTAINER_NAME \
     --metadata-file ../metadata/03-full-env_metadata.json \
