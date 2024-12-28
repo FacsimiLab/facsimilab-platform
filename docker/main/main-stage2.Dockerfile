@@ -1,4 +1,4 @@
-
+# syntax=docker/dockerfile:1
 
 #############################
 # Stage 2: 
@@ -7,13 +7,14 @@
 
 ############################
 ARG IMAGE_VERSION="dev"
-ARG IMAGE_REPO_PREFIX="localhost:5000/"
+ARG PYTHON_ENV_IMAGE_VERSION="dev"
+ARG IMAGE_REPO_PREFIX="pranavmishra90/"
+ARG RCLONE_VERSION="1.67"
 ############################
-FROM rclone/rclone:1.67 AS rclone
-# FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:${IMAGE_VERSION} AS main-python-builder
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:dev AS main-python-builder
 
-ARG IMAGE_VERSION="dev"
+FROM rclone/rclone:${RCLONE_VERSION} AS rclone
+
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main-env:${PYTHON_ENV_IMAGE_VERSION} AS main-image-builder
 
 # Add rclone
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/
