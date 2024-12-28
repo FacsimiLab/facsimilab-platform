@@ -59,7 +59,7 @@ echo "building Version: $set_version"
 
 
 echo "--------------------------------------------------------------------------------"
-docker image ls | grep pranavmishra90/facsimilab
+docker image ls
 printf "\n\n"
 echo "--------------------------------------------------------------------------------"
 facsimilab_version_num=$set_version
@@ -99,11 +99,11 @@ echo "-----------------------------------------"
 #     docker buildx create --use --platform linux/x86_64 --driver-opt image=moby/buildkit:v0.18.1 --name cuda --node cuda
 # fi
 
-export base_image_name="pranavmishra90/cuda:12.6.1-base-ubuntu22.04"
+export base_image_name="nvidia/cuda:12.6.3-base-ubuntu22.04"
 
 # cd cuda
 
-# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
+# ./build.sh -d --image-name docker.io/pranavmishra90/cuda --cuda-version 12.6.3 --os ubuntu --os-version 22.04 --arch x86_64 --push
 
 # cd ..
 
@@ -111,20 +111,20 @@ export base_image_name="pranavmishra90/cuda:12.6.1-base-ubuntu22.04"
 # #----------------------
 cd base
 
-bash build.sh
+# bash build.sh
 
-# Main container
-#----------------------
-cd ../main
+# # Main container
+# #----------------------
+# cd ../main
 
-bash build.sh
+# bash build.sh
 
 
 # Full container
 #----------------------
 cd ../full
 
-# Generate the lock file from the conda environment.yml
+# # Generate the lock file from the conda environment.yml
 # bash generate-lock.sh
 
 # # Build the docker container

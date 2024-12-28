@@ -1,4 +1,5 @@
 *.env
+*.secrets
 *.deb
 *.log
 
