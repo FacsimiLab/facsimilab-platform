@@ -392,25 +392,32 @@ else
   logger WARN "Skipping full image build"
 fi
 
-# # Finished
-# #----------------------
-# # Calculate the total time
-# end_time=$(date +%s)
-# total_time=$((end_time - start_time))
-# minutes=$((total_time / 60))
-# seconds=$((total_time % 60))
+############################################################################################################
+# Results
+############################################################################################################
+# Calculate the total time
+end_time=$(date +%s)
+total_time=$((end_time - start_time))
+minutes=$((total_time / 60))
+seconds=$((total_time % 60))
 
-# # Print the completion statement
-# formatted_date=$(date "+%m/%d/%Y at %I:%M %p")
+echo ""
+echo ""
+echo "FacsimiLab Docker images: $facsimilab_version_num"
+echo ""
 
-# echo "Completed: $formatted_date"
-# echo "Total time taken: $minutes minutes and $seconds seconds"
-# echo ""
-# echo ""
-# echo "FacsimiLab Docker images: $facsimilab_version_num"
-# echo ""
 
-# docker image ls | grep facsimilab | grep $facsimilab_version_num
+# Check if the Docker image exists
+if docker image ls | grep facsimilab | grep $facsimilab_version_num; then
+  echo "Docker image $facsimilab_version_num exists"
+else
+  logger ERROR "No FacsimiLab Docker images found"
+fi
 
-# # Play an alert tone in the terminal to mark completion'
-# echo -e '\a'
+############################################################################################################
+# Complete
+############################################################################################################
+logger INFO "FacsimiLab: Build process completed"
+logger INFO "Total time taken: $minutes minutes and $seconds seconds"
+send_notification "FacsimiLab: Build process completed"
+echo -e '\a'

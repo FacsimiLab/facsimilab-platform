@@ -1,7 +1,7 @@
 #!/bin/bash
 
 build_base=false
-build_main=true
+build_main=false
 build_full=false
 
 DOCKER_BUILDKIT=1 # use docker buildx caching
