@@ -93,13 +93,15 @@ dependencies:
 
   # # GPU
   - nvidia::cuda-nvcc
-  - conda-forge::jaxlib=*=*cuda120py311*
+  - nvidia::cuda=12.4
+  - conda-forge::jaxlib=0.4=cuda12*py311*
   - conda-forge::jax=0.4
-  - conda-forge::flax=0.8
+  - conda-forge::flax=0.10
+
   # ML Base
-  - pytorch::pytorch=2
-  - pytorch::pytorch-cuda=12
-  - pytorch::torchvision
+  - pytorch=2
+  - pytorch-cuda=12.4
+  - torchvision
   # GPU Accelerated Packages
   - conda-forge::cupy-core=13.2
   - rapidsai::rmm=24.*=*cuda12*

@@ -61,6 +61,9 @@ logger() {
 # Global variables and environment
 ############################################################################################################
 
+logger INFO "FacsimiLab: Build process initiated"
+
+
 # Variables
 ISO_DATETIME=$(current_datetime)
 facsimilab_username="coder"
@@ -202,7 +205,6 @@ if [ "$generate_conda_lock" = true ]; then
   ) &
 
   wait
-fi
 else
   logger INFO "Skipping conda lock file generation for the base and facsimilab environments (main and full containers, respectively)"
 fi
@@ -442,7 +444,7 @@ fi
 # Results
 ############################################################################################################
 
-git add image_version.txt metadata/
+git add image_version.txt metadata/ parameters/
 
 
 # Calculate the total time

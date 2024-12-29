@@ -10,7 +10,7 @@ ARG IMAGE_VERSION="dev"
 ARG IMAGE_REPO_PREFIX="pranavmishra90/"
 #########################################
 
-FROM ${IMAGE_REPO_PREFIX}facsimilab-base:${IMAGE_VERSION} AS full-python-builder
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-python-builder
 
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
@@ -30,12 +30,12 @@ ENV CONDA_FILE=${FULL_IMAGE_CONDA_FILE}
 
 USER root
 
-RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-    micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
-    && micromamba clean --all --yes
-
 COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
 COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
+
+RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
+    CONDA_OVERRIDE_CUDA="12.6" micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
+    && micromamba clean --all --yes
 
 ###############################################################################
 # Labels
