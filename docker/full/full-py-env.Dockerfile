@@ -15,6 +15,8 @@ FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-python-builder
 ARG MAMBA_USER=coder
 ARG MAMBA_USER_ID=1000
 ARG MAMBA_USER_GID=1000
+ARG CONDA_OVERRIDE_CUDA="12.6"
+ENV CONDA_OVERRIDE_CUDA=${CONDA_OVERRIDE_CUDA}
 ENV MAMBA_USER=$MAMBA_USER
 ENV MAMBA_ROOT_PREFIX="/opt/conda"
 ENV MAMBA_EXE="/bin/micromamba"
@@ -34,7 +36,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
 COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
 
 RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-    CONDA_OVERRIDE_CUDA="12.6" micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
+    micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
     && micromamba clean --all --yes
 
 ###############################################################################

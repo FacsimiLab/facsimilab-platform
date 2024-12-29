@@ -14,9 +14,9 @@ networks:
 ####################################
 
 services:
-  main:
-    image: pranavmishra90/facsimilab-full:dev
-    container_name: Facsimilab
+  facsimilab:
+    image: pranavmishra90/facsimilab-full:v0.4.0-beta.2
+    container_name: Facsimilab-Testing
 
     deploy:
       resources:
@@ -26,13 +26,12 @@ services:
               capabilities: [gpu]
     ports:
       - 8888:8888
-    user: "1000:1002"
     # Keep alive command for docker compose
     environment:
       - ENV_NAME=facsimilab
 
     # Start a jupyter notebook on launch: password = pranavmishra90
-    command: nohup jupyter notebook
+    command: tail -F anything
 
     volumes:
       # Here we "mount" directories from the host computer into the Facsimilab container

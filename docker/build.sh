@@ -35,6 +35,8 @@ send_notification() {
     # echo "$response"
 }
 
+LOG_FILE="log/docker-build.log"
+
 # Function to log messages with levels and optional notification
 logger() {
     local LEVEL=$1
@@ -45,10 +47,10 @@ logger() {
     # Log message to terminal and file
     case "$LEVEL" in
         INFO|DEBUG)
-            echo "$TIMESTAMP [$LEVEL] $MESSAGE" | tee -a "$LOG_FILE"
+            echo -e "\e[33m$TIMESTAMP [$LEVEL] $MESSAGE\e[0m" | tee -a "$LOG_FILE"
             ;;
         WARN|ERROR|CRITICAL)
-            echo "$TIMESTAMP [$LEVEL] $MESSAGE" | tee -a "$LOG_FILE"
+            echo -e "\e[31m$TIMESTAMP [$LEVEL] $MESSAGE\e[0m" | tee -a "$LOG_FILE"
             send_notification "$TIMESTAMP [$LEVEL] $MESSAGE"
             ;;
         *)
@@ -109,6 +111,7 @@ logger INFO "cache_registry: $cache_registry"
 
 logger INFO "facsimilab_username: $facsimilab_username"
 logger INFO "generate conda lock files: $generate_conda_lock"
+logger INFO "CUDA Version for conda: $CONDA_OVERRIDE_CUDA"
 logger INFO "main image conda file: $MAIN_IMAGE_CONDA_FILE"
 logger INFO "full image conda file: $FULL_IMAGE_CONDA_FILE"
 logger INFO "build python images: $build_python_images"
@@ -298,13 +301,13 @@ echo "---------------------------------------------------------------"
 CONTAINER_NAME="facsimilab-main-env":$facsimilab_version_num
 CONDA_FILE=$MAIN_IMAGE_CONDA_FILE
 
-logger INFO "Building $CONTAINER_NAME"
-logger INFO "Conda file: $MAIN_IMAGE_CONDA_FILE"
+
 
 
 # Build the python environment for the main container
 if [ "$build_python_images" = true ]; then
-  
+  logger INFO "Building $CONTAINER_NAME"
+  logger INFO "Conda file: $MAIN_IMAGE_CONDA_FILE"
 
   docker build --progress=auto \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
@@ -341,6 +344,11 @@ else
   wget "https://github.com/quarto-dev/quarto-cli/releases/download/v${quarto_version}/quarto-${quarto_version}-linux-amd64.deb" -O ./main/quarto.deb
 fi
 
+
+CONTAINER_NAME="facsimilab-main":$facsimilab_version_num
+logger INFO "Building $CONTAINER_NAME"
+
+
 if [ "$build_main" = true ]; then
 
   docker buildx build --progress=auto \
@@ -360,7 +368,6 @@ if [ "$build_main" = true ]; then
     -f ./main/main-stage2.Dockerfile ./main
 
   logger INFO "Base container built: pranavmishra90/$CONTAINER_NAME"
-
 else
   logger WARN "Skipping main image build"
 fi
@@ -378,18 +385,20 @@ CONTAINER_NAME="facsimilab-full-env":$facsimilab_version_num
 logger INFO "Building $CONTAINER_NAME"
 logger INFO "Conda file: $FULL_IMAGE_CONDA_FILE"
 
+docker pull docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
+
 # Build the python environment for the full container
 if [ "$build_python_images" = true ]; then
   
 
-  docker build --progress=auto \
+  docker build --progress=plain \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
     --build-arg ISO_DATETIME=$ISO_DATETIME \
     --build-arg PYTHON_ENV_IMAGE_VERSION=$PYTHON_ENV_IMAGE_VERSION \
     --build-arg FULL_IMAGE_CONDA_FILE=$FULL_IMAGE_CONDA_FILE \
     --output type=registry,push=false,name=pranavmishra90/$CONTAINER_NAME \
-    --metadata-file ../metadata/03-full-env_metadata.json \
+    --metadata-file ./metadata/03-full-env_metadata.json \
     -t pranavmishra90/$CONTAINER_NAME \
     -t pranavmishra90/facsimilab-full-env:dev \
     -t localhost:5000/facsimilab-full-env:dev \
@@ -397,19 +406,32 @@ if [ "$build_python_images" = true ]; then
     -f ./full/full-py-env.Dockerfile ./full
   PYTHON_ENV_IMAGE_VERSION=$facsimilab_version_num
 
-  docker push pranavmishra90/$CONTAINER_NAME
-  docker push pranavmishra90/facsimilab-full-env:dev
+
 else
   logger INFO "Skipping python environment build for the FULL image"
   PYTHON_ENV_IMAGE_VERSION="dev"
 fi
 
+if [ "$GITHUB_ACTIONS" == "true" ]; then
+  logger INFO "Running in GitHub Actions"
+  PUSH_LOCATION="pranavmishra90"
+else
+  logger INFO "Not running in GitHub Actions"
+  PUSH_LOCATION="localhost:5000"
+
+fi
+
+logger INFO "Push location: $PUSH_LOCATION/$CONTAINER_NAME"
+docker push $PUSH_LOCATION/$CONTAINER_NAME
+docker push $PUSH_LOCATION/facsimilab-full-env:dev
+
+
 logger INFO "Python environment image version: $PYTHON_ENV_IMAGE_VERSION"
 
 
 # Get the SHA of the full environment's python image
-docker pull pranavmishra90/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION
-FULL_ENV_SHA=$(docker inspect pranavmishra90/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
+docker pull $PUSH_LOCATION/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION
+FULL_ENV_SHA=$(docker inspect $PUSH_LOCATION/facsimilab-full-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
 echo "FULL_ENV_SHA=$FULL_ENV_SHA" >> .env
 logger INFO "Building the full image using the python environment: facsimilab-full-env:${PYTHON_ENV_IMAGE_VERSION}@${FULL_ENV_SHA}"
 
@@ -430,6 +452,7 @@ docker buildx build --progress=auto \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
+  --output type=registry,push=true,name=pranavmishra90/facsimilab-full:dev \
 	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
 	--metadata-file ./metadata/02-full_metadata.json \
 	-f ./full/full-stage2.Dockerfile ./full 
@@ -444,7 +467,7 @@ fi
 # Results
 ############################################################################################################
 
-git add image_version.txt metadata/ parameters/
+git add image_version.txt metadata/ parameters/ main/ full/ 
 
 
 # Calculate the total time

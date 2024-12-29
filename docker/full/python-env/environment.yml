@@ -81,11 +81,11 @@ dependencies:
 
   # Next-generation Multiomics
   - scanpy=1.10
-  - scvi-tools=1.1
+  - scvi-tools=1.2
   - muon=0.1
   - squidpy=1.5
   # - scirpy=0.17
-  # - scvelo=0.3
+  - scvelo=0.3
   - bioconda::pydeseq2=0.4
   - bioconda::gseapy=1.1
   - bioconda::celltypist=1.6
@@ -94,7 +94,7 @@ dependencies:
   # # GPU
   - nvidia::cuda-nvcc
   - nvidia::cuda=12.4
-  - conda-forge::jaxlib=0.4=cuda12*py311*
+  - conda-forge::jaxlib=*=*cuda120py311*
   - conda-forge::jax=0.4
   - conda-forge::flax=0.10
 
@@ -103,7 +103,7 @@ dependencies:
   - pytorch-cuda=12.4
   - torchvision
   # GPU Accelerated Packages
-  - conda-forge::cupy-core=13.2
+  - conda-forge::cupy-core=13.3
   - rapidsai::rmm=24.*=*cuda12*
   - faiss-gpu=1.8
 
@@ -118,18 +118,12 @@ dependencies:
   # Primer design
   - bioconda::primer3-py
 
-  # CVE Dependency Pinning
-  # - lightning>=2.3.3
-  # - fastapi>=0.109.1
-  # - starlette>=0.25.0
-  # - aiohttp>=3.10.2
-
   # pip - Packages not available through conda
   - pip
   - pip:
       - PyCap==2.6
-      - spatialdata[extra]
-      - spatialdata[torch]
+      # - spatialdata[extra]
+      # - spatialdata[torch]
       # - pyscenic==0.12
   #     - velocyto
   #     - pybind11

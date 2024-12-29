@@ -3,9 +3,15 @@
     "buildType": "https://mobyproject.org/buildkit@v1",
     "materials": [
       {
-        "uri": "pkg:docker/pranavmishra90/facsimilab-main-env@dev?platform=linux%2Famd64",
+        "uri": "pkg:docker/docker/dockerfile@1",
         "digest": {
-          "sha256": "eeecb09648078ee24876812fba181dfffe079d79a3c44f91b4978d44ef15cc5e"
+          "sha256": "93bfd3b68c109427185cd78b4779fc82b484b0b7618e36d0f104d4d801e66d25"
+        }
+      },
+      {
+        "uri": "pkg:docker/pranavmishra90/facsimilab-main-env@v0.4.0-beta.2?platform=linux%2Famd64",
+        "digest": {
+          "sha256": "6612066a33731daeac9ad9c709a4d707c555e47b6a230790b1152d4be71b07a0"
         }
       },
       {
@@ -18,12 +24,15 @@
     "invocation": {
       "configSource": {},
       "parameters": {
-        "frontend": "dockerfile.v0",
+        "frontend": "gateway.v0",
         "args": {
           "build-arg:IMAGE_REPO_PREFIX": "docker.io/pranavmishra90/",
-          "build-arg:IMAGE_VERSION": "v0.4.0-beta.1",
-          "build-arg:ISO_DATETIME": "2024-12-28T11:49:32-06:00",
-          "build-arg:MAIN_ENV_SHA": "sha256:53093493f424930c2431b31f3bb5b9b493f41c9d0bbaf2be0747a02c74a7ff09"
+          "build-arg:IMAGE_VERSION": "v0.4.0-beta.2",
+          "build-arg:ISO_DATETIME": "2024-12-28T19:44:43-06:00",
+          "build-arg:MAIN_ENV_SHA": "sha256:6612066a33731daeac9ad9c709a4d707c555e47b6a230790b1152d4be71b07a0",
+          "build-arg:PYTHON_ENV_IMAGE_VERSION": "v0.4.0-beta.2",
+          "cmdline": "docker/dockerfile:1",
+          "source": "docker/dockerfile:1"
         },
         "locals": [
           {
@@ -39,21 +48,21 @@
       }
     }
   },
-  "buildx.build.ref": "cuda/cuda/s9imdq4zesqfpbo6jgsg0p8ar",
-  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:69e7213fde221731b9bec475200d4e16fa1bca61ce57735b2ce847bd6897f23e\",\"size\":10102}",
-  "containerimage.config.digest": "sha256:3fbbf6990b0033acb2fd3769d5391d1c097da3a2f2815ed58b6f709259d0f112",
+  "buildx.build.ref": "cuda/cuda/jh2lyvetqj7oj7v1tx1it0el3",
+  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:9e9f071977027e9e0e24664f569eda0c95bc29a6d742f9b221b70ba934961d9c\",\"size\":9773}",
+  "containerimage.config.digest": "sha256:b0b59c7125d969495a1bcddb174f26f89af3e4a90b22a4a1c88c6543824676e9",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:c32b4c53db3bb3a97698778a7f3e523fe22450ee34b20e55df677a9b929b181b",
-    "size": 6184,
+    "digest": "sha256:6863b18cec4ead3618bb0b1e9dd22efde747a310f9ddcff8878d25a92e0044d1",
+    "size": 5986,
     "annotations": {
-      "org.opencontainers.image.created": "2024-12-28T17:49:37Z"
+      "org.opencontainers.image.created": "2024-12-29T01:55:02Z"
     },
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:c32b4c53db3bb3a97698778a7f3e523fe22450ee34b20e55df677a9b929b181b",
+  "containerimage.digest": "sha256:6863b18cec4ead3618bb0b1e9dd22efde747a310f9ddcff8878d25a92e0044d1",
   "image.name": "docker.io/pranavmishra90/facsimilab-main:dev"
 }
