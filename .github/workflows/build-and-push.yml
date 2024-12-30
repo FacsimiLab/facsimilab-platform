@@ -37,24 +37,24 @@ jobs:
           path: ./docker/image_version.txt
 
 
-      - name: Matrix Message - Starting Build
-        uses: s3krit/matrix-message-action@v0.0.3
-        with:
-            room_id: ${{ secrets.MATRIX_ROOM_ID }}
-            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
-            server: "matrix.drpranavmishra.com"
+      # - name: Matrix Message - Starting Build
+      #   uses: s3krit/matrix-message-action@v0.0.3
+      #   with:
+      #       room_id: ${{ secrets.MATRIX_ROOM_ID }}
+      #       access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+      #       message: "Started FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+      #       server: "matrix.drpranavmishra.com"
 
       - name: Build Docker images
         run: bash docker/build-all.sh
 
-      - name: Matrix Message - Completed Build
-        uses: s3krit/matrix-message-action@v0.0.3
-        with:
-            room_id: ${{ secrets.MATRIX_ROOM_ID }}
-            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
-            server: "matrix.drpranavmishra.com"
+      # - name: Matrix Message - Completed Build
+      #   uses: s3krit/matrix-message-action@v0.0.3
+      #   with:
+      #       room_id: ${{ secrets.MATRIX_ROOM_ID }}
+      #       access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+      #       message: "Completed FacsimiLab image build for tag ${{ steps.package.outputs.content }}"
+      #       server: "matrix.drpranavmishra.com"
 
 
       - name: Push Docker images
@@ -68,10 +68,10 @@ jobs:
           echo "$builder_header" > testing/results/job_summary.md
           cat testing/results/job_summary.md >> $GITHUB_STEP_SUMMARY
 
-      - name: Matrix Message - Completed GitHub Action
-        uses: s3krit/matrix-message-action@v0.0.3
-        with:
-            room_id: ${{ secrets.MATRIX_ROOM_ID }}
-            access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
-            message: "Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
-            server: "matrix.drpranavmishra.com"
+      # - name: Matrix Message - Completed GitHub Action
+      #   uses: s3krit/matrix-message-action@v0.0.3
+      #   with:
+      #       room_id: ${{ secrets.MATRIX_ROOM_ID }}
+      #       access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
+      #       message: "Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
+      #       server: "matrix.drpranavmishra.com"
