@@ -8,6 +8,21 @@ set -e
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 cd "$SCRIPT_DIR"
 
+echo "Current directory is: " $(pwd)
+
+LOG_FILE="$(realpath log/docker-build.log)"
+
+if [ ! -f "$LOG_FILE" ]; then
+  echo "Docker build log file" > "$LOG_FILE"
+  echo "Created log file: $LOG_FILE"
+  cat "$LOG_FILE"
+
+else
+  LOG_FILE="$(realpath log/docker-build.log)"
+  echo "Log file exists: $LOG_FILE"
+fi
+
+
 ############################################################################################################
 # Functions
 ############################################################################################################
@@ -35,8 +50,6 @@ send_notification() {
     # echo "$response"
 }
 
-LOG_FILE="log/docker-build.log"
-
 # Function to log messages with levels and optional notification
 logger() {
     local LEVEL=$1
@@ -44,19 +57,29 @@ logger() {
     local TIMESTAMP=$(current_datetime)
     local MESSAGE="$@"
     
-    # Log message to terminal and file
+    # Define color codes
+    local COLOR_RESET="\033[0m"
+    local COLOR_YELLOW="\033[33m"    # Yellow
+    local COLOR_RED="\033[31m"       # Red
+
+    # Determine color based on log level
+    local COLOR
     case "$LEVEL" in
-        INFO|DEBUG)
-            echo -e "\e[33m$TIMESTAMP [$LEVEL] $MESSAGE\e[0m" | tee -a "$LOG_FILE"
-            ;;
         WARN|ERROR|CRITICAL)
-            echo -e "\e[31m$TIMESTAMP [$LEVEL] $MESSAGE\e[0m" | tee -a "$LOG_FILE"
-            send_notification "$TIMESTAMP [$LEVEL] $MESSAGE"
+            COLOR=$COLOR_RED
             ;;
         *)
-            echo "$TIMESTAMP [UNKNOWN] $MESSAGE" | tee -a "$LOG_FILE"
+            COLOR=$COLOR_YELLOW
             ;;
     esac
+
+    # Log message to terminal with color and to file without color
+    echo -e "$COLOR$TIMESTAMP [$LEVEL] $MESSAGE$COLOR_RESET" | tee >(sed "s/\x1b\[[0-9;]*m//g" >> "$LOG_FILE")
+
+    # Send notification for WARN, ERROR, and CRITICAL levels
+    if [[ "$LEVEL" == "WARN" || "$LEVEL" == "ERROR" || "$LEVEL" == "CRITICAL" ]]; then
+        send_notification "$TIMESTAMP [$LEVEL] $MESSAGE"
+    fi
 }
 
 ############################################################################################################
@@ -74,8 +97,6 @@ DOCKER_BUILDKIT=1 # use docker buildx caching
 BUILDX_METADATA_PROVENANCE=max
 IMAGE_REPO_PREFIX="docker.io/pranavmishra90/"
 cache_registry="docker.io/pranavmishra90"
-
-LOG_FILE="log/docker-build.log"
 
 
 if [ -f ./token.secrets ]; then
@@ -134,6 +155,13 @@ else
 		logger WARN "Conda environment not found. Using system Python."
 fi
 
+# Check if python-semantic-release is installed, if not, install it
+if ! semantic-release >/dev/null 2>&1; then
+  logger WARN "python-semantic-release not found. Installing..."
+  export PATH=~/.local/bin:$PATH
+  pip install --break-system-packages python-semantic-release
+fi
+
 
 ############################################################################################################
 # Begin
@@ -145,39 +173,37 @@ send_notification "FacsimiLab: Build process started"
 # Choose a version number ---------------------------------------------------------------------------------
 
 # Detect the semantic release version number
-cd $(git rev-parse --show-toplevel)
-semvar_version=$(semantic-release version --print 2>/dev/null)
+cd ../
+logger INFO "Checking the semantic version at: $(pwd)"
+semvar_version=$(semantic-release version --print 2>/dev/null || echo "NA")
 
-
-# Go back into the docker directory
-cd docker
 
 # We may read the "image_version.txt" if we cannot get a semantic release version
-version_file="image_version.txt"
+version_file="./docker/image_version.txt"
+
+if [ ! -s "$version_file" ] || ! cat "$version_file" > /dev/null 2>&1; then
+  logger WARN "No $version_file found or file is empty"
+
+else
+  logger INFO "Reading the version file: $version_file"
+  logger INFO "Version file content: $(cat $version_file)"
+
+fi
 
 if git rev-parse --git-dir > /dev/null 2>&1; then
-    logger INFO "Semantic Release Auto Version: '$semvar_version'"
+  logger INFO "Semantic Release Auto Version: '$semvar_version'"
 
-    if [ -n "$semvar_version" ]; then
-        set_version="v$semvar_version"
-        echo "$set_version" > "$version_file"
-
-    else
-        if [ -f "$version_file" ]; then
-            set_version=$(<"$version_file" tr -d '[:space:]')
-        else
-            logger WARN "$version_file not found. Using 'dev' as default."
-            set_version="dev"
-        fi
-    fi
+  if [ "$semvar_version" != "NA" ]; then
+    set_version="v$semvar_version"
+    echo "$set_version" > "$version_file"
+  fi
 else
-    logger INFO "Not a Git repository. Using $version_file or 'dev' as default."
-    if [ -f "$version_file" ]; then
-        set_version=$(<"$version_file" tr -d '[:space:]')
-    else
-        logger WARN "$version_file not found. Using 'dev' as default."
-        set_version="dev"
-    fi
+  if [ -f "$version_file" ]; then
+    set_version=$(<"$version_file" tr -d '[:space:]')
+  else
+    logger WARN "$version_file not found. Using 'dev' as default."
+    set_version="dev"
+  fi
 fi
 facsimilab_version_num=$set_version
 logger INFO "Building FacsimiLab version: $set_version"
@@ -190,6 +216,10 @@ echo "ISO_DATETIME=$ISO_DATETIME" > .env
 echo "IMAGE_VERSION=$facsimilab_version_num" >> .env
 echo "BASE_IMAGE_NAME=$base_image_name" >> .env
 echo "IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX" >> .env
+
+# Go back to the build directory
+cd docker
+logger INFO "Changing the working directory for the docker build: $(pwd)"
 
 # ----------------------------------------------------------------------------------------------------------
 

@@ -6,7 +6,7 @@ on:
   #   paths:
   #     - "docker/image_version.txt"
 jobs:
-  facsimilab-packages:
+  facsimilab-packages-label:
     runs-on: [self-hosted, gpu]
     steps:
       - name: Checkout code

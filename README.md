@@ -34,7 +34,7 @@ You can quickly deploy FacsimiLab using the docker run commands found in [Quick 
 
 ```sh
 cd docker
-bash build-all.sh
+bash build.sh
 ```
 
 ## License
