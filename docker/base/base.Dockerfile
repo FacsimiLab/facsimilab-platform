@@ -49,6 +49,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     git-annex \
     eza \
     fonts-liberation \
+    jq \
     less \
     locales \
     nano \

@@ -79,13 +79,13 @@ else
 
 	# # Begin Push
 
-	echo "Starting to push images to Gitea and DockerHub"
+	
 
 	# rm ./log/*_push.log
 
 
 	# DockerHub section
-
+	echo "Starting to push images to DockerHub"
 	docker push docker.io/pranavmishra90/facsimilab-base:$facsimilab_version_num
 	docker push docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
 	docker push docker.io/pranavmishra90/facsimilab-full:$facsimilab_version_num
@@ -94,6 +94,7 @@ else
 	docker push docker.io/pranavmishra90/facsimilab-full:latest
 
 	# # Gitea section
+	# echo "Starting to push images to Gitea and DockerHub"
 	# docker push gitea.mishracloud.com/pranav/facsimilab-base:$facsimilab_version_num
 	# docker push gitea.mishracloud.com/pranav/facsimilab-main:$facsimilab_version_num
 	# docker push gitea.mishracloud.com/pranav/facsimilab-full:$facsimilab_version_num
