@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   facsimilab-packages:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: [self-hosted, gpu]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
