@@ -46,7 +46,7 @@ jobs:
       #       server: "matrix.drpranavmishra.com"
 
       - name: Build Docker images
-        run: bash docker/build-all.sh
+        run: bash docker/build.sh
 
       # - name: Matrix Message - Completed Build
       #   uses: s3krit/matrix-message-action@v0.0.3
