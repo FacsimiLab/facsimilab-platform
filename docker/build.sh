@@ -8,6 +8,7 @@ set -e
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 cd "$SCRIPT_DIR"
 echo "Current directory is: " $(pwd)
+ls -lahg
 
 ############################################################################################################
 # Functions
@@ -41,6 +42,7 @@ LOG_FILE="log/docker-build.log"
 if [ ! -f "$LOG_FILE" ]; then
   mkdir -p log
   touch "$LOG_FILE"
+  echo "Created log file: $LOG_FILE"
 fi
 
 # Function to log messages with levels and optional notification
