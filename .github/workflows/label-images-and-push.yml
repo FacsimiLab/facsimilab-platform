@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   label-images-and-push:
-    runs-on: [self-hosted, linux, docker]
+    runs-on: [self-hosted]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
