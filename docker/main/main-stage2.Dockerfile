@@ -39,8 +39,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		usermod -aG sudo $MAMBA_USER && \
 		echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers && \
 		apt install -y /tmp/quarto.deb && \
-		/usr/bin/pipx install conda-lock && \
 		quarto install tinytex && \
+		apt install -y --no-install-recommends \
+		jq && \
+		/usr/bin/pipx install conda-lock && \
 		mkdir -p /config/rclone && \
 		apt clean && \
 		rm -rf /var/lib/apt/lists/* 
