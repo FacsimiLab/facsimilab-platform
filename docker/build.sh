@@ -7,6 +7,7 @@ set -e
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 cd "$SCRIPT_DIR"
+echo "Current directory is: " $(pwd)
 
 ############################################################################################################
 # Functions
@@ -36,6 +37,10 @@ send_notification() {
 }
 
 LOG_FILE="log/docker-build.log"
+
+if [ ! -f "$LOG_FILE" ]; then
+  touch "$LOG_FILE"
+fi
 
 # Function to log messages with levels and optional notification
 logger() {
@@ -134,6 +139,12 @@ else
 		logger WARN "Conda environment not found. Using system Python."
 fi
 
+# Check if python-semantic-release is installed, if not, install it
+if ! semantic-release >/dev/null 2>&1; then
+  logger WARN "python-semantic-release not found. Installing..."
+  pip install python-semantic-release
+fi
+
 
 ############################################################################################################
 # Begin
@@ -146,7 +157,7 @@ send_notification "FacsimiLab: Build process started"
 
 # Detect the semantic release version number
 cd $(git rev-parse --show-toplevel)
-semvar_version=$(semantic-release version --print 2>/dev/null)
+semvar_version=$(semantic-release version --print 2>/dev/null || echo "NA")
 
 
 # Go back into the docker directory
@@ -158,9 +169,10 @@ version_file="image_version.txt"
 if git rev-parse --git-dir > /dev/null 2>&1; then
     logger INFO "Semantic Release Auto Version: '$semvar_version'"
 
-    if [ -n "$semvar_version" ]; then
+    if [ "$semvar_version" != "NA" ]; then
         set_version="v$semvar_version"
         echo "$set_version" > "$version_file"
+    fi
 
     else
         if [ -f "$version_file" ]; then
