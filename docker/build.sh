@@ -5,8 +5,13 @@
 trap 'logger ERROR "line $LINENO: $BASH_COMMAND"; exit 1' ERR
 set -e
 
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-cd "$SCRIPT_DIR"
+# SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+# cd "$SCRIPT_DIR"
+
+if [ -d "docker" ]; then
+  cd docker
+fi
+
 echo "Current directory is: " $(pwd)
 ls -lahg
 

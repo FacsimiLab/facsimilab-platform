@@ -16,14 +16,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
+
 
 jobs:
   build-and-push:
     runs-on: self-hosted
+    permissions:
+      id-token: write
+      contents: write
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -75,3 +76,26 @@ jobs:
       #       access_token: ${{ secrets.MATRIX_ACCESS_TOKEN }}
       #       message: "Completed FacsimiLab build github action for tag ${{ steps.package.outputs.content }}"
       #       server: "matrix.drpranavmishra.com"
+
+  semvar-release:
+    runs-on: self-hosted
+    concurrency: semvar-release
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          show-progress: true
+
+      - name: Python Semantic Release
+        uses: python-semantic-release/python-semantic-release@v9.8.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_email: "62562712+pranavmishra90@users.noreply.github.com"
+          ssh_private_signing_key: ${{ secrets.AUTOMATED_SIGNING_KEY }}
+          ssh_public_signing_key: ${{ secrets.AUTOMATED_SIGNING_PUBKEY }}
+          skip-build: "false"
