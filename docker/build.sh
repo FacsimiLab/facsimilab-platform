@@ -39,6 +39,7 @@ send_notification() {
 LOG_FILE="log/docker-build.log"
 
 if [ ! -f "$LOG_FILE" ]; then
+  mkdir -p log
   touch "$LOG_FILE"
 fi
 
