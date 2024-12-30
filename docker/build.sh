@@ -156,40 +156,29 @@ send_notification "FacsimiLab: Build process started"
 # Choose a version number ---------------------------------------------------------------------------------
 
 # Detect the semantic release version number
-cd $(git rev-parse --show-toplevel)
+cd "$SCRIPT_DIR"
+cd ../
+logger INFO "Checking the semantic version at: $(pwd)"
 semvar_version=$(semantic-release version --print 2>/dev/null || echo "NA")
 
 
-# Go back into the docker directory
-cd docker
-
 # We may read the "image_version.txt" if we cannot get a semantic release version
-version_file="image_version.txt"
+version_file="docker/image_version.txt"
 
 if git rev-parse --git-dir > /dev/null 2>&1; then
-    logger INFO "Semantic Release Auto Version: '$semvar_version'"
+  logger INFO "Semantic Release Auto Version: '$semvar_version'"
 
-    if [ "$semvar_version" != "NA" ]; then
-        set_version="v$semvar_version"
-        echo "$set_version" > "$version_file"
-    fi
-
-    else
-        if [ -f "$version_file" ]; then
-            set_version=$(<"$version_file" tr -d '[:space:]')
-        else
-            logger WARN "$version_file not found. Using 'dev' as default."
-            set_version="dev"
-        fi
-    fi
+  if [ "$semvar_version" != "NA" ]; then
+    set_version="v$semvar_version"
+    echo "$set_version" > "$version_file"
+  fi
 else
-    logger INFO "Not a Git repository. Using $version_file or 'dev' as default."
-    if [ -f "$version_file" ]; then
-        set_version=$(<"$version_file" tr -d '[:space:]')
-    else
-        logger WARN "$version_file not found. Using 'dev' as default."
-        set_version="dev"
-    fi
+  if [ -f "$version_file" ]; then
+    set_version=$(<"$version_file" tr -d '[:space:]')
+  else
+    logger WARN "$version_file not found. Using 'dev' as default."
+    set_version="dev"
+  fi
 fi
 facsimilab_version_num=$set_version
 logger INFO "Building FacsimiLab version: $set_version"
@@ -202,6 +191,10 @@ echo "ISO_DATETIME=$ISO_DATETIME" > .env
 echo "IMAGE_VERSION=$facsimilab_version_num" >> .env
 echo "BASE_IMAGE_NAME=$base_image_name" >> .env
 echo "IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX" >> .env
+
+# Go back to the build directory
+cd docker
+logger INFO "Changing the working directory for the docker build: $(pwd)"
 
 # ----------------------------------------------------------------------------------------------------------
 
