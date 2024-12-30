@@ -1,15 +1,50 @@
 # syntax=docker/dockerfile:1
 
-############################
-ARG IMAGE_VERSION="dev"
-ARG IMAGE_REPO_PREFIX=""
-############################
+#########################################
+# Stage 1: 
+# Build the 'facsimilab' python env
+#########################################
 
-# FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS pythonenv
-FROM ${IMAGE_REPO_PREFIX}facsimilab-main:dev AS pythonenv
-
-ARG ISO_DATETIME
+#########################################
 ARG IMAGE_VERSION="dev"
+ARG IMAGE_REPO_PREFIX="pranavmishra90/"
+#########################################
+
+FROM ${IMAGE_REPO_PREFIX}facsimilab-main:${IMAGE_VERSION} AS full-python-builder
+
+ARG MAMBA_USER=coder
+ARG MAMBA_USER_ID=1000
+ARG MAMBA_USER_GID=1000
+ARG CONDA_OVERRIDE_CUDA="12.6"
+ENV CONDA_OVERRIDE_CUDA=${CONDA_OVERRIDE_CUDA}
+ENV MAMBA_USER=$MAMBA_USER
+ENV MAMBA_ROOT_PREFIX="/opt/conda"
+ENV MAMBA_EXE="/bin/micromamba"
+
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV TZ="America/Chicago"
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+# Select either environment.yml or facsimilab-conda-lock.yml
+ARG FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"
+ENV CONDA_FILE=${FULL_IMAGE_CONDA_FILE}
+
+USER root
+
+COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
+COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
+
+RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
+    micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
+    && micromamba clean --all --yes
+
+###############################################################################
+# Labels
+###############################################################################
+ARG IMAGE_VERSION="dev"
+ARG ISO_DATETIME="date"
+ARG BASE_IMAGE_SHA="SHA"
 
 LABEL org.opencontainers.image.title="FacsimiLab-Full-Environment"
 LABEL version=${IMAGE_VERSION}
@@ -19,30 +54,5 @@ LABEL org.opencontainers.image.description="Full image python environment builde
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.created=${ISO_DATETIME}
-LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/facsimilab-main:${IMAGE_VERSION}"
-
-
-ARG MAMBA_USER=coder
-ARG MAMBA_USER_ID=1000
-ARG MAMBA_USER_GID=1000
-
-ARG CONDA_FILE=facsimilab-environment.yml
-ENV CONDA_FILE=${CONDA_FILE}
-
-ENV MAMBA_USER=$MAMBA_USER
-ENV MAMBA_ROOT_PREFIX="/opt/conda"
-ENV MAMBA_EXE="/bin/micromamba"
-ENV DEBIAN_FRONTEND="noninteractive"
-ENV TZ="America/Chicago"
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-
-USER root
-
-COPY --chown=$MAMBA_USER:$MAMBA_USER /home/ /root/
-COPY --chown=$MAMBA_USER:$MAMBA_USER /python-env /tmp
-
-
-RUN --mount=type=cache,target=${MAMBA_ROOT_PREFIX}/pkgs \
-    micromamba create -y -v --name facsimilab -f /tmp/${CONDA_FILE} \
-    && micromamba clean --all --yes
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/facsimilab-base:${IMAGE_VERSION}"
+LABEL org.opencontainers.image.base.digest=${BASE_IMAGE_SHA}

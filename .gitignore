@@ -1,4 +1,5 @@
 *.env
+*.secrets
 *.deb
 *.log
 
@@ -25,7 +26,10 @@
 /tmp
 
 **/datalad
+**/spaceranger
 
 /docker/main/quarto.deb
+/docker/main/python-env/old-base-conda-lock.yml
+/docker/full/python-env/old-facsimilab-conda-lock.yml
 
 *.code-workspace
