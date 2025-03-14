@@ -231,6 +231,10 @@ if [ "$generate_conda_lock" = true ]; then
     bash ./main/generate-base-conda-lock.sh
     logger INFO "Conda lock file generated for the base environment (main container)"
   ) &
+  (
+    bash ./main/generate-outcomes-conda-lock.sh
+    logger INFO "Conda lock file generated for the outcomes environment (outcomes container)"
+  ) &
 
   (
     bash ./full/generate-facsimilab-conda-lock.sh
@@ -245,6 +249,9 @@ fi
 # Parse base-conda-lock.yml
 base_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./main/python-env/base-conda-lock.yml | awk '{print $2}')
 logger INFO "Base environment conda-lock hash: $base_env_conda_lock_hash"
+
+outcomes_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./full/python-env/outcomes-conda-lock.yml | awk '{print $2}')
+logger INFO "Uutcomes environment conda-lock hash: $outcomes_env_conda_lock_hash"
 
 facsimilab_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./full/python-env/facsimilab-conda-lock.yml | awk '{print $2}')
 logger INFO "Facsimilab environment conda-lock hash: $facsimilab_env_conda_lock_hash"
@@ -400,6 +407,96 @@ if [ "$build_main" = true ]; then
   logger INFO "Base container built: pranavmishra90/$CONTAINER_NAME"
 else
   logger WARN "Skipping main image build"
+fi
+
+
+# Outcomes container
+#-----------------------------------------------------------------------
+echo "---------------------------------------------------------------"
+printf "\n\n\n\n\n"
+echo "---------------------------------------------------------------"
+
+CONTAINER_NAME="facsimilab-outcomes-env":$facsimilab_version_num
+
+logger INFO "Building $CONTAINER_NAME"
+logger INFO "Conda file: $OUTCOMES_IMAGE_CONDA_FILE"
+
+docker pull docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
+
+# Build the python environment for the outcomes container
+if [ "$build_python_images" = true ]; then
+  
+
+  docker build --progress=plain \
+    --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+    --build-arg IMAGE_VERSION=$facsimilab_version_num \
+    --build-arg ISO_DATETIME=$ISO_DATETIME \
+    --build-arg PYTHON_ENV_IMAGE_VERSION=$PYTHON_ENV_IMAGE_VERSION \
+    --build-arg OUTCOMES_IMAGE_CONDA_FILE=$OUTCOMES_IMAGE_CONDA_FILE \
+    --output type=registry,push=false,name=pranavmishra90/$CONTAINER_NAME \
+    --metadata-file ./metadata/03-outcomes-env_metadata.json \
+    -t pranavmishra90/$CONTAINER_NAME \
+    -t pranavmishra90/facsimilab-outcomes-env:dev \
+    -t localhost:5000/facsimilab-outcomes-env:dev \
+    -t localhost:5000/$CONTAINER_NAME \
+    -f ./outcomes/outcomes-py-env.Dockerfile ./outcomes
+  PYTHON_ENV_IMAGE_VERSION=$facsimilab_version_num
+
+
+else
+  logger INFO "Skipping python environment build for the FULL image"
+  PYTHON_ENV_IMAGE_VERSION="dev"
+fi
+
+if [ "$GITHUB_ACTIONS" == "true" ]; then
+  logger INFO "Running in GitHub Actions"
+  PUSH_LOCATION="pranavmishra90"
+else
+  logger INFO "Not running in GitHub Actions"
+  PUSH_LOCATION="localhost:5000"
+
+fi
+
+logger INFO "Push location: $PUSH_LOCATION/$CONTAINER_NAME"
+docker push $PUSH_LOCATION/$CONTAINER_NAME
+docker push $PUSH_LOCATION/facsimilab-outcomes-env:dev
+
+
+logger INFO "Python environment image version: $PYTHON_ENV_IMAGE_VERSION"
+
+
+# Get the SHA of the outcomes environment's python image
+docker pull $PUSH_LOCATION/facsimilab-outcomes-env:$PYTHON_ENV_IMAGE_VERSION
+OUTCOMES_ENV_SHA=$(docker inspect $PUSH_LOCATION/facsimilab-outcomes-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
+echo "OUTCOMES_ENV_SHA=$OUTCOMES_ENV_SHA" >> .env
+logger INFO "Building the outcomes image using the python environment: facsimilab-outcomes-env:${PYTHON_ENV_IMAGE_VERSION}@${OUTCOMES_ENV_SHA}"
+
+
+
+
+# Start building the outcomes container
+CONTAINER_NAME="facsimilab-outcomes":$facsimilab_version_num
+
+
+if [ "$build_outcomes" = true ]; then
+docker buildx build --progress=auto \
+	--pull \
+	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
+	--build-arg IMAGE_VERSION=$facsimilab_version_num \
+	--build-arg ISO_DATETIME=$ISO_DATETIME \
+	--build-arg OUTCOMES_ENV_SHA=$OUTCOMES_ENV_SHA \
+	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-outcomes:buildcache \
+	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-outcomes:buildcache \
+	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
+  --output type=registry,push=true,name=pranavmishra90/facsimilab-outcomes:dev \
+	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
+	--metadata-file ./metadata/02-outcomes_metadata.json \
+	-f ./outcomes/outcomes-stage2.Dockerfile ./outcomes
+
+  logger INFO "Outcomes container built: pranavmishra90/$CONTAINER_NAME"
+
+else
+  logger WARN "Skipping outcomes image build"
 fi
 
 
