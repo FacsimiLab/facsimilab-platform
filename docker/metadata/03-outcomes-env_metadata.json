@@ -9,23 +9,24 @@
         }
       },
       {
-        "uri": "pkg:docker/pranavmishra90/facsimilab-base@v?platform=linux%2Famd64",
+        "uri": "pkg:docker/pranavmishra90/facsimilab-main@v?platform=linux%2Famd64",
         "digest": {
-          "sha256": "3febbe4432199c913ab96914119b2a221c910806d83cd9a41f9ab3af0782a412"
+          "sha256": "ef2257d7faad05db1d20ea575c87276dca2a72fc3ec5b3db836679b5d8251aa0"
         }
       }
     ],
     "invocation": {
       "configSource": {
-        "entryPoint": "main-py-env.Dockerfile"
+        "entryPoint": "outcomes-py-env.Dockerfile"
       },
       "parameters": {
         "frontend": "gateway.v0",
         "args": {
           "build-arg:IMAGE_REPO_PREFIX": "docker.io/pranavmishra90/",
           "build-arg:IMAGE_VERSION": "v",
-          "build-arg:ISO_DATETIME": "",
-          "build-arg:MAIN_IMAGE_CONDA_FILE": "environment.yml",
+          "build-arg:ISO_DATETIME": "2025-03-13T21:15:37-05:00",
+          "build-arg:OUTCOMES_IMAGE_CONDA_FILE": "environment.yml",
+          "build-arg:PYTHON_ENV_IMAGE_VERSION": "v",
           "cmdline": "docker/dockerfile:1",
           "source": "docker/dockerfile:1"
         },
@@ -43,8 +44,8 @@
       }
     }
   },
-  "buildx.build.ref": "default/default/j2l389dbar1ogkvj1b9lns2zj",
-  "containerimage.config.digest": "sha256:9b1a975efe11e63189c4ae4c064a81ee86a48d9031519047e4e07ac75eebac9a",
-  "containerimage.digest": "sha256:9b1a975efe11e63189c4ae4c064a81ee86a48d9031519047e4e07ac75eebac9a",
-  "image.name": "docker.io/pranavmishra90/facsimilab-main-env:v,docker.io/pranavmishra90/facsimilab-main-env:dev,docker.io/pranavmishra90/facsimilab-main-env:v"
+  "buildx.build.ref": "default/default/fdmtfttaezzh9hmpw0lnpqqzc",
+  "containerimage.config.digest": "sha256:f797b53286d2c8d82668323efeaa992346d238e81ccf895bb2f42a65eefc2f32",
+  "containerimage.digest": "sha256:f797b53286d2c8d82668323efeaa992346d238e81ccf895bb2f42a65eefc2f32",
+  "image.name": "docker.io/pranavmishra90/facsimilab-outcomes-env:v,docker.io/pranavmishra90/facsimilab-outcomes-env:dev,localhost:5000/facsimilab-outcomes-env:dev,localhost:5000/facsimilab-outcomes-env:v"
 }

@@ -111,11 +111,13 @@ else
 		logger ERROR "No build_parameters file found"
     build_base=true
     build_main=true
+    build_outcomes=true
     build_full=true
     generate_conda_lock=false
     build_python_images=false
     logger INFO "Building all images"
     MAIN_IMAGE_CONDA_FILE="main-conda-lock.yml"
+    OUTCOMES_IMAGE_CONDA_FILE="outcomes-conda-lock.yml"
     FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"
 fi
 
