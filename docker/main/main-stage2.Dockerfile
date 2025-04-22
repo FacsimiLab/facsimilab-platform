@@ -40,8 +40,6 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 		echo "$MAMBA_USER ALL=NOPASSWD: ALL" >> /etc/sudoers && \
 		apt install -y /tmp/quarto.deb && \
 		quarto install tinytex && \
-		apt install -y --no-install-recommends \
-		jq && \
 		/usr/bin/pipx install conda-lock && \
 		mkdir -p /config/rclone && \
 		apt clean && \

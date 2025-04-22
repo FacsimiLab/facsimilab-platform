@@ -1,20 +1,43 @@
 [tool.semantic_release]
 assets = []
 build_command_env = ['GH_TOKEN']
-build_command="bash docker/build.sh"
-commit_message = "ci(release): Tag and Release v{version}"
+build_command = 'echo "Building" '
+commit_message = "ci(semantic-release): Tag and Release v{version}"
 commit_parser = "angular"
+
 logging_use_named_masks = false
-major_on_zero = true
 allow_zero_version = true
+major_on_zero = true
 no_git_verify = false
+
 tag_format = "v{version}"
 upload_to_release = true
 template_dir="./github/templates"
 
+[tool.semantic_release.commit_author]
+env = "GIT_COMMIT_AUTHOR"
+default = "FacsimiLab-Bot <195262995+facsimilab-bot@users.noreply.github.com>"
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
+minor_tags = ["feat", "docs"]
+patch_tags = ["fix", "perf"]
+default_bump_level = 0
+
+[tool.semantic_release.default_templates]
+changelog_file = "CHANGELOG.md"
+output_format="md"
+template_dir="./github/templates"
+
+
+[tool.semantic_release.branches.release]
+match = "release"
+prerelease = false
+
 [tool.semantic_release.branches.main]
 match = "(main|master)"
-prerelease = false
+prerelease = true
+prerelease_token = "rc"
 
 [tool.semantic_release.branches.develop]
 match = "develop"
@@ -22,10 +45,6 @@ prerelease_token = "beta"
 prerelease = true
 
 [tool.semantic_release.changelog]
-changelog_file = "changelog.md"
-
-[tool.semantic_release.default_templates]
-template_dir = "./github/templates"
 changelog_file = "changelog.md"
 
 
@@ -42,16 +61,6 @@ newline_sequence = "\n"
 keep_trailing_newline = false
 extensions = []
 autoescape = true
-
-[tool.semantic_release.commit_author]
-env = "GIT_COMMIT_AUTHOR"
-default = "Pranav Kumar Mishra <62562712+pranavmishra90@users.noreply.github.com>"
-
-[tool.semantic_release.commit_parser_options]
-allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
-minor_tags = ["feat"]
-patch_tags = ["fix", "perf"]
-default_bump_level = 1
 
 [tool.semantic_release.remote]
 name = "origin"
