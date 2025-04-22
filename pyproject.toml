@@ -1,7 +1,7 @@
 [tool.semantic_release]
 assets = []
 build_command_env = ['GH_TOKEN']
-build_command="bash docker/build.sh"
+build_command="echo 'Build process is skipped in pyproject.toml' "
 commit_message = "ci(release): Tag and Release v{version}"
 commit_parser = "angular"
 logging_use_named_masks = false
