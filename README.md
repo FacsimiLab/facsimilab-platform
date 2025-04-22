@@ -4,8 +4,6 @@ You can select from our current recommended image `pranavmishra90/facsimilab-ful
 
 ## Platform Images
 
-[![Docker Python Packages](https://github.com/pranavmishra90/facsimilab-platform/actions/workflows/python-packages.yml/badge.svg)](https://github.com/pranavmishra90/facsimilab-platform/actions/workflows/python-packages.yml)
-
 - **facsimilab-base**: Adds functionality for python (micromamba) and a number of apt packages into the CUDA capable `nvidia/cuda:12.1.0-base-ubuntu22.04`
 
 - **facsimilab-main**: Creates a python 3.11 [base environment](./docker/main/environment.yml) with the essentials for statistics, graphing, documention, and reproducible science with `datalad`, `quarto`, and `rclone`

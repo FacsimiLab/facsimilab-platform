@@ -1,0 +1,87 @@
+name: Continuous Improvement
+
+on:
+  push:
+    branches:
+      - rc
+      - main
+  pull_request:
+    branches:
+      - release
+      - rc
+    types:
+      - opened
+      - assigned
+      - labeled
+      - ready_for_review
+
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+
+  semantic-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Note: we need to checkout the repository at the workflow sha in case during the workflow
+      # the branch was updated. To keep PSR working with the configured release branches,
+      # we force a checkout of the desired release branch but at the workflow sha HEAD.
+      - name: Setup | Checkout Repository at workflow sha
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+          
+      - name: Setup | Force correct release branch on workflow SHA
+        run: |
+          git checkout -B ${{ github.ref_name }}
+
+      - name: Python Semantic Release (Main Branch)
+        id: semvar-tag-main-branch
+        if: ${{ github.ref_name == 'main' }}
+        uses: pranavmishra90/semvar-docker@v0.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_email: "195262995+facsimilab-bot@users.noreply.github.com"
+          ssh_private_signing_key: ${{ secrets.FACSIMILAB_BOT_SSHKEY }}
+          ssh_public_signing_key: ${{ secrets.FACSIMILAB_BOT_SSH_PUBKEY }}
+          changelog: "true"
+          commit: "false"
+          tag: "false"
+          vcs_release: "false"
+          push: "false"
+          root_options: "-vv"
+
+
+      - name: Python Semantic Release
+        id: semvar-tag-rc
+        if: ${{ github.ref_name != 'main' }}
+        uses: pranavmishra90/semvar-docker@v0.2.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          git_committer_email: "195262995+facsimilab-bot@users.noreply.github.com"
+          ssh_private_signing_key: ${{ secrets.FACSIMILAB_BOT_SSHKEY }}
+          ssh_public_signing_key: ${{ secrets.FACSIMILAB_BOT_SSH_PUBKEY }}
+          changelog: "true"
+          commit: "true"
+          tag: "true"
+          vcs_release: "false"
+          push: "true"
+          root_options: "-vv"
+
+      - name: Workflow Status
+        run: |
+          echo "## Python Semantic Release - GitHub Action" >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "Version: ${{ steps.semvar-main-branch.outputs.version }} ${{ steps.semvar-tag-rc.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          printf "Tags: \n\n$(git tag -l)\n\n" >> $GITHUB_STEP_SUMMARY
+          echo "Released: ${{ steps.semvar-main-branch.outputs.released }}" >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
