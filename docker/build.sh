@@ -92,7 +92,7 @@ logger INFO "FacsimiLab: Build process initiated"
 # Variables
 ISO_DATETIME=$(current_datetime)
 facsimilab_username="coder"
-base_image_name="nvidia/cuda:12.6.3-base-ubuntu22.04"
+base_image_name="nvidia/cuda:12.8.1-base-ubuntu22.04"
 DOCKER_BUILDKIT=1 # use docker buildx caching
 BUILDX_METADATA_PROVENANCE=max
 IMAGE_REPO_PREFIX="docker.io/pranavmishra90/"
@@ -410,98 +410,6 @@ if [ "$build_main" = true ]; then
 else
   logger WARN "Skipping main image build"
 fi
-
-
-# Outcomes container
-#-----------------------------------------------------------------------
-echo "---------------------------------------------------------------"
-printf "\n\n\n\n\n"
-echo "---------------------------------------------------------------"
-
-CONTAINER_NAME="facsimilab-outcomes-env":$facsimilab_version_num
-
-logger INFO "Building $CONTAINER_NAME"
-logger INFO "Conda file: $OUTCOMES_IMAGE_CONDA_FILE"
-
-docker pull docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
-
-# Build the python environment for the outcomes container
-if [ "$build_python_images" = true ]; then
-  
-
-  docker build --progress=plain \
-    --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-    --build-arg IMAGE_VERSION=$facsimilab_version_num \
-    --build-arg ISO_DATETIME=$ISO_DATETIME \
-    --build-arg PYTHON_ENV_IMAGE_VERSION=$PYTHON_ENV_IMAGE_VERSION \
-    --build-arg OUTCOMES_IMAGE_CONDA_FILE=$OUTCOMES_IMAGE_CONDA_FILE \
-    --output type=registry,push=false,name=pranavmishra90/$CONTAINER_NAME \
-    --metadata-file ./metadata/03-outcomes-env_metadata.json \
-    -t pranavmishra90/$CONTAINER_NAME \
-    -t pranavmishra90/facsimilab-outcomes-env:dev \
-    -t localhost:5000/facsimilab-outcomes-env:dev \
-    -t localhost:5000/$CONTAINER_NAME \
-    -f ./outcomes/outcomes-py-env.Dockerfile ./outcomes
-  PYTHON_ENV_IMAGE_VERSION=$facsimilab_version_num
-
-
-else
-  logger INFO "Skipping python environment build for the FULL image"
-  PYTHON_ENV_IMAGE_VERSION="dev"
-fi
-
-if [ "$GITHUB_ACTIONS" == "true" ]; then
-  logger INFO "Running in GitHub Actions"
-  PUSH_LOCATION="pranavmishra90"
-else
-  logger INFO "Not running in GitHub Actions"
-  PUSH_LOCATION="localhost:5000"
-
-fi
-
-logger INFO "Push location: $PUSH_LOCATION/$CONTAINER_NAME"
-docker push $PUSH_LOCATION/$CONTAINER_NAME
-docker push $PUSH_LOCATION/facsimilab-outcomes-env:dev
-
-
-logger INFO "Python environment image version: $PYTHON_ENV_IMAGE_VERSION"
-
-
-# Get the SHA of the outcomes environment's python image
-docker pull $PUSH_LOCATION/facsimilab-outcomes-env:$PYTHON_ENV_IMAGE_VERSION
-OUTCOMES_ENV_SHA=$(docker inspect $PUSH_LOCATION/facsimilab-outcomes-env:$PYTHON_ENV_IMAGE_VERSION --format '{{index .RepoDigests 0}}' | cut -d '@' -f2)
-echo "OUTCOMES_ENV_SHA=$OUTCOMES_ENV_SHA" >> .env
-logger INFO "Building the outcomes image using the python environment: facsimilab-outcomes-env:${PYTHON_ENV_IMAGE_VERSION}@${OUTCOMES_ENV_SHA}"
-
-
-
-
-# Start building the outcomes container
-CONTAINER_NAME="facsimilab-outcomes":$facsimilab_version_num
-
-
-if [ "$build_outcomes" = true ]; then
-docker buildx build --progress=auto \
-	--pull \
-	--build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
-	--build-arg IMAGE_VERSION=$facsimilab_version_num \
-	--build-arg ISO_DATETIME=$ISO_DATETIME \
-	--build-arg OUTCOMES_ENV_SHA=$OUTCOMES_ENV_SHA \
-	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-outcomes:buildcache \
-	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-outcomes:buildcache \
-	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
-  --output type=registry,push=true,name=pranavmishra90/facsimilab-outcomes:dev \
-	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
-	--metadata-file ./metadata/02-outcomes_metadata.json \
-	-f ./outcomes/outcomes-stage2.Dockerfile ./outcomes
-
-  logger INFO "Outcomes container built: pranavmishra90/$CONTAINER_NAME"
-
-else
-  logger WARN "Skipping outcomes image build"
-fi
-
-
 
 # Full container
 #-----------------------------------------------------------------------
