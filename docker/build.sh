@@ -278,7 +278,7 @@ echo "-----------------------------------------"
 # fi
 
 # cd cuda
-# ./build.sh -d --image-name docker.io/pranavmishra90/cuda --cuda-version 12.6.3 --os ubuntu --os-version 22.04 --arch x86_64 --push
+# ./build.sh -d --image-name docker.io/pranavmishra90/cuda --cuda-version 12.8.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
 # cd ..
 
 # # Base container
