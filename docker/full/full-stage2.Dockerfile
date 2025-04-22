@@ -29,7 +29,6 @@ USER root
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    jq \
     zoxide \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \

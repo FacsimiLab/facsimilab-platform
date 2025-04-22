@@ -4,7 +4,7 @@ build_base=true
 build_main=true
 build_full=true
 
-generate_conda_lock=true
+generate_conda_lock=false
 build_python_images=true
 
 DOCKER_BUILDKIT=1 # use docker buildx caching
@@ -16,7 +16,7 @@ cache_registry="docker.io/pranavmishra90"
 
 facsimilab_username="coder"
 
-MAIN_IMAGE_CONDA_FILE="base-conda-lock.yml" #"base-conda-lock.yml" #"environment.yml"
+MAIN_IMAGE_CONDA_FILE="environment.yml" #"base-conda-lock.yml" #"environment.yml"
 FULL_IMAGE_CONDA_FILE="environment.yml" #"facsimilab-conda-lock.yml"
 
 CONDA_OVERRIDE_CUDA="12.6"
