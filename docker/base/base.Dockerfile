@@ -58,6 +58,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     systemd \
     systemd-sysv \
     pipx \
+    rsync \
     sudo \
     tini \
     tree \
