@@ -29,8 +29,8 @@
           "build-arg:BASE_IMAGE_EXACT": "nvidia/cuda:12.6.3-base-ubuntu22.04@sha256:a10f328daee4e6797838a34d5eab69618b907f6313f5e6370dc6ea0105ae9628",
           "build-arg:BASE_IMAGE_NAME": "nvidia/cuda:12.6.3-base-ubuntu22.04",
           "build-arg:BASE_IMAGE_SHA": "sha256:a10f328daee4e6797838a34d5eab69618b907f6313f5e6370dc6ea0105ae9628",
-          "build-arg:IMAGE_VERSION": "v",
-          "build-arg:ISO_DATETIME": "2025-03-13T21:15:37-05:00",
+          "build-arg:IMAGE_VERSION": "v0.4.0-rc.1",
+          "build-arg:ISO_DATETIME": "2025-04-22T18:02:37-05:00",
           "cmdline": "docker/dockerfile:1",
           "source": "docker/dockerfile:1"
         },
@@ -48,21 +48,21 @@
       }
     }
   },
-  "buildx.build.ref": "cuda/cuda/m10qva4dnq5dpu7o13rus3lby",
-  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:94dc4da80abcb0b7a60210a38d18cfafd3ac53f5537fef18b605cb93d003a9ba\",\"size\":6154}",
-  "containerimage.config.digest": "sha256:b31197c06d3393a84d14a41ccb92d5d4a913bfd568700ca5f9fe72ab11d2e090",
+  "buildx.build.ref": "cuda/cuda/n1zqqdn258euei82nidzlwdr0",
+  "cache.manifest": "{\"mediaType\":\"application/vnd.oci.image.index.v1+json\",\"digest\":\"sha256:fa429694b64f23438b765556ea4ad04d16bf6c2c89a4c1d38567a7f6c1c0da80\",\"size\":6152}",
+  "containerimage.config.digest": "sha256:402c3608927ff2b4dda87c6f42f4791a80fe88e1ce739b4c438be83ac5ef52c9",
   "containerimage.descriptor": {
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
-    "digest": "sha256:8b2d7136923c3a6edbed0955899224718517423080c66163b33ba7084126f0f3",
+    "digest": "sha256:5842286c5d6ef186500652497000e1c73565278b6471ad17143063dd41058f39",
     "size": 3829,
     "annotations": {
-      "org.opencontainers.image.created": "2025-03-14T02:16:37Z"
+      "org.opencontainers.image.created": "2025-04-22T23:04:05Z"
     },
     "platform": {
       "architecture": "amd64",
       "os": "linux"
     }
   },
-  "containerimage.digest": "sha256:8b2d7136923c3a6edbed0955899224718517423080c66163b33ba7084126f0f3",
-  "image.name": "docker.io/pranavmishra90/facsimilab-base:v"
+  "containerimage.digest": "sha256:5842286c5d6ef186500652497000e1c73565278b6471ad17143063dd41058f39",
+  "image.name": "docker.io/pranavmishra90/facsimilab-base:v0.4.0-rc.1"
 }
