@@ -14,6 +14,7 @@ on:
       - assigned
       - labeled
       - ready_for_review
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -86,7 +87,7 @@ jobs:
           printf "Tags: \n\n$(git tag -l)\n\n" >> $GITHUB_STEP_SUMMARY
           echo "Released: ${{ steps.semvar-main-branch.outputs.released }}" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
+          cat changelog.md >> $GITHUB_STEP_SUMMARY
 
       - name: Update changelog branch
         run: |
