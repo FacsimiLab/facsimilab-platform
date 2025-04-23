@@ -101,7 +101,7 @@ jobs:
           TARGET_BRANCH="ci/changelog"
           COMMIT_MSG="ci: update changelog "
 
-          git checkout $TARGET_BRANCH || git checkout -b $TARGET_BRANCH
+          git fetch origin $TARGET_BRANCH || git branch $TARGET_BRANCH
           git worktree add ../changelog-worktree $TARGET_BRANCH
 
           cp $CHANGELOG_FILE ../changelog-worktree/
