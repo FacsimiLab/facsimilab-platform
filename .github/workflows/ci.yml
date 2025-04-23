@@ -14,6 +14,7 @@ on:
       - assigned
       - labeled
       - ready_for_review
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -38,6 +39,8 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
+          fetch-tags: true
+          ssh-key: ${{ secrets.FACSIMILAB_BOT_SSHKEY }}
           
       - name: Setup | Force correct release branch on workflow SHA
         run: |
@@ -56,13 +59,13 @@ jobs:
           commit: "true"
           tag: "true"
           vcs_release: "false"
-          push: "true"
+          push: "false"
           root_options: "-v"
 
 
       - name: Python Semantic Release
         id: semvar-tag-rc
-        if: ${{ github.ref_name != 'main' }}
+        if: ${{ github.ref_name == 'rc' }}
         uses: pranavmishra90/semvar-docker@v0.2.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -84,4 +87,28 @@ jobs:
           printf "Tags: \n\n$(git tag -l)\n\n" >> $GITHUB_STEP_SUMMARY
           echo "Released: ${{ steps.semvar-main-branch.outputs.released }}" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
+          cat changelog.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Update changelog branch
+        run: |
+          git config --global user.email "195262995+facsimilab-bot@users.noreply.github.com"
+          git config --global user.name "FacsimiLab [Bot]"
+          git config --global user.signingkey "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAEjI+PVQQhQjLVRmB6NnDJhqXKaVjzcr4KG1vqMkd2m  FacsimiLab [Bot]"
+          git config --global gpg.format ssh
+          git config --global commit.gpgsign true
+          git config --global tag.gpgSign true
+
+          CHANGELOG_FILE="changelog.md"
+          TARGET_BRANCH="ci/changelog"
+          COMMIT_MSG="ci: update changelog "
+
+          git fetch origin $TARGET_BRANCH || git branch $TARGET_BRANCH
+          git worktree add ../changelog-worktree $TARGET_BRANCH
+
+          cp $CHANGELOG_FILE ../changelog-worktree/
+
+          cd ../changelog-worktree
+
+          git add $CHANGELOG_FILE
+          git commit -m "$COMMIT_MSG"
+          git push origin $TARGET_BRANCH
