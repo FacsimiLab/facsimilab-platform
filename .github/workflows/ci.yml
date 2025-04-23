@@ -102,13 +102,24 @@ jobs:
           TARGET_BRANCH="ci/changelog"
           COMMIT_MSG="ci: update changelog "
 
-          git fetch origin $TARGET_BRANCH || git branch $TARGET_BRANCH
+          git show-ref --verify --quiet refs/remotes/origin/$TARGET_BRANCH || git push origin origin/main:$TARGET_BRANCH
+
           git worktree add ../changelog-worktree $TARGET_BRANCH
 
           cp $CHANGELOG_FILE ../changelog-worktree/
 
           cd ../changelog-worktree
 
+          echo $(ls -ah) >> $GITHUB_STEP_SUMMARY
+
           git add $CHANGELOG_FILE
-          git commit -m "$COMMIT_MSG"
-          git push origin $TARGET_BRANCH
+
+          if git diff --quiet --cached; then
+            echo "No CHANGELOG changes to commit." >> $GITHUB_STEP_SUMMARY
+          else
+            git commit -m "$COMMIT_MSG"
+            git push origin $TARGET_BRANCH
+          fi
+
+          cd -
+          git worktree remove ../changelog-worktree --force
