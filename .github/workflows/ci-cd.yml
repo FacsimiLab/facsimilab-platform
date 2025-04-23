@@ -88,4 +88,4 @@ jobs:
           printf "Tags: \n$(git tag -l)" >> $GITHUB_STEP_SUMMARY
           echo "Released: ${{ steps.semvar.outputs.released }}" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
+          cat changelog.md >> $GITHUB_STEP_SUMMARY
