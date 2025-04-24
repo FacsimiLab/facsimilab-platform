@@ -42,30 +42,6 @@ services:
         - "pranavmishra90/facsimilab-main:dev"
         - "pranavmishra90/facsimilab-main:$IMAGE_VERSION"
 
-  outcomes:
-    image: pranavmishra90/facsimilab-outcomes:$IMAGE_VERSION
-    depends_on:
-      - base
-    build:
-      context: outcomes
-      dockerfile: outcomes-stage2.Dockerfile
-      no_cache: false
-      args:
-        IMAGE_VERSION: $IMAGE_VERSION
-        IMAGE_REPO_PREFIX: $IMAGE_REPO_PREFIX
-        ISO_DATETIME: $ISO_DATETIME
-        OUTCOMES_ENV_SHA: $OUTCOMES_ENV_SHA
-        OUTCOMES_IMAGE_CONDA_FILE: $OUTCOMES_IMAGE_CONDA_FILE
-        BASE_IMAGE_SHA: $BASE_IMAGE_SHA
-      cache_from:
-        - type=registry,mode=max,ref=docker.io/pranavmishra90/facsimilab-outcomes:buildcache
-      cache_to:
-        - type=registry,mode=max,ref=docker.io/pranavmishra90/facsimilab-outcomes:buildcache
-      tags:
-        - "pranavmishra90/facsimilab-outcomes:dev"
-        - "pranavmishra90/facsimilab-outcomes:$IMAGE_VERSION"
-
-
   full:
     image: pranavmishra90/facsimilab-full:$IMAGE_VERSION
     depends_on:

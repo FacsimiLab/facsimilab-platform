@@ -17,7 +17,6 @@ cache_registry="docker.io/pranavmishra90"
 facsimilab_username="coder"
 
 MAIN_IMAGE_CONDA_FILE="environment.yml" #"base-conda-lock.yml" #"environment.yml"
-OUTCOMES_IMAGE_CONDA_FILE="environment.yml" #"outcomes-conda-lock.yml"
 FULL_IMAGE_CONDA_FILE="environment.yml" #"facsimilab-conda-lock.yml"
 
 CONDA_OVERRIDE_CUDA="12.8"
