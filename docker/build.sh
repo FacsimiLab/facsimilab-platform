@@ -116,7 +116,6 @@ else
     build_python_images=false
     logger INFO "Building all images"
     MAIN_IMAGE_CONDA_FILE="main-conda-lock.yml"
-    OUTCOMES_IMAGE_CONDA_FILE="outcomes-conda-lock.yml"
     FULL_IMAGE_CONDA_FILE="facsimilab-conda-lock.yml"
 fi
 
@@ -233,11 +232,6 @@ if [ "$generate_conda_lock" = true ]; then
     logger INFO "Conda lock file generated for the base environment (main container)"
   ) &
   (
-    bash ./main/generate-outcomes-conda-lock.sh
-    logger INFO "Conda lock file generated for the outcomes environment (outcomes container)"
-  ) &
-
-  (
     bash ./full/generate-facsimilab-conda-lock.sh
     logger INFO "Conda lock file generated for the facsimilab environment (full container)"
   ) &
@@ -250,9 +244,6 @@ fi
 # Parse base-conda-lock.yml
 base_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./main/python-env/base-conda-lock.yml | awk '{print $2}')
 logger INFO "Base environment conda-lock hash: $base_env_conda_lock_hash"
-
-outcomes_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./full/python-env/outcomes-conda-lock.yml | awk '{print $2}')
-logger INFO "Uutcomes environment conda-lock hash: $outcomes_env_conda_lock_hash"
 
 facsimilab_env_conda_lock_hash=$(awk '/content_hash:/ {getline; print}' ./full/python-env/facsimilab-conda-lock.yml | awk '{print $2}')
 logger INFO "Facsimilab environment conda-lock hash: $facsimilab_env_conda_lock_hash"
