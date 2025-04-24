@@ -6,11 +6,11 @@ FROM mambaorg/micromamba:2.0.5 AS micromamba
 
 # ARG BASE_IMAGE_SHA="SHA"
 
-FROM nvidia/cuda:12.6.3-base-ubuntu24.04
+FROM nvidia/cuda:12.8.1-base-ubuntu24.04
 
 # This base image was created with
-# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.6.3 --os ubuntu --os-version 24.04 --arch x86_64
-# taken from https://gitlab.com/nvidia/container-images/cuda || alternative: FROM nvidia/cuda:12.6.3-base-ubuntu24.04
+# ./build.sh -d --image-name pranavmishra90/cuda --cuda-version 12.8.1 --os ubuntu --os-version 24.04 --arch x86_64
+# taken from https://gitlab.com/nvidia/container-images/cuda || alternative: FROM nvidia/cuda:12.8.1-base-ubuntu24.04
 
 ############################
 ARG IMAGE_VERSION="dev"
@@ -58,6 +58,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     systemd \
     systemd-sysv \
     pipx \
+    rsync \
     sudo \
     tini \
     tree \
@@ -126,5 +127,5 @@ LABEL org.opencontainers.image.description="Base image || FacsimiLab - A docker 
 LABEL org.opencontainers.image.source="https://github.com/FacsimiLab/FacsimiLab-platform"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.created=${ISO_DATETIME}
-LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/cuda:12.6.3-base-ubuntu22.04"
+LABEL org.opencontainers.image.base.name="docker.io/pranavmishra90/cuda:12.8.1-base-ubuntu22.04"
 LABEL org.opencontainers.image.base.digest=${BASE_IMAGE_SHA}

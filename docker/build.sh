@@ -92,7 +92,7 @@ logger INFO "FacsimiLab: Build process initiated"
 # Variables
 ISO_DATETIME=$(current_datetime)
 facsimilab_username="coder"
-base_image_name="nvidia/cuda:12.6.3-base-ubuntu22.04"
+base_image_name="nvidia/cuda:12.8.1-base-ubuntu22.04"
 DOCKER_BUILDKIT=1 # use docker buildx caching
 BUILDX_METADATA_PROVENANCE=max
 IMAGE_REPO_PREFIX="docker.io/pranavmishra90/"
@@ -231,7 +231,6 @@ if [ "$generate_conda_lock" = true ]; then
     bash ./main/generate-base-conda-lock.sh
     logger INFO "Conda lock file generated for the base environment (main container)"
   ) &
-
   (
     bash ./full/generate-facsimilab-conda-lock.sh
     logger INFO "Conda lock file generated for the facsimilab environment (full container)"
@@ -269,7 +268,7 @@ echo "-----------------------------------------"
 # fi
 
 # cd cuda
-# ./build.sh -d --image-name docker.io/pranavmishra90/cuda --cuda-version 12.6.3 --os ubuntu --os-version 22.04 --arch x86_64 --push
+# ./build.sh -d --image-name docker.io/pranavmishra90/cuda --cuda-version 12.8.1 --os ubuntu --os-version 22.04 --arch x86_64 --push
 # cd ..
 
 # # Base container
@@ -401,8 +400,6 @@ if [ "$build_main" = true ]; then
 else
   logger WARN "Skipping main image build"
 fi
-
-
 
 # Full container
 #-----------------------------------------------------------------------

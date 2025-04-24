@@ -1,3 +1,12 @@
+[project]
+name = "faxlab"
+authors = [
+    {name = "Pranav Kumar Mishra", email = "62562712+pranavmishra90@users.noreply.github.com"},
+]
+readme = "readme.md"
+requires-python = "3.11"
+dynamic=["version"]
+
 [tool.semantic_release]
 assets = []
 build_command_env = ['GH_TOKEN']

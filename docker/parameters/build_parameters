@@ -1,16 +1,16 @@
 #!/bin/bash
 
 build_base=true
-build_main=true
-build_full=true
+build_main=false
+build_full=false
 
 generate_conda_lock=false
-build_python_images=true
+build_python_images=false
 
 DOCKER_BUILDKIT=1 # use docker buildx caching
 BUILDX_METADATA_PROVENANCE=max
 
-base_image_name="nvidia/cuda:12.6.3-base-ubuntu22.04"
+base_image_name="nvidia/cuda:12.8.1-base-ubuntu22.04"
 IMAGE_REPO_PREFIX="docker.io/pranavmishra90/"
 cache_registry="docker.io/pranavmishra90"
 
@@ -19,4 +19,4 @@ facsimilab_username="coder"
 MAIN_IMAGE_CONDA_FILE="environment.yml" #"base-conda-lock.yml" #"environment.yml"
 FULL_IMAGE_CONDA_FILE="environment.yml" #"facsimilab-conda-lock.yml"
 
-CONDA_OVERRIDE_CUDA="12.6"
+CONDA_OVERRIDE_CUDA="12.8"
