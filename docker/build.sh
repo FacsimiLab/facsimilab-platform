@@ -111,7 +111,6 @@ else
 		logger ERROR "No build_parameters file found"
     build_base=true
     build_main=true
-    build_outcomes=true
     build_full=true
     generate_conda_lock=false
     build_python_images=false
