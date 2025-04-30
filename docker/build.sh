@@ -418,7 +418,7 @@ docker pull docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
 if [ "$build_python_images" = true ]; then
   
 
-  docker build --progress=plain \
+  docker build --progress=auto \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
     --build-arg ISO_DATETIME=$ISO_DATETIME \
@@ -478,6 +478,7 @@ docker buildx build --progress=auto \
 	--build-arg FULL_ENV_SHA=$FULL_ENV_SHA \
 	--cache-from type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
 	--cache-to type=registry,mode=max,oci-mediatypes=true,ref=docker.io/pranavmishra90/facsimilab-full:buildcache \
+  --cache-from localhost:5000/facsimilab-full-env:dev \
 	--output type=registry,push=true,name=pranavmishra90/$CONTAINER_NAME \
   --output type=registry,push=true,name=pranavmishra90/facsimilab-full:dev \
 	--output type=docker,name=pranavmishra90/$CONTAINER_NAME \
