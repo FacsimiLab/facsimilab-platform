@@ -33,3 +33,4 @@
 /docker/full/python-env/old-facsimilab-conda-lock.yml
 
 *.code-workspace
+/workspaces
