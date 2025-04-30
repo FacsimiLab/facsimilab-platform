@@ -59,6 +59,7 @@ jobs:
           git_committer_email: "195262995+facsimilab-bot@users.noreply.github.com"
           ssh_private_signing_key: ${{ secrets.FACSIMILAB_BOT_SSHKEY }}
           ssh_public_signing_key: ${{ secrets.FACSIMILAB_BOT_SSH_PUBKEY }}
+          build: "false"
           vcs_release: "true"
           changelog: "true"
           commit: "true"
