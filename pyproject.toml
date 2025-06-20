@@ -34,7 +34,7 @@ patch_tags = ["fix", "perf"]
 default_bump_level = 0
 
 [tool.semantic_release.default_templates]
-changelog_file = "CHANGELOG.md"
+changelog_file = "changelog.md"
 output_format="md"
 template_dir="./github/templates"
 
