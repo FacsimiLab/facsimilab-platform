@@ -31,7 +31,7 @@ default = "FacsimiLab [BOT] <195262995+facsimilab-bot@users.noreply.github.com>"
 allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
 minor_tags = ["feat", "docs"]
 patch_tags = ["fix", "perf"]
-default_bump_level = 0
+default_bump_level = 1
 
 [tool.semantic_release.default_templates]
 changelog_file = "CHANGELOG.md"
