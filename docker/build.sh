@@ -418,7 +418,7 @@ docker pull docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
 if [ "$build_python_images" = true ]; then
   
 
-  docker build --progress=plain \
+  docker build --progress=auto \
     --build-arg IMAGE_REPO_PREFIX=$IMAGE_REPO_PREFIX \
     --build-arg IMAGE_VERSION=$facsimilab_version_num \
     --build-arg ISO_DATETIME=$ISO_DATETIME \

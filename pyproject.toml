@@ -10,7 +10,7 @@ dynamic=["version"]
 [tool.semantic_release]
 assets = []
 build_command_env = ['GH_TOKEN']
-build_command = 'echo "Building" '
+build_command = 'bash docker/build.sh'
 commit_message = "ci(semantic-release): Tag and Release v{version}"
 commit_parser = "angular"
 
@@ -34,7 +34,7 @@ patch_tags = ["fix", "perf"]
 default_bump_level = 0
 
 [tool.semantic_release.default_templates]
-changelog_file = "CHANGELOG.md"
+changelog_file = "changelog.md"
 output_format="md"
 template_dir="./github/templates"
 
@@ -52,10 +52,6 @@ prerelease_token = "rc"
 match = "develop"
 prerelease_token = "beta"
 prerelease = true
-
-[tool.semantic_release.changelog]
-changelog_file = "changelog.md"
-
 
 [tool.semantic_release.changelog.environment]
 block_start_string = "{%"
