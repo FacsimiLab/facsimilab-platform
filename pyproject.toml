@@ -10,7 +10,7 @@ dynamic=["version"]
 [tool.semantic_release]
 assets = []
 build_command_env = ['GH_TOKEN']
-build_command = 'echo "Building" '
+build_command = 'bash ./docker/build.sh'
 commit_message = "ci(semantic-release): automatic update - v{version}"
 commit_parser = "angular"
 
