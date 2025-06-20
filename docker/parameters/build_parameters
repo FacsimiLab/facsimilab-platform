@@ -4,8 +4,8 @@ build_base=true
 build_main=true
 build_full=true
 
-generate_conda_lock=false
-build_python_images=false
+generate_conda_lock=true
+build_python_images=true
 
 DOCKER_BUILDKIT=1 # use docker buildx caching
 BUILDX_METADATA_PROVENANCE=max
