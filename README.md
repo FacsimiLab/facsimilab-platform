@@ -39,6 +39,6 @@ bash build.sh
 
 [MIT License](./LICENSE)
 
-Copyright (c) 2022-2024 Pranav Kumar Mishra
+Copyright (c) 2022-2025 Pranav Kumar Mishra
 
-Licenses and references of open-source projects that contribute significantly to FacsimiLab are listed in [Licenses](./licenses/licenses-overview.md)
+Licenses and references of open-source projects that contribute significantly to FacsimiLab are listed in [Licenses](./licenses/readme.md)
