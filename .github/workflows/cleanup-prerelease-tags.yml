@@ -17,15 +17,15 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Ensure all tags are fetched
 
-      - name: List and Delete Tags Containing 'rc'
+      - name: List and Delete Tags Pre-Release Tags
         id: list_tags
         run: |
-          echo "Searching for tags containing 'rc'..."
-          TAGS=$(git tag --list "*rc*")
+          echo "Searching for tags containing rc, beta, etc."
+          TAGS=$(git tag --list "*rc*" "*beta*")
           echo "Found tags:"
           echo "$TAGS"
           if [ -z "$TAGS" ]; then
@@ -45,4 +45,4 @@ jobs:
 
       - name: Success Message
         run: |
-          echo "Completed deleting all tags containing 'rc'."
+          echo "Completed deleting the pre-release tags.
