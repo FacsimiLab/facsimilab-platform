@@ -44,7 +44,7 @@ match = "release"
 prerelease = false
 
 [tool.semantic_release.branches.main]
-match = "(main|master)"
+match = "(main|master|feat/v*)"
 prerelease = true
 prerelease_token = "rc"
 
