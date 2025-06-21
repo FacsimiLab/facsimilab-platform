@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.6.1 (2025-06-21)
+
+### Bug Fixes
+
+- Default PSR release bump level
+  ([`8f5c6f1`](https://github.com/FacsimiLab/facsimilab-platform/commit/8f5c6f102ac964dcd3dba5c0e8cf117ff932b234))
+
+
 ## v0.6.0 (2025-06-21)
 
 ### Build System
@@ -18,6 +26,9 @@
 
 - Fix changelog filename
   ([`a5697b0`](https://github.com/FacsimiLab/facsimilab-platform/commit/a5697b039dcac83cec9b1859c4ba39f4cde50fe0))
+
+- Fix changelog filename and add scope to git commit
+  ([`2d23405`](https://github.com/FacsimiLab/facsimilab-platform/commit/2d23405d1b3083a6fbbe21d02550c44c6263c0e3))
 
 - Remove action on changelog branch
   ([`82b01d0`](https://github.com/FacsimiLab/facsimilab-platform/commit/82b01d0814adcad2e12c02b5c54cd8950a8fff1b))
@@ -70,12 +81,6 @@ Fixes: https://github.com/FacsimiLab/facsimilab-platform/issues/40
 ## v0.5.0-rc.1 (2025-06-20)
 
 ### Continuous Integration
-
-- **semantic-release**: Automatic update - v0.5.0-rc.1
-  ([`0f5f9be`](https://github.com/FacsimiLab/facsimilab-platform/commit/0f5f9be73b1aaa95d9c74eab77a64877ea920df5))
-
-- **semantic-release**: Automatic update - v0.5.0-rc.1
-  ([`53588d2`](https://github.com/FacsimiLab/facsimilab-platform/commit/53588d26d5eb052de39b9225888e1b68448e905c))
 
 - **semantic-release**: Tag and Release v0.4.0-rc.2
   ([`dd148f4`](https://github.com/FacsimiLab/facsimilab-platform/commit/dd148f4b6792266f88231ad330761fb9ca41d320))
