@@ -32,7 +32,7 @@ jobs:
 
       - name: Install conda-lock
         env:
-          UV_SYSTEM_PYTHON: 1
+          UV_SYSTEM_PYTHON: 0
         run: |
           uv pip install -q conda-lock
 
