@@ -148,7 +148,7 @@ jobs:
               "dependencies": stripped_deps
           }
 
-          with open("unpinned-environment.yml", "w") as f:
+          with open("unpinned-full-environment.yml", "w") as f:
               yaml.dump(new_env, f, sort_keys=False)
           EOF
 
