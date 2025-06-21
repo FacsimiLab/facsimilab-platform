@@ -39,17 +39,27 @@ jobs:
         run: |
           python3 <<EOF
           import yaml
+          import re
+
+          version_op_pattern = re.compile(r"([<>=!~^])")
+          def strip_version(dep_str):
+            # Split on the first version operator
+            match = version_op_pattern.search(dep_str)
+            if match:
+                return dep_str[:match.start()]
+            else:
+                return dep_str
 
           with open("docker/main/python-env/environment.yml") as f:
               env = yaml.safe_load(f)
 
           stripped_deps = []
           for dep in env.get("dependencies", []):
-              if isinstance(dep, str):
-                  stripped_deps.append(dep.split('=')[0])
-              elif isinstance(dep, dict) and "pip" in dep:
-                  new_pip_deps = [pkg.split('=')[0] for pkg in dep["pip"]]
-                  stripped_deps.append({"pip": new_pip_deps})
+            if isinstance(dep, str):
+                stripped_deps.append(strip_version(dep).strip())
+            elif isinstance(dep, dict) and "pip" in dep:
+                new_pip_deps = [strip_version(pkg).strip() for pkg in dep["pip"]]
+                stripped_deps.append({"pip": new_pip_deps})
 
           new_env = {
               "name": env.get("name", "unpinned-env"),
@@ -57,7 +67,7 @@ jobs:
               "dependencies": stripped_deps
           }
 
-          with open("unpinned-environment.yml", "w") as f:
+          with open("unpinned-main-environment.yml", "w") as f:
               yaml.dump(new_env, f, sort_keys=False)
           EOF
 
@@ -73,24 +83,58 @@ jobs:
       - name: Compare environments
         run: |
           python3 <<EOF
-          import difflib
+          import yaml
+          from pathlib import Path
 
-          file1 = "base-current-lock.yml"
-          file2 = "base-updated-lock.yml"
 
-          with open(file1, "r") as f1, open(file2, "r") as f2:
-            diff = difflib.HtmlDiff().make_file(f1.readlines(), 
-          f2.readlines(), fromdesc=file1, todesc=file2)
+          def load_lock_packages(file_path):
+              with open(file_path, "r") as f:
+                  lock = yaml.safe_load(f)
+              return {pkg["name"]: pkg["version"] for pkg in lock.get("package", [])}
 
-          with open("diff.html", "w") as html_file:
-            html_file.write(diff)
+
+          # Load lockfiles
+          baseline = load_lock_packages("docker/main/python-env/base-conda-lock.yml")
+          latest = load_lock_packages("main-updated-lock.yml")
+
+          # Compare versions
+          differences = {
+              pkg: {"old": baseline[pkg], "new": latest[pkg]}
+              for pkg in baseline
+              if pkg in latest and baseline[pkg] != latest[pkg]
+          }
+
+          nochanges = {
+              pkg: {"old": baseline[pkg], "new": latest[pkg]}
+              for pkg in baseline
+              if pkg in latest and baseline[pkg] == latest[pkg]
+          }
+
+          # Write to Markdown
+          md_path = Path("base-env-diff.md")
+          with md_path.open("w") as f:
+              if differences:
+                  f.write("# Package Version Differences\n\n")
+                  f.write("| Package | Current Version | Latest Version |\n")
+                  f.write("|---------|-----------------|----------------|\n")
+                  for pkg, versions in sorted(differences.items()):
+                      f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
+              else:
+                  f.write("# Package Version Differences\n\n")
+                  f.write("No differences found between the two lock files.\n")
+                  f.write("| Package | Current Version | Latest Version |\n")
+                  f.write("|---------|-----------------|----------------|\n")
+                  for pkg, versions in sorted(nochanges.items()):
+                      f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
+
+          print(f"Saved diff to {md_path.resolve()}")
 
           EOF
 
-      # - name: Workflow Summary (GitHub)
-      #   run: |
-      #     echo "### Conda Update Check" >> $GITHUB_STEP_SUMMARY
-      #     cat diff.html >> $GITHUB_STEP_SUMMARY
+      - name: Workflow Summary (GitHub)
+        run: |
+          echo "### Conda Update Check" >> $GITHUB_STEP_SUMMARY
+          cat base-env-diff.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload artefacts
         uses: actions/upload-artifact@v4
@@ -98,7 +142,7 @@ jobs:
           name: base-env-diff
           retention-days: 7
           path: |
-            diff.html
+            base-env-diff.md
 
 
       - name: Local workflow (Act)
@@ -106,7 +150,7 @@ jobs:
           touch github_step_summary.md
           export GITHUB_STEP_SUMMARY=github_step_summary.md
           echo "### Conda Update Check" >> github_step_summary.md
-          cat diff.html >> $GITHUB_STEP_SUMMARY
+          cat base-env-diff.md >> $GITHUB_STEP_SUMMARY
 
   check-facsimilab-env-updates:
     runs-on: ubuntu-latest
@@ -130,17 +174,27 @@ jobs:
         run: |
           python3 <<EOF
           import yaml
+          import re
+
+          version_op_pattern = re.compile(r"([<>=!~^])")
+          def strip_version(dep_str):
+            # Split on the first version operator
+            match = version_op_pattern.search(dep_str)
+            if match:
+                return dep_str[:match.start()]
+            else:
+                return dep_str
 
           with open("docker/full/python-env/environment.yml") as f:
               env = yaml.safe_load(f)
 
           stripped_deps = []
           for dep in env.get("dependencies", []):
-              if isinstance(dep, str):
-                  stripped_deps.append(dep.split('=')[0])
-              elif isinstance(dep, dict) and "pip" in dep:
-                  new_pip_deps = [pkg.split('=')[0] for pkg in dep["pip"]]
-                  stripped_deps.append({"pip": new_pip_deps})
+            if isinstance(dep, str):
+                stripped_deps.append(strip_version(dep).strip())
+            elif isinstance(dep, dict) and "pip" in dep:
+                new_pip_deps = [strip_version(pkg).strip() for pkg in dep["pip"]]
+                stripped_deps.append({"pip": new_pip_deps})
 
           new_env = {
               "name": env.get("name", "unpinned-env"),
@@ -167,14 +221,16 @@ jobs:
           import yaml
           from pathlib import Path
 
+
           def load_lock_packages(file_path):
               with open(file_path, "r") as f:
                   lock = yaml.safe_load(f)
               return {pkg["name"]: pkg["version"] for pkg in lock.get("package", [])}
 
+
           # Load lockfiles
-          baseline = load_lock_packages("full-current-lock.yml")
-          latest = load_lock_packages("unpinned-full-environment.yml")
+          baseline = load_lock_packages("docker/full/python-env/facsimilab-conda-lock.yml")
+          latest = load_lock_packages("full-updated-lock.yml")
 
           # Compare versions
           differences = {
@@ -182,7 +238,7 @@ jobs:
               for pkg in baseline
               if pkg in latest and baseline[pkg] != latest[pkg]
           }
-          
+
           nochanges = {
               pkg: {"old": baseline[pkg], "new": latest[pkg]}
               for pkg in baseline
@@ -194,15 +250,15 @@ jobs:
           with md_path.open("w") as f:
               if differences:
                   f.write("# Package Version Differences\n\n")
-                  f.write("| Package | Pinned Version | Latest Version |\n")
-                  f.write("|---------|----------------|----------------|\n")
+                  f.write("| Package | Current Version | Latest Version |\n")
+                  f.write("|---------|-----------------|----------------|\n")
                   for pkg, versions in sorted(differences.items()):
                       f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
               else:
                   f.write("# Package Version Differences\n\n")
                   f.write("No differences found between the two lock files.\n")
-                  f.write("| Package | Pinned Version | Latest Version |\n")
-                  f.write("|---------|----------------|----------------|\n")
+                  f.write("| Package | Current Version | Latest Version |\n")
+                  f.write("|---------|-----------------|----------------|\n")
                   for pkg, versions in sorted(nochanges.items()):
                       f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
 
