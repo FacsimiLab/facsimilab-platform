@@ -95,10 +95,9 @@ jobs:
       - name: Upload artefacts
         uses: actions/upload-artifact@v4
         with:
-          name: base-updated-lock
+          name: base-env-diff
           retention-days: 7
           path: |
-            base-updated-lock.yml
             diff.html
 
 
