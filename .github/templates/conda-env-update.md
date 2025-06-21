@@ -1,5 +1,6 @@
 ---
-title: Conda Packages Update {{ date | date('dddd, MMMM Do') }}
+title: Update python packages {{ date | date('YYYY-MM-DD') }}
+labels: ["dependencies"]
 ---
 
 {{ env.DIFF }}
