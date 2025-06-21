@@ -190,7 +190,7 @@ jobs:
           }
 
           # Write to Markdown
-          md_path = Path("base-env-diff.md")
+          md_path = Path("full-env-diff.md")
           with md_path.open("w") as f:
               if differences:
                   f.write("# Package Version Differences\n\n")
@@ -217,10 +217,10 @@ jobs:
           name: full-env-diff
           retention-days: 7
           path: |
-            base-env-diff.md
+            full-env-diff.md
 
       - name: Workflow summary
-        run: cat base-env-diff.md >> $GITHUB_STEP_SUMMARY
+        run: cat full-env-diff.md >> $GITHUB_STEP_SUMMARY
 
 
       - name: Local workflow (Act)
@@ -228,4 +228,4 @@ jobs:
           touch github_step_summary.md
           export GITHUB_STEP_SUMMARY=github_step_summary.md
           echo "### Conda Update Check" >> github_step_summary.md
-          cat diff.html >> $GITHUB_STEP_SUMMARY
+          cat full-env-diff.md >> $GITHUB_STEP_SUMMARY
