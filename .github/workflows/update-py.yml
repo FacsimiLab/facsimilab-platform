@@ -164,19 +164,42 @@ jobs:
       - name: Compare environments
         run: |
           python3 <<EOF
-          import difflib
+          import yaml
+          from pathlib import Path
 
-          file1 = "full-current-lock.yml"
-          file2 = "full-updated-lock.yml"
+          def load_lock_packages(file_path):
+              with open(file_path, "r") as f:
+                  lock = yaml.safe_load(f)
+              return {pkg["name"]: pkg["version"] for pkg in lock.get("package", [])}
 
-          with open(file1, "r") as f1, open(file2, "r") as f2:
-            diff = difflib.HtmlDiff().make_file(f1.readlines(), 
-          f2.readlines(), fromdesc=file1, todesc=file2)
+          # Load lockfiles
+          baseline = load_lock_packages("facsimilab-conda-lock-pinned.yml")
+          latest = load_lock_packages("facsimilab-conda-lock-unpinned.yml")
 
-          with open("diff.html", "w") as html_file:
-            html_file.write(diff)
+          # Compare versions
+          differences = {
+              pkg: {"old": baseline[pkg], "new": latest[pkg]}
+              for pkg in baseline
+              if pkg in latest and baseline[pkg] != latest[pkg]
+          }
+
+          # Write to Markdown
+          md_path = Path("base-env-diff.md")
+          with md_path.open("w") as f:
+              if differences:
+                  f.write("# Package Version Differences\n\n")
+                  f.write("| Package | Pinned Version | Latest Version |\n")
+                  f.write("|---------|----------------|----------------|\n")
+                  for pkg, versions in sorted(differences.items()):
+                      f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
+              else:
+                  f.write("# Package Version Differences\n\n")
+                  f.write("No differences found between the two lock files.\n")
+
+          print(f"Saved diff to {md_path.resolve()}")
 
           EOF
+
 
       - name: Upload artefacts
         uses: actions/upload-artifact@v4
@@ -185,6 +208,10 @@ jobs:
           retention-days: 7
           path: |
             diff.html
+            base-env-diff.md
+
+      - name: Workflow summary
+        run: cat base-env-diff.md >> $GITHUB_STEP_SUMMARY
 
 
       - name: Local workflow (Act)
