@@ -1,7 +1,32 @@
 # CHANGELOG
 
 
+## v0.6.0-rc.2 (2025-06-20)
+
+
 ## v0.6.0-rc.1 (2025-06-20)
+
+### Build System
+
+* build: bump quarto version to 1.7.32 ([`5dec2f9`](https://github.com/pranavmishra90/facsimilab-platform/commit/5dec2f9c2409744b98a63ce175fb0a952f1f6fe8))
+
+* build: generated conda-lock files for v0.6 ([`f68c99e`](https://github.com/pranavmishra90/facsimilab-platform/commit/f68c99e7d98d18734cf89493a2ecc326f7771820))
+
+* build: building all images for v0.6.0 ([`a336172`](https://github.com/pranavmishra90/facsimilab-platform/commit/a336172716d12cbc3b8b11f4cfd25d49a54e4c9b))
+
+### Continuous Integration
+
+* ci: install python via uv first ([`4035a85`](https://github.com/pranavmishra90/facsimilab-platform/commit/4035a8590f1f38f2acb4f26cac9a3be8a0d874a9))
+
+* ci: install conda-lock onto system ([`9599f41`](https://github.com/pranavmishra90/facsimilab-platform/commit/9599f413113d82013e8a6dc83ecae0f9243bf6d8))
+
+* ci: do not use system python ([`bd2d1b1`](https://github.com/pranavmishra90/facsimilab-platform/commit/bd2d1b1ad852be11bdf610b40c7fe4bd71800302))
+
+* ci: remove limit to self-hosted runner ([`f554f99`](https://github.com/pranavmishra90/facsimilab-platform/commit/f554f99a391863679ad24f1061320d1b7870fe50))
+
+### Features
+
+* feat: add fuzzywuzzy, levenshtein, jmespath. bump squidpy to v1.6 ([`455a420`](https://github.com/pranavmishra90/facsimilab-platform/commit/455a420007ca1f8a03286955a8ea265d148f82fe))
 
 ### Unknown
 

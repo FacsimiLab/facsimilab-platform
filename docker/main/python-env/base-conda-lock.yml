@@ -361,22 +361,22 @@ package:
   category: main
   optional: false
 - name: boto3
-  version: 1.38.40
+  version: 1.38.41
   manager: conda
   platform: linux-64
   dependencies:
-    botocore: '>=1.38.40,<1.39.0'
+    botocore: '>=1.38.41,<1.39.0'
     jmespath: '>=0.7.1,<2.0.0'
     python: '>=3.9'
     s3transfer: '>=0.13.0,<0.14.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/boto3-1.38.40-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/boto3-1.38.41-pyhd8ed1ab_0.conda
   hash:
-    md5: a7cd2c0f6ff808f5060d2d254e9b969d
-    sha256: 9de8dd2133b94a59e69d0cbb3a797cb0de23beb524ac6b41a4b9976a690d7a46
+    md5: 8c6ce9ce0843baadbf73f4675fbb5bce
+    sha256: 2daceb52daf7790dfff13f118cefeb2eb9037ecfbe6e3d1a5c4c77d88e355428
   category: main
   optional: false
 - name: botocore
-  version: 1.38.40
+  version: 1.38.41
   manager: conda
   platform: linux-64
   dependencies:
@@ -384,10 +384,10 @@ package:
     python: '>=3.10'
     python-dateutil: '>=2.1,<3.0.0'
     urllib3: '>=1.25.4,!=2.2.0,<3'
-  url: https://conda.anaconda.org/conda-forge/noarch/botocore-1.38.40-pyge310_1234567_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/botocore-1.38.41-pyge310_1234567_0.conda
   hash:
-    md5: 43769967f2b68a9bb6ca156dad6e1f74
-    sha256: 988e94a9eca86a7254ceb6839076301b82dfe8ec6dced479ac185477d29cd99d
+    md5: 1394073b3826ef9e5fa3b93c072a325a
+    sha256: a812bc609bdd9747449f79a09e5d1dbce4f7596738a6eeb8e858960b55a97abc
   category: main
   optional: false
 - name: brotli
@@ -3129,10 +3129,10 @@ package:
     __glibc: '>=2.17,<3.0.a0'
     libgcc: '>=13'
     libzlib: '>=1.3.1,<2.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.50.1-hee588c1_3.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libsqlite-3.50.1-hee588c1_4.conda
   hash:
-    md5: c56c945c28555327d15bfba3a68870c7
-    sha256: 1c67cf56486529af8a164162b452a7549671cc137ffc65b64057e583cfd68acc
+    md5: c79ba4d93602695bc60c6960ee59d2b1
+    sha256: ffd84568ec99d3614f226f1bcbfe46b3fa2f7cb253acb14ff351dc17e7854ea7
   category: main
   optional: false
 - name: libssh2
@@ -5207,10 +5207,10 @@ package:
     libzlib: '>=1.3.1,<2.0a0'
     ncurses: '>=6.5,<7.0a0'
     readline: '>=8.2,<9.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.50.1-h9eae976_3.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/sqlite-3.50.1-h9eae976_4.conda
   hash:
-    md5: 0f7caf00c78fb4f4eb1749f49d601233
-    sha256: d6ec4c7026645038ac5dd3cd309671912ee7deb021d1ff8452c9df192e497484
+    md5: df06b658f4c6c163dcbeb6ff6befa157
+    sha256: f4f2a8c098d4833676749ca286fee0c1a6befecc05923f2b08531e37ec1562e3
   category: main
   optional: false
 - name: stack_data
