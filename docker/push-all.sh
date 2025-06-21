@@ -58,19 +58,19 @@ else
 	# Base image
 	CONTAINER_NAME="facsimilab-base:$facsimilab_version_num"
 	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-base:latest
-	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:latest
+	# docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-base:latest
 
 	# Main image
 	CONTAINER_NAME="facsimilab-main:$facsimilab_version_num"
 
 	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-main:latest
-	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:latest
+	# docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-main:latest
 
 	# Full image
 	CONTAINER_NAME="facsimilab-full:$facsimilab_version_num"
 
 	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME docker.io/pranavmishra90/facsimilab-full:latest
-	docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:latest
+	# docker tag $IMAGE_REPO_PREFIX$CONTAINER_NAME gitea.mishracloud.com/pranav/facsimilab-full:latest
 
 	echo "--------------------------------------------------------------------------------"
 	docker image ls | grep -e pranavmishra90/facsimilab -e gitea.mishracloud.com

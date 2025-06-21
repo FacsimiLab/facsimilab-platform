@@ -414,6 +414,15 @@ logger INFO "Conda file: $FULL_IMAGE_CONDA_FILE"
 
 docker pull docker.io/pranavmishra90/facsimilab-main:$facsimilab_version_num
 
+if [ "$GITHUB_ACTIONS" == "true" ]; then
+  logger INFO "Running in GitHub Actions"
+  PUSH_LOCATION="pranavmishra90"
+else
+  logger INFO "Not running in GitHub Actions"
+  PUSH_LOCATION="pranavmishra90"
+
+fi
+
 # Build the python environment for the full container
 if [ "$build_python_images" = true ]; then
   
@@ -433,24 +442,19 @@ if [ "$build_python_images" = true ]; then
     -f ./full/full-py-env.Dockerfile ./full
   PYTHON_ENV_IMAGE_VERSION=$facsimilab_version_num
 
+  logger INFO "Push location: $PUSH_LOCATION/$CONTAINER_NAME"
+  docker push $PUSH_LOCATION/$CONTAINER_NAME
+  docker push $PUSH_LOCATION/facsimilab-full-env:dev
+
 
 else
   logger INFO "Skipping python environment build for the FULL image"
   PYTHON_ENV_IMAGE_VERSION="dev"
 fi
 
-if [ "$GITHUB_ACTIONS" == "true" ]; then
-  logger INFO "Running in GitHub Actions"
-  PUSH_LOCATION="pranavmishra90"
-else
-  logger INFO "Not running in GitHub Actions"
-  PUSH_LOCATION="localhost:5000"
 
-fi
 
-logger INFO "Push location: $PUSH_LOCATION/$CONTAINER_NAME"
-docker push $PUSH_LOCATION/$CONTAINER_NAME
-docker push $PUSH_LOCATION/facsimilab-full-env:dev
+
 
 
 logger INFO "Python environment image version: $PYTHON_ENV_IMAGE_VERSION"
