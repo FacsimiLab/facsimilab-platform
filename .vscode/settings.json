@@ -3,6 +3,5 @@
     "conventionalCommits.scopes": [
         "docker",
         "dependencies"
-    ],
-    "python.defaultInterpreterPath": "/opt/conda/envs/facsimilab/bin/python"
+    ]
 }
