@@ -255,7 +255,7 @@ jobs:
                   for pkg, versions in sorted(differences.items()):
                       f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
               else:
-                  f.write(""#### Full Env Version Differences\n\n")
+                  f.write("#### Full Env Version Differences\n\n")
                   f.write("No differences found between the two lock files.\n")
                   f.write("| Package | Current Version | Latest Version |\n")
                   f.write("|---------|-----------------|----------------|\n")
