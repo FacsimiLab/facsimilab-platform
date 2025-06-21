@@ -16,6 +16,10 @@ on:
       - docker/main/python-env/environment.yml
       - docker/full/python-env/environment.yml
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   check-base-env-updates:
     runs-on: ubuntu-latest
