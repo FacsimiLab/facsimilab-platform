@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.7.0 (2025-06-21)
+
+### Documentation
+
+- Update GPU and image references
+  ([`a3470ff`](https://github.com/FacsimiLab/facsimilab-platform/commit/a3470ff56a9f333b1a10b1cc70f4659cb7059945))
+
+
 ## v0.6.3 (2025-06-21)
 
 ### Bug Fixes
