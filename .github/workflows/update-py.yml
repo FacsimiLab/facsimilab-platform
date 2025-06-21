@@ -182,6 +182,12 @@ jobs:
               for pkg in baseline
               if pkg in latest and baseline[pkg] != latest[pkg]
           }
+          
+          nochanges = {
+              pkg: {"old": baseline[pkg], "new": latest[pkg]}
+              for pkg in baseline
+              if pkg in latest and baseline[pkg] == latest[pkg]
+          }
 
           # Write to Markdown
           md_path = Path("base-env-diff.md")
@@ -195,6 +201,10 @@ jobs:
               else:
                   f.write("# Package Version Differences\n\n")
                   f.write("No differences found between the two lock files.\n")
+                  f.write("| Package | Pinned Version | Latest Version |\n")
+                  f.write("|---------|----------------|----------------|\n")
+                  for pkg, versions in sorted(nochanges.items()):
+                      f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
 
           print(f"Saved diff to {md_path.resolve()}")
 
@@ -207,7 +217,6 @@ jobs:
           name: full-env-diff
           retention-days: 7
           path: |
-            diff.html
             base-env-diff.md
 
       - name: Workflow summary
