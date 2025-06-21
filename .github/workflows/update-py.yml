@@ -114,13 +114,13 @@ jobs:
           md_path = Path("base-env-diff.md")
           with md_path.open("w") as f:
               if differences:
-                  f.write("# Package Version Differences\n\n")
+                  f.write("#### Base Env Version Differences\n\n")
                   f.write("| Package | Current Version | Latest Version |\n")
                   f.write("|---------|-----------------|----------------|\n")
                   for pkg, versions in sorted(differences.items()):
                       f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
               else:
-                  f.write("# Package Version Differences\n\n")
+                  f.write("#### Base Env Version Differences\n\n")
                   f.write("No differences found between the two lock files.\n")
                   f.write("| Package | Current Version | Latest Version |\n")
                   f.write("|---------|-----------------|----------------|\n")
@@ -133,7 +133,7 @@ jobs:
 
       - name: Workflow Summary (GitHub)
         run: |
-          echo "### Conda Update Check" >> $GITHUB_STEP_SUMMARY
+          echo "## Base Environment Package Check" >> $GITHUB_STEP_SUMMARY
           cat base-env-diff.md >> $GITHUB_STEP_SUMMARY
 
       - name: Upload artefacts
@@ -249,13 +249,13 @@ jobs:
           md_path = Path("full-env-diff.md")
           with md_path.open("w") as f:
               if differences:
-                  f.write("# Package Version Differences\n\n")
+                  f.write("#### Full Env Version Differences\n\n")
                   f.write("| Package | Current Version | Latest Version |\n")
                   f.write("|---------|-----------------|----------------|\n")
                   for pkg, versions in sorted(differences.items()):
                       f.write(f"| {pkg} | {versions['old']} | {versions['new']} |\n")
               else:
-                  f.write("# Package Version Differences\n\n")
+                  f.write(""#### Full Env Version Differences\n\n")
                   f.write("No differences found between the two lock files.\n")
                   f.write("| Package | Current Version | Latest Version |\n")
                   f.write("|---------|-----------------|----------------|\n")
@@ -283,5 +283,5 @@ jobs:
         run: |
           touch github_step_summary.md
           export GITHUB_STEP_SUMMARY=github_step_summary.md
-          echo "### Conda Update Check" >> github_step_summary.md
+          echo "## Base Environment Package Update Check" >> github_step_summary.md
           cat full-env-diff.md >> $GITHUB_STEP_SUMMARY
