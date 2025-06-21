@@ -159,6 +159,7 @@ jobs:
 
       - name: Create a GitHub issue with the package updates
         run: |
+          export GH_TOKEN=${{ secrets.ADD_TO_PROJECT_PAT }}
           if [[ $CLOSE_PREVIOUS == true ]]; then
             previous_issue_number=$(gh issue list \
               --label "$LABELS" \
@@ -332,6 +333,7 @@ jobs:
 
       - name: Create a GitHub issue with the package updates
         run: |
+          export GH_TOKEN=${{ secrets.ADD_TO_PROJECT_PAT }}
           if [[ $CLOSE_PREVIOUS == true ]]; then
             previous_issue_number=$(gh issue list \
               --label "$LABELS" \
