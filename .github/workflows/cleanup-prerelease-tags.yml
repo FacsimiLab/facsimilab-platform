@@ -9,7 +9,9 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
+permissions:
+  contents: write
 
 jobs:
   delete-rc-tags:
@@ -45,4 +47,4 @@ jobs:
 
       - name: Success Message
         run: |
-          echo "Completed deleting the pre-release tags.
+          echo "Completed deleting the pre-release tags."
