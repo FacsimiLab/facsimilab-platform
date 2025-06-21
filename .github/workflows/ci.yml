@@ -91,38 +91,3 @@ jobs:
           echo "Released: ${{ steps.semvar-main-branch.outputs.released }}" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
           cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
-
-      - name: Update changelog branch
-        run: |
-          git config --global user.email "195262995+facsimilab-bot@users.noreply.github.com"
-          git config --global user.name "FacsimiLab [Bot]"
-          git config --global user.signingkey "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAEjI+PVQQhQjLVRmB6NnDJhqXKaVjzcr4KG1vqMkd2m  FacsimiLab [Bot]"
-          git config --global gpg.format ssh
-          git config --global commit.gpgsign true
-          git config --global tag.gpgSign true
-
-          CHANGELOG_FILE="CHANGELOG.md"
-          TARGET_BRANCH="ci/changelog"
-          COMMIT_MSG="ci: update changelog "
-
-          git show-ref --verify --quiet refs/remotes/origin/$TARGET_BRANCH || git push origin origin/main:$TARGET_BRANCH
-
-          git worktree add ../changelog-worktree $TARGET_BRANCH
-
-          cp $CHANGELOG_FILE ../changelog-worktree/
-
-          cd ../changelog-worktree
-
-          echo $(ls -ah) >> $GITHUB_STEP_SUMMARY
-
-          git add $CHANGELOG_FILE
-
-          if git diff --quiet --cached; then
-            echo "No CHANGELOG changes to commit." >> $GITHUB_STEP_SUMMARY
-          else
-            git commit -m "$COMMIT_MSG"
-            git push origin $TARGET_BRANCH
-          fi
-
-          cd -
-          git worktree remove ../changelog-worktree --force
