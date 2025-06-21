@@ -1,9 +1,15 @@
 # CHANGELOG
 
 
+## v0.6.2 (2025-06-21)
+
+
 ## v0.6.1 (2025-06-21)
 
 ### Bug Fixes
+
+- Cleanup release tags missing a closing quote
+  ([`c944662`](https://github.com/FacsimiLab/facsimilab-platform/commit/c944662c792aad1a0b74be223a11b57cb7ff05e1))
 
 - Default PSR release bump level
   ([`8f5c6f1`](https://github.com/FacsimiLab/facsimilab-platform/commit/8f5c6f102ac964dcd3dba5c0e8cf117ff932b234))
@@ -69,6 +75,9 @@ Fixes: https://github.com/FacsimiLab/facsimilab-platform/issues/40
 - Remove commitlint
   ([`912ea58`](https://github.com/FacsimiLab/facsimilab-platform/commit/912ea58a6b6a826c2dd999471dc4d6dd1d9b5f21))
 
+- **semantic-release**: Tag and Release v0.4.0-rc.2
+  ([`dd148f4`](https://github.com/FacsimiLab/facsimilab-platform/commit/dd148f4b6792266f88231ad330761fb9ca41d320))
+
 - **semantic-release**: Tag and Release v0.5.0
   ([`6cad1d3`](https://github.com/FacsimiLab/facsimilab-platform/commit/6cad1d30900512ac80d1b324aeb9f2ec41c173b5))
 
@@ -76,16 +85,6 @@ Fixes: https://github.com/FacsimiLab/facsimilab-platform/issues/40
 
 - Add `nbstripout` package to provide cleaner commits of jupyter notebooks
   ([`44dcd92`](https://github.com/FacsimiLab/facsimilab-platform/commit/44dcd921af99c2ac353ddf8d1d1515e51f6fca85))
-
-
-## v0.5.0-rc.1 (2025-06-20)
-
-### Continuous Integration
-
-- **semantic-release**: Tag and Release v0.4.0-rc.2
-  ([`dd148f4`](https://github.com/FacsimiLab/facsimilab-platform/commit/dd148f4b6792266f88231ad330761fb9ca41d320))
-
-### Features
 
 - Prepare building v0.5.0
   ([`f2821d0`](https://github.com/FacsimiLab/facsimilab-platform/commit/f2821d0dd6fcb3edf3ae5568b32a986f951e2350))
