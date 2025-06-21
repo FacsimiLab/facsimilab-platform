@@ -28,7 +28,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "platform/docker/full/python-env/environment.yml"
+          cache-dependency-glob: "docker/full/python-env/environment.yml"
           python-version: 3.12
 
       - run: |
@@ -88,13 +88,11 @@ jobs:
           EOF
 
       - name: Workflow Summary (GitHub)
-        if: ${{ github.actions == 'true'}}
         run: |
           echo "### Conda Update Check" >> $GITHUB_STEP_SUMMARY
           cat diff.html >> $GITHUB_STEP_SUMMARY
 
       - name: Upload artefacts
-        if: ${{ github.actions == 'true'}}
         uses: actions/upload-artifact@v4
         with:
           name: base-updated-lock
