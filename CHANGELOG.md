@@ -1,6 +1,26 @@
 # CHANGELOG
 
 
+## v0.6.3 (2025-06-21)
+
+### Bug Fixes
+
+- Only attempt to push the full-env if it has been built
+  ([`6c0c811`](https://github.com/FacsimiLab/facsimilab-platform/commit/6c0c811baf0485a349d1e2d0c7c3d78e6c904b0f))
+
+- Use the PYTHON_ENV_IMAGE_VERSION rather than IMAGE_VERSION, which dynamically allows for dev to be
+  passed in
+  ([`85947cb`](https://github.com/FacsimiLab/facsimilab-platform/commit/85947cbe39f209b6d02101db47c5c1376594bd48))
+
+### Build System
+
+- Comment out gitea as a tag repo for pushing
+  ([`d892346`](https://github.com/FacsimiLab/facsimilab-platform/commit/d892346d53846795ae8ebd2f161e3858272b6c65))
+
+- V0.6.3
+  ([`7828e52`](https://github.com/FacsimiLab/facsimilab-platform/commit/7828e52490f3e4beb6a5d5a24159032304565667))
+
+
 ## v0.6.2 (2025-06-21)
 
 
