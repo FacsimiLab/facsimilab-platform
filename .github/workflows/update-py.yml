@@ -30,11 +30,14 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "platform/docker/full/python-env/environment.yml"
 
+      - name: Install Python 3.12
+        run: uv python install 3.12
+        
       - name: Install conda-lock
         env:
-          UV_SYSTEM_PYTHON: 1
+          UV_SYSTEM_PYTHON: 0
         run: |
-          uv pip install --system -q conda-lock
+          uv pip install -q conda-lock
 
       - name: Strip version pins from environment.yml
         id: strip
