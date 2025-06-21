@@ -37,8 +37,6 @@ jobs:
       - name: Strip version pins from environment.yml
         id: strip
         run: |
-          source /opt/uv-env/bin/activate
-
           python3 <<EOF
           import yaml
 
