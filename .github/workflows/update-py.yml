@@ -293,9 +293,9 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Authenticate GitHub CLI
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        run: echo "${{ secrets.ADD_TO_PROJECT_PAT }}" | gh auth login --with-token
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.ADD_TO_PROJECT_PAT }}
 
 
       - name: Create a GitHub issue with the package updates
