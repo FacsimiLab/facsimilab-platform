@@ -23,17 +23,6 @@ concurrency:
 
 jobs:
 
-  commitlint:
-    # condition: Execute IFF it is protected branch update, or a PR that is NOT in a draft state
-    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 100
-
-      - uses: wagoid/commitlint-github-action@v6
-
   semantic-release:
     runs-on: ubuntu-latest
 
