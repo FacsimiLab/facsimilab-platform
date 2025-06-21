@@ -32,9 +32,9 @@ jobs:
 
       - name: Install conda-lock
         env:
-          UV_SYSTEM_PYTHON: 0
+          UV_SYSTEM_PYTHON: 1
         run: |
-          uv pip install -q conda-lock
+          uv pip install --system -q conda-lock
 
       - name: Strip version pins from environment.yml
         id: strip
