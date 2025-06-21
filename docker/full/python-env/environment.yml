@@ -46,6 +46,9 @@ dependencies:
   - xlsxwriter=3.1
   - openpyxl=3.1
   - pyreadstat=1.2
+  - fuzzywuzzy
+  - levenshtein
+  - jmespath
 
   # Visualization
   - matplotlib=3.8
@@ -83,7 +86,7 @@ dependencies:
   - anndata==0.11.3
   - scvi-tools=1.2
   - muon=0.1
-  - squidpy=1.5.0
+  - squidpy=1.6
   - conda-forge::decoupler-py
   # - scirpy=0.17
   - scvelo=0.3
@@ -95,7 +98,7 @@ dependencies:
   # # GPU
 
   # Pin the version of conda
-  - nvidia::cuda>=12.4
+  - nvidia::cuda=12.4
   - nvidia::cuda-nvcc
 
   - conda-forge::jaxlib=*=*cuda120py311*
@@ -104,6 +107,7 @@ dependencies:
 
   # ML Base
   - pytorch=2
+  - pytorch-cuda=12.4
   - torchvision
   
 
@@ -131,12 +135,11 @@ dependencies:
   - pip
   - pip:
       - PyCap
-      # - rapids-singlecell
+      - spatialdata[extra]
       # - omnipath
       # - harmonypy
     
-      # - spatialdata[extra]
-      # - spatialdata[torch]
+      
       # - pyscenic==0.12
   #     - velocyto
   #     - pybind11
