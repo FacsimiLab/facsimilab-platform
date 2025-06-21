@@ -15,6 +15,9 @@ on:
     paths:
       - docker/main/python-env/environment.yml
       - docker/full/python-env/environment.yml
+    types: 
+      - review_requested
+      - ready_for_review
 
 permissions:
   contents: read
@@ -158,7 +161,8 @@ jobs:
 
   check-facsimilab-env-updates:
     runs-on: ubuntu-latest
-
+    permissions:
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -290,21 +294,36 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
 
-      - uses: JasonEtco/create-an-issue@v2
+      - name: Create team sync issue
+        run: |
+          if [[ $CLOSE_PREVIOUS == true ]]; then
+            previous_issue_number=$(gh issue list \
+              --label "$LABELS" \
+              --json number \
+              --jq '.[0].number')
+            if [[ -n $previous_issue_number ]]; then
+              gh issue close "$previous_issue_number"
+              gh issue unpin "$previous_issue_number"
+            fi
+          fi
+          new_issue_url=$(gh issue create \
+            --title "$TITLE" \
+            --assignee "$ASSIGNEES" \
+            --label "$LABELS" \
+            --body "$BODY")
+          if [[ $PINNED == true ]]; then
+            gh issue pin "$new_issue_url"
+          fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DIFF: ${{ steps.get-diff.outputs.diff }}
-        with:
-          update_existing: true
-          search_existing: open
-          filename: .github/templates/conda-env-update.md
-        id: create-issue
-
-      - run: |
-          echo Created issue number ${{ steps.create-issue.outputs.number }}
-          echo Created ${{ steps.create-issue.outputs.url }}
-
-      
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          TITLE: Update python packages
+          ASSIGNEES: pranavmishra90
+          LABELS: CI-CD,dependencies
+          BODY: |
+            ${{ steps.get-diff.outputs.diff }}
+          PINNED: false
+          CLOSE_PREVIOUS: true      
 
 
       - name: Local workflow (Act)
