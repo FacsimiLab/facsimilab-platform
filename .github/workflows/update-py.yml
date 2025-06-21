@@ -78,7 +78,7 @@ jobs:
 
       - name: Lock unpinned (latest) environment
         run: |
-          conda-lock lock -f unpinned-main-environment.yml -p linux-64 --lockfile base-updated-lock.yml
+          conda-lock lock -f unpinned-main-environment.yml -p linux-64 --lockfile main-updated-lock.yml
 
       - name: Compare environments
         run: |
