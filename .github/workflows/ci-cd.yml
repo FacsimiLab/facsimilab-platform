@@ -66,7 +66,7 @@ jobs:
           git config --global tag.gpgSign true
 
           git checkout main
-          git merge ${{ github.ref_name }} -m 'ci: merge release into main'
+          git merge ${{ github.ref_name }} -m 'ci(semantic-release): merge release into main'
           git push origin main
           
       
@@ -78,4 +78,4 @@ jobs:
           printf "Tags: \n$(git tag -l)" >> $GITHUB_STEP_SUMMARY
           echo "Released: ${{ steps.semvar.outputs.released }}" >> $GITHUB_STEP_SUMMARY
           echo ""  >> $GITHUB_STEP_SUMMARY
-          cat changelog.md >> $GITHUB_STEP_SUMMARY
+          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
