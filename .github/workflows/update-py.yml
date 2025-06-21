@@ -173,8 +173,8 @@ jobs:
               return {pkg["name"]: pkg["version"] for pkg in lock.get("package", [])}
 
           # Load lockfiles
-          baseline = load_lock_packages("facsimilab-conda-lock-pinned.yml")
-          latest = load_lock_packages("facsimilab-conda-lock-unpinned.yml")
+          baseline = load_lock_packages("full-current-lock.yml")
+          latest = load_lock_packages("unpinned-full-environment.yml")
 
           # Compare versions
           differences = {
