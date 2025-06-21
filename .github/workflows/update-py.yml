@@ -17,7 +17,7 @@ on:
       - docker/full/python-env/environment.yml
 
 jobs:
-  update-base:
+  check-base-env-updates:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "docker/full/python-env/environment.yml"
+          cache-dependency-glob: "docker/main/python-env/environment.yml"
           python-version: 3.11
 
       - run: |
@@ -108,3 +108,88 @@ jobs:
           echo "### Conda Update Check" >> github_step_summary.md
           cat diff.html >> $GITHUB_STEP_SUMMARY
 
+  check-facsimilab-env-updates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "docker/full/python-env/environment.yml"
+          python-version: 3.11
+
+      - run: |
+          uv pip install -q conda-lock
+
+      - name: Strip version pins from environment.yml
+        id: strip
+        run: |
+          python3 <<EOF
+          import yaml
+
+          with open("docker/full/python-env/environment.yml") as f:
+              env = yaml.safe_load(f)
+
+          stripped_deps = []
+          for dep in env.get("dependencies", []):
+              if isinstance(dep, str):
+                  stripped_deps.append(dep.split('=')[0])
+              elif isinstance(dep, dict) and "pip" in dep:
+                  new_pip_deps = [pkg.split('=')[0] for pkg in dep["pip"]]
+                  stripped_deps.append({"pip": new_pip_deps})
+
+          new_env = {
+              "name": env.get("name", "unpinned-env"),
+              "channels": env.get("channels", []),
+              "dependencies": stripped_deps
+          }
+
+          with open("unpinned-environment.yml", "w") as f:
+              yaml.dump(new_env, f, sort_keys=False)
+          EOF
+
+      - name: Copy current full environment
+        run: |
+          cp docker/full/python-env/facsimilab-conda-lock.yml  full-current-lock.yml
+
+
+      - name: Lock unpinned (latest) environment
+        run: |
+          conda-lock lock -f unpinned-full-environment.yml -p linux-64 --lockfile full-updated-lock.yml
+
+      - name: Compare environments
+        run: |
+          python3 <<EOF
+          import difflib
+
+          file1 = "full-current-lock.yml"
+          file2 = "full-updated-lock.yml"
+
+          with open(file1, "r") as f1, open(file2, "r") as f2:
+            diff = difflib.HtmlDiff().make_file(f1.readlines(), 
+          f2.readlines(), fromdesc=file1, todesc=file2)
+
+          with open("diff.html", "w") as html_file:
+            html_file.write(diff)
+
+          EOF
+
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-env-diff
+          retention-days: 7
+          path: |
+            diff.html
+
+
+      - name: Local workflow (Act)
+        run: |
+          touch github_step_summary.md
+          export GITHUB_STEP_SUMMARY=github_step_summary.md
+          echo "### Conda Update Check" >> github_step_summary.md
+          cat diff.html >> $GITHUB_STEP_SUMMARY
