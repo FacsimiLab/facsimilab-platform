@@ -20,7 +20,6 @@ on:
       - ready_for_review
 
 permissions:
-  contents: read
   issues: write
 
 jobs:
@@ -293,8 +292,13 @@ jobs:
           cat full-env-diff.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create team sync issue
+
+      - name: Create a GitHub issue with the package updates
         run: |
           if [[ $CLOSE_PREVIOUS == true ]]; then
             previous_issue_number=$(gh issue list \
