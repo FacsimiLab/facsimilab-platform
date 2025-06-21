@@ -15,9 +15,9 @@ on:
     paths:
       - docker/main/python-env/environment.yml
       - docker/full/python-env/environment.yml
-    types: 
-      - review_requested
-      - ready_for_review
+    # types: 
+    #   - review_requested
+    #   - ready_for_review
 
 permissions:
   issues: write
@@ -149,6 +149,44 @@ jobs:
           retention-days: 7
           path: |
             base-env-diff.md
+
+      - name: Read main image diff into output
+        id: get-diff
+        run: |
+          echo "diff<<EOF" >> $GITHUB_OUTPUT
+          cat base-env-diff.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create a GitHub issue with the package updates
+        run: |
+          if [[ $CLOSE_PREVIOUS == true ]]; then
+            previous_issue_number=$(gh issue list \
+              --label "$LABELS" \
+              --json number \
+              --jq '.[0].number')
+            if [[ -n $previous_issue_number ]]; then
+              gh issue close "$previous_issue_number"
+              gh issue unpin "$previous_issue_number"
+            fi
+          fi
+          new_issue_url=$(gh issue create \
+            --title "$TITLE" \
+            --assignee "$ASSIGNEES" \
+            --label "$LABELS" \
+            --body "$BODY")
+          if [[ $PINNED == true ]]; then
+            gh issue pin "$new_issue_url"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.ADD_TO_PROJECT_PAT }}
+          GH_REPO: ${{ github.repository }}
+          TITLE: Update main image python packages
+          ASSIGNEES: pranavmishra90
+          LABELS: CI-CD,dependencies
+          BODY: |
+            ${{ steps.get-diff.outputs.diff }}
+          PINNED: false
+          CLOSE_PREVIOUS: true  
 
 
       - name: Local workflow (Act)
@@ -292,12 +330,6 @@ jobs:
           cat full-env-diff.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Authenticate GitHub CLI
-        run: echo "${{ secrets.ADD_TO_PROJECT_PAT }}" | gh auth login --with-token
-        env:
-          GH_TOKEN: ${{ secrets.ADD_TO_PROJECT_PAT }}
-
-
       - name: Create a GitHub issue with the package updates
         run: |
           if [[ $CLOSE_PREVIOUS == true ]]; then
@@ -319,9 +351,9 @@ jobs:
             gh issue pin "$new_issue_url"
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.ADD_TO_PROJECT_PAT }}
           GH_REPO: ${{ github.repository }}
-          TITLE: Update python packages
+          TITLE: Update full image python packages
           ASSIGNEES: pranavmishra90
           LABELS: CI-CD,dependencies
           BODY: |
